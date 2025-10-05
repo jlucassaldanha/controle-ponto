@@ -1,11 +1,42 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect } from "vitest";
 import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/prisma';
 import prismaMock from "@/test/setup";
-import * as findUserMod from './find-user';
-import { findOrCreateUser, UserDataType } from './create-user';
+import { findUser, findOrCreateUser } from "./userServices";
+import { UserDataType } from "../types/user.types";
 
 vi.mock('bcryptjs');
+
+describe('findUser', () => {
+	it('should return user object if find on db', async () => {
+		const mockUser = {
+			id: 'uuid-123',
+			username: 'User Test',
+			email: 'test@test.com',
+			passwordHash: 'hash-secret'
+		}
+
+		prismaMock.user.findUnique.mockResolvedValue(mockUser)
+
+		const result = await findUser(mockUser.email)
+		
+		expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
+			where: {
+				email: mockUser.email
+			}
+		})
+
+		expect(result).toEqual(mockUser)
+	})
+
+	it('should return null when user not found', async () => {
+		prismaMock.user.findUnique.mockResolvedValue(null)
+
+		const result = await findUser('teste@teste.com')
+
+		expect(result).toBeNull()
+	})
+})
 
 describe('createNewUser', () => {
 
@@ -27,13 +58,13 @@ describe('createNewUser', () => {
       passwordHash: mockPasswordHash
     };
 
-    const findUserSpy = vi.spyOn(findUserMod, 'findUser').mockResolvedValue(null);
+    prismaMock.user.findUnique.mockResolvedValue(null);
     (bcrypt.hash as vi.Mock).mockResolvedValue(mockPasswordHash);
     prismaMock.user.create.mockResolvedValue(createdUser);
 
     const result = await findOrCreateUser(userData);
 
-    expect(findUserSpy).toHaveBeenCalledWith(userData.email);
+    expect(prismaMock.user.findUnique).toHaveBeenCalledWith({ where: { email: userData.email } });
     expect(bcrypt.hash).toHaveBeenCalledWith(userData.password, 10);
     expect(prisma.user.create).toHaveBeenCalledWith({
       data: {
@@ -58,12 +89,12 @@ describe('createNewUser', () => {
       passwordHash: 'hash-existente'
     };
 
-    const findUserSpy = vi.spyOn(findUserMod, 'findUser').mockResolvedValue(existingUser);
+    prismaMock.user.findUnique.mockResolvedValue(existingUser);
 
     const result = await findOrCreateUser(userData);
 
     expect(result).toBeNull();
-    expect(findUserSpy).toHaveBeenCalledWith(userData.email);
+    expect(prismaMock.user.findUnique).toHaveBeenCalledWith({ where: { email: userData.email } });
     expect(bcrypt.hash).not.toHaveBeenCalled();
     expect(prisma.user.create).not.toHaveBeenCalled();
   });

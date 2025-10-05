@@ -1,14 +1,16 @@
 import bcrypt from "bcryptjs"
 import { prisma } from '@/lib/prisma'
-import { findUser } from "./find-user"
+import type { UserDataType } from "../types/user.types"
 
-export type UserDataType = {
-	email: string
-	username: string
-	password: string
+export async function findUser(email: string) {
+	return await prisma.user.findUnique({
+		where: {
+			email: email
+		}
+	})
 }
 
-export async function findOrCreateUser(userData:UserDataType) {
+export async function findOrCreateUser(userData: UserDataType) {
 	const userExist = await findUser(userData.email)
 
 	if (!userExist) {
@@ -22,6 +24,5 @@ export async function findOrCreateUser(userData:UserDataType) {
 		})
 
 	}
-
 	return null
 }
