@@ -1,49 +1,18 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, type Mock } from "vitest";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
-import prismaMock from "@/test/setup";
-import { findUser, createUser } from "./user.services";
+import prismaMock from "../../../test/setup";
+import { createUser, validateCredentials } from "./user.services";
 import { createUserSchema } from "./user.validation";
 import { UserDataType } from "./user.types";
 
 vi.mock("bcryptjs");
 
-describe("findUser", () => {
-  it("should return user object if find on db", async () => {
-    const mockUser = {
-      id: "uuid-123",
-      username: "User Test",
-      email: "test@test.com",
-      passwordHash: "hash-secret",
-    };
-
-    prismaMock.user.findUnique.mockResolvedValue(mockUser);
-
-    const result = await findUser(mockUser.email);
-
-    expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
-      where: {
-        email: mockUser.email,
-      },
-    });
-
-    expect(result).toEqual(mockUser);
-  });
-
-  it("should return null when user not found", async () => {
-    prismaMock.user.findUnique.mockResolvedValue(null);
-
-    const result = await findUser("teste@teste.com");
-
-    expect(result).toBeNull();
-  });
+beforeEach(() => {
+  vi.clearAllMocks();
 });
 
 describe("createUser", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   it("should create and return a new user if the email does not exist", async () => {
     const userData: UserDataType = {
       email: "novo@exemplo.com",
@@ -57,9 +26,9 @@ describe("createUser", () => {
       username: userData.username,
       passwordHash: mockPasswordHash,
     };
-
+    
     prismaMock.user.findUnique.mockResolvedValue(null);
-    (bcrypt.hash as vi.Mock).mockResolvedValue(mockPasswordHash);
+    (bcrypt.hash as Mock).mockResolvedValue(mockPasswordHash);
     prismaMock.user.create.mockResolvedValue(createdUser);
 
     const result = await createUser(userData);
@@ -103,6 +72,79 @@ describe("createUser", () => {
     expect(prisma.user.create).not.toHaveBeenCalled();
   });
 });
+
+describe('validateCredentials', () => {
+  it('should return user if exist and have correct credentials', async () => {
+    const userData: UserDataType = {
+      email: "existente@exemplo.com",
+      username: "Usuario Existente",
+      password: "senha-qualquer",
+    };
+
+    const existingUser = {
+      id: "uuid-existente-123",
+      email: userData.email,
+      username: userData.username,
+      passwordHash: "hash-existente",
+    };
+
+    prismaMock.user.findUnique.mockResolvedValue(existingUser);
+    (bcrypt.compare as Mock).mockResolvedValue(true);
+
+    const result = await validateCredentials(userData.email, userData.password)
+
+    expect(result).toStrictEqual({
+      id: existingUser.id, 
+      email: existingUser.email, 
+      username: existingUser.username
+    })
+    expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
+      where: { email: userData.email },
+    });
+    expect(bcrypt.compare).toHaveBeenCalledWith(userData.password, existingUser.passwordHash);
+  })
+
+  it('should return null if password is incorrect', async () => {
+    const userData = {
+      email: "existente@exemplo.com",
+      password: "senha-qualquer",
+    };
+
+    const existingUser = {
+      id: "uuid-existente-123",
+      email: userData.email,
+      username: "nome teste",
+      passwordHash: "hash-existente",
+    };
+
+    prismaMock.user.findUnique.mockResolvedValue(existingUser);
+    (bcrypt.compare as Mock).mockResolvedValue(false);
+
+    const result = await validateCredentials(userData.email, userData.password)
+
+    expect(result).toBeNull()
+    expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
+      where: { email: userData.email },
+    });
+    expect(bcrypt.compare).toHaveBeenCalledWith(userData.password, existingUser.passwordHash);
+  })
+  it('should return null if email not exist', async () => {
+    const userData = {
+      email: "teste@exemplo.com",
+      password: "senha-qualquer",
+    };
+
+    prismaMock.user.findUnique.mockResolvedValue(null);
+
+    const result = await validateCredentials(userData.email, userData.password)
+
+    expect(result).toBeNull()
+    expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
+      where: { email: userData.email },
+    });
+    expect(bcrypt.compare).not.toHaveBeenCalled();
+  })
+})
 
 describe('createUserSchema', () => {
   it('should pass validation when data is valid', () => {

@@ -12,8 +12,12 @@ Uso de banco de dados
 npm install prisma --save-dev
 npm install @prisma/client
 
+npx prisma generate
 npx prisma init --datasource-provider sqlite
 
 criptografia
 npm install bcryptjs
 npm install -D @types/bcryptjs
+
+Autenticação
+npm install next-auth@beta

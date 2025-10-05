@@ -1,17 +1,14 @@
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import type { UserDataType } from "./user.types";
-
-export async function findUser(email: string) {
-  return await prisma.user.findUnique({
-    where: {
-      email: email,
-    },
-  });
-}
+import { User as NextAuthUser } from "next-auth";
 
 export async function createUser(userData: UserDataType) {
-  const userExist = await findUser(userData.email);
+  const userExist = await prisma.user.findUnique({
+    where: {
+      email: userData.email,
+    },
+  });
 
   if (!userExist) {
     const passwordHash = await bcrypt.hash(userData.password, 10);
@@ -24,4 +21,21 @@ export async function createUser(userData: UserDataType) {
     });
   }
   return null;
+}
+
+export async function validateCredentials(email: string, password: string): Promise<NextAuthUser | null> {
+  const user = await prisma.user.findUnique({ where: { email } })
+
+  if (!user || !user.passwordHash) {
+    return null
+  }
+
+  const isPasswordCorrect = await bcrypt.compare(password, user.passwordHash)
+
+  if (isPasswordCorrect) {
+    const { passwordHash: _, ...userWithoutHash } = user
+    return userWithoutHash
+  }
+
+  return null
 }

@@ -7,7 +7,7 @@ export default defineConfig({
 	test: {
 		globals: true,
 		environment: 'jsdom',
-		setupFiles: ['./src/test/setup-prisma-mock.ts', './vitest.setup.ts'],
+		setupFiles: ['./test/setup.ts', './vitest.setup.ts'],
 		css: true,
 	},
 	resolve: {
