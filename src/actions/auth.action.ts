@@ -24,7 +24,7 @@ export async function signUpAction(formData: FormData) {
 
         return { success: true, user: newUser }
     } catch (error) {
-        return { success: false, message: "Ocorreu um erro no servidor." }
+        return { success: false, message: `Ocorreu um erro no servidor. \n${error}` }
     }
 }
 
