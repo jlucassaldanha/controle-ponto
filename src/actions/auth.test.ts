@@ -1,10 +1,11 @@
 import { describe, it, expect, vi, type Mock } from "vitest";
 import { z } from 'zod'
-import { createUser, validateCredentials } from "@/core/user/user.services";
+import { createUser } from "@/core/user/user.services";
 import { createUserSchema, logInSchema } from "@/core/user/user.validation";
 import { signUpAction, logInAction, logOutAction } from "./auth.action";
 import { signIn } from "@/app/api/auth/[...nextauth]/route";
 import { AuthError } from "next-auth";
+import { signOut } from "@/app/api/auth/[...nextauth]/route";
 
 vi.mock('@/core/user/user.services', () => ({
   createUser: vi.fn()
@@ -213,5 +214,16 @@ describe('logInAction', () => {
       success: false, 
       message: 'E-mail ou senha inválidos.' 
     });
+  })
+})
+
+describe('logOutAction', () => {
+  it('should pass and make logout', async () => {
+    vi.mocked(signOut).mockResolvedValue(undefined as any)
+
+    await logOutAction()
+
+    expect(signOut).toHaveBeenCalled()
+    expect(signOut).toHaveBeenCalledWith({ redirectTo: '/login' })
   })
 })
