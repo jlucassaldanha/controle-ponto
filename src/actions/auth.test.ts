@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { createUser, validateCredentials } from "@/core/user/user.services";
 import { createUserSchema, logInSchema } from "@/core/user/user.validation";
 import { signUpAction, logInAction, logOutAction } from "./auth.action";
+import { signIn } from "next-auth/react";
 
 vi.mock('@/core/user/user.services', () => ({
   createUser: vi.fn()
@@ -11,7 +12,11 @@ vi.mock('@/core/user/user.validation', () => ({
   createUserSchema: {
     safeParse: vi.fn(),
   },
+  logInSchema: {
+    safeParse: vi.fn(),
+  },
 }))
+
 vi.mock('zod', async (importOriginal) => {
   const originalZod = await importOriginal<typeof import('zod')>()
   return {
@@ -138,4 +143,27 @@ describe('signUpAction', () => {
     expect(createUserSchema.safeParse).toBeCalledWith(Object.fromEntries(formData))
     expect(createUser).toHaveBeenCalledWith(inputData);
   })
+})
+
+describe('logInAction', () => {
+  it('should call sighIn with correct data on successful validation', async () => {
+    const inputData = { email: 'teste@exemplo.com', password: 'senha-correta' }
+    const formData = new FormData();
+    formData.append('email', inputData.email);
+    formData.append('password', inputData.password);
+
+    vi.mocked(logInSchema.safeParse).mockReturnValue({ success: true, data: inputData })
+    vi.mocked(signIn).mockResolvedValue(undefined as any)
+
+    const result = await logInAction(formData)
+
+    expect(signIn).toHaveBeenCalledWith('credentials', {
+      ...inputData,
+      redirectTo: '/dashboard',
+    })
+
+    expect(result.success).toBe(true)
+  })
+  it('should fail on validation if form data in invalid', async () => {})
+  it('should fail if credentials are wrong', async () => {})
 })
