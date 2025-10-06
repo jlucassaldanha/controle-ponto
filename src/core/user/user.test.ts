@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import prismaMock from "../../../test/setup";
 import { createUser, validateCredentials } from "./user.services";
-import { createUserSchema } from "./user.validation";
+import { createUserSchema, logInSchema } from "./user.validation";
 import { UserDataType } from "./user.types";
 
 vi.mock("bcryptjs");
@@ -189,7 +189,7 @@ describe('createUserSchema', () => {
 
     if (!result.success) {
       const emailError = result.error.issues.find((issue) => issue.path[0] === 'email')
-      expect(emailError?.message).toBe('Insira um email valido')
+      expect(emailError?.message).toBe('Insira um email valido.')
     }
   })
 
@@ -204,6 +204,50 @@ describe('createUserSchema', () => {
 
     expect(result.success).toBe(false)
 
+    if (!result.success) {
+      const passwordError = result.error.issues.find((issue) => issue.path[0] === 'password')
+      expect(passwordError?.message).toBe("A senha deve ter pelo menos 8 caracteres.")
+    }
+  })
+})
+
+
+describe('logInSchema', () => {
+  it('should pass validation when data is valid', async () => {
+    const validData = {
+      email: 'email@valido.com',
+      password: 'supersenha',
+    }
+
+    const result = logInSchema.safeParse(validData)
+
+    expect(result.success).toBe(true)
+  })
+
+  it('should fail validation when email is not valid', async () => {
+    const validData = {
+      email: 'emailinvalido.com',
+      password: 'supersenha',
+    }
+
+    const result = logInSchema.safeParse(validData)
+
+    expect(result.success).toBe(false)
+    if (!result.success) {
+      const emailError = result.error.issues.find((issue) => issue.path[0] === 'email')
+      expect(emailError?.message).toBe("Insira um email valido.")
+    }
+  })
+
+  it('should fail validation when password is not valid', async () => {
+    const validData = {
+      email: 'email@valido.com',
+      password: 'superse',
+    }
+
+    const result = logInSchema.safeParse(validData)
+
+    expect(result.success).toBe(false)
     if (!result.success) {
       const passwordError = result.error.issues.find((issue) => issue.path[0] === 'password')
       expect(passwordError?.message).toBe("A senha deve ter pelo menos 8 caracteres.")
