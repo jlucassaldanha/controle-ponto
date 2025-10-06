@@ -3,7 +3,8 @@ import { z } from 'zod'
 import { createUser, validateCredentials } from "@/core/user/user.services";
 import { createUserSchema, logInSchema } from "@/core/user/user.validation";
 import { signUpAction, logInAction, logOutAction } from "./auth.action";
-import { signIn } from "next-auth/react";
+import { signIn } from "@/app/api/auth/[...nextauth]/route";
+import { AuthError } from "next-auth";
 
 vi.mock('@/core/user/user.services', () => ({
   createUser: vi.fn()
@@ -16,6 +17,12 @@ vi.mock('@/core/user/user.validation', () => ({
     safeParse: vi.fn(),
   },
 }))
+
+vi.mock('@/app/api/auth/[...nextauth]/route', () => ({
+  signIn: vi.fn(),
+  signOut: vi.fn(),
+  auth: vi.fn(),
+}));
 
 vi.mock('zod', async (importOriginal) => {
   const originalZod = await importOriginal<typeof import('zod')>()
@@ -164,6 +171,47 @@ describe('logInAction', () => {
 
     expect(result.success).toBe(true)
   })
-  it('should fail on validation if form data in invalid', async () => {})
-  it('should fail if credentials are wrong', async () => {})
+
+  it('should fail on validation if form data in invalid', async () => {
+    const inputData = { email: 'testeexemplo.com', password: 'senha-correta' }
+    const formData = new FormData();
+    formData.append('email', inputData.email);
+    formData.append('password', inputData.password);
+
+    vi.mocked(logInSchema.safeParse).mockReturnValue({ success: false, error: {} as any })
+    vi.mocked(z.flattenError).mockReturnValue({ 
+      formErrors: [], 
+      fieldErrors: [], 
+    })
+    
+    const result = await logInAction(formData)
+
+    expect(signIn).not.toHaveBeenCalled()
+    expect(result.success).toBe(false)
+    expect(result.errors).toStrictEqual([])
+  })
+
+  it('should fail if credentials are wrong', async () => {
+    const inputData = { email: 'teste@exemplo.com', password: 'senha-correta' }
+    const formData = new FormData();
+    formData.append('email', inputData.email);
+    formData.append('password', inputData.password);
+
+    vi.mocked(logInSchema.safeParse).mockReturnValue({ success: true, data: inputData })
+    const errorMock = new AuthError()
+    errorMock.type = 'CredentialsSignin'
+    vi.mocked(signIn).mockRejectedValue(errorMock)
+
+    const result = await logInAction(formData)
+
+    expect(signIn).toHaveBeenCalledWith('credentials', {
+      ...inputData,
+      redirectTo: '/dashboard',
+    })
+
+    expect(result).toEqual({ 
+      success: false, 
+      message: 'E-mail ou senha inválidos.' 
+    });
+  })
 })
