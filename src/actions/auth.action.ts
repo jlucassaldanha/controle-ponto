@@ -17,14 +17,16 @@ export async function signUpAction(formData: FormData) {
 
     try {
         const newUser = await createUser(validateFormData.data)
-
+        
         if (!newUser) {
             return { success: false, message: "Este email já está em uso." }
         }
 
-        return { success: true, user: newUser }
+        const { passwordHash: _, ...newUserWithNoHash } = newUser
+
+        return { success: true, user: newUserWithNoHash }
     } catch (error) {
-        return { success: false, message: `Ocorreu um erro no servidor. \n${error}` }
+        return { success: false, message: `Ocorreu um erro no servidor.` }
     }
 }
 

@@ -2,8 +2,9 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import type { UserDataType } from "./user.types";
 import { User as NextAuthUser } from "next-auth";
+import type { User } from "@prisma/client"
 
-export async function createUser(userData: UserDataType) {
+export async function createUser(userData: UserDataType): Promise<User | null> {
   const userExist = await prisma.user.findUnique({
     where: {
       email: userData.email,

@@ -9,6 +9,9 @@ export default defineConfig({
 		environment: 'jsdom',
 		setupFiles: ['./test/setup.ts', './vitest.setup.ts'],
 		css: true,
+		deps: {
+          inline: ['next-auth'],
+        },
 	},
 	resolve: {
 		alias: { '@': path.resolve(__dirname, './src') },
