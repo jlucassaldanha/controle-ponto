@@ -10,9 +10,9 @@ export type SignupFormState = {
   success: boolean;
   message?: string;
   errors?: {
-    username?: string[];
-    email?: string[];
-    password?: string[];
+    username?: string[] | undefined;
+    email?: string[] | undefined;
+    password?: string[] | undefined;
   };
   user?: Omit<User, 'passwordHash'>; // Retorna o usuário seguro em caso de sucesso
 }

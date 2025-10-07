@@ -1,7 +1,7 @@
 'use server'
 
 import { signIn, signOut } from "@/app/api/auth/[...nextauth]/route"
-import { createUser } from "@/core/user/user.services"
+import { findUserByEmail, createUser } from "@/core/user/user.services"
 import { SignupFormState } from "@/core/user/user.types"
 import { createUserSchema, logInSchema } from "@/core/user/user.validation"
 import { AuthError } from "next-auth"
@@ -17,16 +17,17 @@ export async function signUpAction(previousState: SignupFormState, formData: For
     }
 
     try {
-        const newUser = await createUser(validateFormData.data)
+        const userExists = await findUserByEmail(validateFormData.data.email)
         
-        if (!newUser) {
+        if (userExists) {
             return { success: false, message: "Este email já está em uso." }
         }
-
+        
+        const newUser = await createUser(validateFormData.data)  
         const { passwordHash: _, ...newUserWithNoHash } = newUser
-
         return { success: true, user: newUserWithNoHash }
     } catch (error) {
+        console.log(error)
         return { success: false, message: `Ocorreu um erro no servidor.` }
     }
 }

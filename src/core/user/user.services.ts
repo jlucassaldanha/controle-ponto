@@ -4,24 +4,24 @@ import type { UserDataType } from "./user.types";
 import { User as NextAuthUser } from "next-auth";
 import type { User } from "@prisma/client"
 
-export async function createUser(userData: UserDataType): Promise<User | null> {
-  const userExist = await prisma.user.findUnique({
+export async function findUserByEmail(email: string): Promise<User | null> {
+  return await prisma.user.findUnique({
     where: {
+      email: email,
+    }
+  });
+}
+
+export async function createUser(userData: UserDataType): Promise<User> {
+  const passwordHash = await bcrypt.hash(userData.password, 10);
+
+  return await prisma.user.create({
+    data: {
       email: userData.email,
+      username: userData.username,
+      passwordHash: passwordHash,
     },
   });
-
-  if (!userExist) {
-    const passwordHash = await bcrypt.hash(userData.password, 10);
-    return await prisma.user.create({
-      data: {
-        email: userData.email,
-        username: userData.username,
-        passwordHash: passwordHash,
-      },
-    });
-  }
-  return null;
 }
 
 export async function validateCredentials(email: string, password: string): Promise<NextAuthUser | null> {
