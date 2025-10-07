@@ -2,11 +2,12 @@
 
 import { signIn, signOut } from "@/app/api/auth/[...nextauth]/route"
 import { createUser } from "@/core/user/user.services"
+import { SignupFormState } from "@/core/user/user.types"
 import { createUserSchema, logInSchema } from "@/core/user/user.validation"
 import { AuthError } from "next-auth"
 import { z } from "zod"
 
-export async function signUpAction(formData: FormData) {   
+export async function signUpAction(previousState: SignupFormState, formData: FormData) {   
     const rawData = Object.fromEntries(formData)
 
     const validateFormData = createUserSchema.safeParse(rawData)
