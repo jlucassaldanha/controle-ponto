@@ -1,16 +1,10 @@
 import { redirect } from "next/navigation"
 import { auth } from "../api/auth/[...nextauth]/route"
 import { prisma } from "@/lib/prisma"
-import { Button } from "@mui/material"
 import { logOutAction } from "@/actions/auth.action"
+import SubmitButton from "@/components/SubmitButton"
 
-function SubmitButton() {
-    return (
-        <Button type="submit" variant='contained' >
-            Sair
-        </Button>
-    );
-}
+
 
 export default async function Dashboard() {
     const session = await auth()
@@ -34,7 +28,7 @@ export default async function Dashboard() {
             <div>{userInfo?.passwordHash}</div>
             <div>{userInfo?.id}</div>
             <form action={logOutAction}>
-                <SubmitButton />
+                <SubmitButton text="Sair" pendingText="Saindo..." />
             </form>
         </div>
     )

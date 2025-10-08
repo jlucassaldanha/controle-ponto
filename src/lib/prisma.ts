@@ -3,7 +3,6 @@ import path from 'path';
 
 // Esta é a maneira de declarar uma variável global de forma segura com TypeScript
 declare global {
-  // eslint-disable-next-line no-var
   var prisma: PrismaClient | undefined;
 }
 

@@ -1,18 +1,8 @@
 'use client'
 import { signUpAction, SignUpFormState } from '@/actions/auth.action'
-import Button from '@mui/material/Button';
+import SubmitButton from '@/components/SubmitButton';
 import TextField from '@mui/material/TextField';
 import { useActionState } from 'react';
-import { useFormStatus } from 'react-dom';
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <Button type="submit" variant='contained' disabled={pending} >
-        {pending ? 'Cadastrando...' : 'Cadastrar'}
-    </Button>
-  );
-}
 
 export default function SignUp() {
   const initialState: SignUpFormState = { success: false };
@@ -49,7 +39,7 @@ export default function SignUp() {
                       error={!!state.errors?.password} 
                       helperText={state.errors?.email?.[0]} 
                     />
-                    <SubmitButton />
+                    <SubmitButton text='Cadastrar' pendingText='Cadastrando...' />
                 </div>
                 {state.message && (
                   <p style={{ color: state.success ? 'green' : 'red' }}>

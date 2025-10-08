@@ -1,17 +1,8 @@
 'use client'
 import { logInAction, LogInFormState } from "@/actions/auth.action";
-import { Button, TextField } from "@mui/material";
+import SubmitButton from "@/components/SubmitButton";
+import { TextField } from "@mui/material";
 import { useActionState } from "react";
-import { useFormStatus } from "react-dom";
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <Button type="submit" variant='contained' disabled={pending} >
-        {pending ? 'Carregando...' : 'Entrar'}
-    </Button>
-  );
-}
 
 export default function LogIn() {
     const initialState: LogInFormState = { success: false };
@@ -38,7 +29,7 @@ export default function LogIn() {
                         error={!!state.errors?.password} 
                         helperText={state.errors?.email?.[0]} 
                     />
-                    <SubmitButton />
+                    <SubmitButton text="Entrar" pendingText="Carregando..." />
                 </div>
                 {state.message && (
                     <p style={{ color: state.success ? 'green' : 'red' }}>
