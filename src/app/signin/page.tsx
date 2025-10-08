@@ -1,6 +1,5 @@
 'use client'
-import { signUpAction } from '@/actions/auth.action';
-import { SignupFormState } from '@/core/user/user.types';
+import { signUpAction, SignUpFormState } from '@/actions/auth.action'
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useActionState } from 'react';
@@ -16,7 +15,7 @@ function SubmitButton() {
 }
 
 export default function SignUp() {
-  const initialState: SignupFormState = { success: false };
+  const initialState: SignUpFormState = { success: false };
   const [state, formAction] = useActionState(signUpAction, initialState);
 
     return (
@@ -59,6 +58,5 @@ export default function SignUp() {
                 )}
             </form>
         </section>
-        
     )
 }

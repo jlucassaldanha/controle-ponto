@@ -2,12 +2,23 @@
 
 import { signIn, signOut } from "@/app/api/auth/[...nextauth]/route"
 import { findUserByEmail, createUser } from "@/core/user/user.services"
-import { SignupFormState } from "@/core/user/user.types"
 import { createUserSchema, logInSchema } from "@/core/user/user.validation"
+import { User } from "@prisma/client"
 import { AuthError } from "next-auth"
 import { z } from "zod"
 
-export async function signUpAction(previousState: SignupFormState, formData: FormData) {   
+export type SignUpFormState = {
+  success: boolean;
+  message?: string;
+  errors?: {
+    username?: string[] | undefined;
+    email?: string[] | undefined;
+    password?: string[] | undefined;
+  };
+  user?: Omit<User, 'passwordHash'>; 
+}
+
+export async function signUpAction(previousState: SignUpFormState, formData: FormData) {   
     const rawData = Object.fromEntries(formData)
 
     const validateFormData = createUserSchema.safeParse(rawData)
@@ -32,7 +43,16 @@ export async function signUpAction(previousState: SignupFormState, formData: For
     }
 }
 
-export async function logInAction(formData: FormData) {
+export type LogInFormState = {
+    success: boolean
+    message?: string
+    errors?: {
+        email?: string[] | undefined
+        password?: string[] | undefined
+    }
+}
+
+export async function logInAction(previousState: LogInFormState, formData: FormData) {
     const rawData = Object.fromEntries(formData)
 
     const validateFormData = logInSchema.safeParse(rawData)
