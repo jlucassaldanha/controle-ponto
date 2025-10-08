@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, type Mock } from "vitest";
 import { z } from 'zod'
-import { createUser } from "@/core/user/user.services";
+import { createUser, findUserByEmail } from "@/core/user/user.services";
 import { createUserSchema, logInSchema } from "@/core/user/user.validation";
 import { signUpAction, logInAction, logOutAction } from "./auth.action";
 import { signIn } from "@/app/api/auth/[...nextauth]/route";
@@ -8,7 +8,8 @@ import { AuthError } from "next-auth";
 import { signOut } from "@/app/api/auth/[...nextauth]/route";
 
 vi.mock('@/core/user/user.services', () => ({
-  createUser: vi.fn()
+  createUser: vi.fn(),
+  findUserByEmail: vi.fn()
 }))
 vi.mock('@/core/user/user.validation', () => ({
   createUserSchema: {
@@ -55,6 +56,7 @@ describe('signUpAction', () => {
     formData.append("password", inputData.password)
 
     vi.mocked(createUserSchema.safeParse).mockReturnValue({ success: true, data: inputData })
+    vi.mocked(findUserByEmail).mockResolvedValue(null)
     vi.mocked(createUser).mockResolvedValue({ 
       id: "id-la", 
       username: inputData.username, 
@@ -62,7 +64,7 @@ describe('signUpAction', () => {
       passwordHash: "senha-hash" 
     })
 
-    const result = await signUpAction(formData)
+    const result = await signUpAction({ success: false },formData)
 
     expect(result).toStrictEqual({ 
       success: true, 
@@ -74,6 +76,7 @@ describe('signUpAction', () => {
     })
     expect(createUserSchema.safeParse).toBeCalledWith(Object.fromEntries(formData))
     expect(createUser).toBeCalledWith(inputData)
+    expect(findUserByEmail).toBeCalledWith(inputData.email)
   })
 
   it('should fail and return a object with success false and the errors if the fromData is invalid', async () => {
@@ -95,7 +98,7 @@ describe('signUpAction', () => {
       fieldErrors: [], 
     })
 
-    const result = await signUpAction(formData)
+    const result = await signUpAction({ success: false },formData)
 
     expect(result.success).toBe(false)
     expect(result.errors).toEqual([])
@@ -106,7 +109,7 @@ describe('signUpAction', () => {
   it('should fail and return a object with success false and the errors if the email is used', async () => {
     const inputData = {
       username: "usuario teste",
-      email: 'testeemail.com',
+      email: 'teste@email.com',
       password: 'senhateste'
     }
 
@@ -117,13 +120,19 @@ describe('signUpAction', () => {
     formData.append("password", inputData.password)
 
     vi.mocked(createUserSchema.safeParse).mockReturnValue({ success: true, data: inputData })
-    vi.mocked(createUser).mockResolvedValue(null)
+    vi.mocked(findUserByEmail).mockResolvedValue({ 
+      id: "id-la", 
+      username: inputData.username, 
+      email: inputData.email, 
+      passwordHash: "senha-hash" 
+    })
 
-    const result = await signUpAction(formData)
+    const result = await signUpAction({ success: false },formData)
 
     expect(result).toStrictEqual({ success: false, message: "Este email já está em uso." })
     expect(createUserSchema.safeParse).toBeCalledWith(Object.fromEntries(formData))
-    expect(createUser).toHaveBeenCalledWith(inputData);
+    expect(findUserByEmail).toHaveBeenCalledWith(inputData.email)
+    expect(createUser).not.toHaveBeenCalled()
   })
 
   it('should fail and return a object with success false and the errors if another error ocours', async () => {
@@ -140,15 +149,17 @@ describe('signUpAction', () => {
     formData.append("password", inputData.password)
 
     vi.mocked(createUserSchema.safeParse).mockReturnValue({ success: true, data: inputData })
+    vi.mocked(findUserByEmail).mockResolvedValue(null)
     vi.mocked(createUser).mockRejectedValue(new Error('Database connection failed'));
 
-    const result = await signUpAction(formData)
+    const result = await signUpAction({ success: false },formData)
 
     expect(result).toStrictEqual({ 
       success: false, 
       message: 'Ocorreu um erro no servidor.' 
     });
     expect(createUserSchema.safeParse).toBeCalledWith(Object.fromEntries(formData))
+    expect(findUserByEmail).toHaveBeenCalledWith(inputData.email)
     expect(createUser).toHaveBeenCalledWith(inputData);
   })
 })
@@ -163,7 +174,7 @@ describe('logInAction', () => {
     vi.mocked(logInSchema.safeParse).mockReturnValue({ success: true, data: inputData })
     vi.mocked(signIn).mockResolvedValue(undefined as any)
 
-    const result = await logInAction(formData)
+    const result = await logInAction({ success: false },formData)
 
     expect(signIn).toHaveBeenCalledWith('credentials', {
       ...inputData,
@@ -185,7 +196,7 @@ describe('logInAction', () => {
       fieldErrors: [], 
     })
     
-    const result = await logInAction(formData)
+    const result = await logInAction({ success: false },formData)
 
     expect(signIn).not.toHaveBeenCalled()
     expect(result.success).toBe(false)
@@ -203,7 +214,7 @@ describe('logInAction', () => {
     errorMock.type = 'CredentialsSignin'
     vi.mocked(signIn).mockRejectedValue(errorMock)
 
-    const result = await logInAction(formData)
+    const result = await logInAction({ success: false },formData)
 
     expect(signIn).toHaveBeenCalledWith('credentials', {
       ...inputData,

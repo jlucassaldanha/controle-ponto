@@ -2,7 +2,7 @@ import { describe, it, expect, vi, type Mock } from "vitest";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import prismaMock from "../../../test/setup";
-import { createUser, validateCredentials } from "./user.services";
+import { createUser, findUserByEmail, validateCredentials } from "./user.services";
 import { createUserSchema, logInSchema } from "./user.validation";
 import { UserDataType } from "./user.types";
 
@@ -13,11 +13,42 @@ beforeEach(() => {
 });
 
 describe('findUserByEmail', () => {
+  it("should return null if the user don't exists", async () => {
+    const email: string = "existente@exemplo.com"
+    
+    prismaMock.user.findUnique.mockResolvedValue(null);
+
+    const result = await findUserByEmail(email)
+
+    expect(result).toBeNull();
+    expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
+      where: { email: email },
+    });
+  });
+
+  it("should return user if exists", async () => {
+    
+    const email: string = "existente@exemplo.com"
+    const existingUser = {
+      id: "uuid-existente-123",
+      email: email,
+      username: "um nome",
+      passwordHash: "hash-existente",
+    };
+
+    prismaMock.user.findUnique.mockResolvedValue(existingUser);
+
+    const result = await findUserByEmail(email)
+
+    expect(result).toStrictEqual(existingUser);
+    expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
+      where: { email: email },
+    });
+  });
 })
 
-// MUDAR
 describe("createUser", () => {
-  it("should create and return a new user if the email does not exist", async () => {
+  it("should create and return a new user", async () => {
     const userData: UserDataType = {
       email: "novo@exemplo.com",
       username: "Usuario Novo",
@@ -31,17 +62,13 @@ describe("createUser", () => {
       passwordHash: mockPasswordHash,
     };
     
-    prismaMock.user.findUnique.mockResolvedValue(null);
     (bcrypt.hash as Mock).mockResolvedValue(mockPasswordHash);
     prismaMock.user.create.mockResolvedValue(createdUser);
 
     const result = await createUser(userData);
 
-    expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
-      where: { email: userData.email },
-    });
     expect(bcrypt.hash).toHaveBeenCalledWith(userData.password, 10);
-    expect(prisma.user.create).toHaveBeenCalledWith({
+    expect(prismaMock.user.create).toHaveBeenCalledWith({
       data: {
         email: userData.email,
         username: userData.username,
@@ -49,31 +76,6 @@ describe("createUser", () => {
       },
     });
     expect(result).toEqual(createdUser);
-  });
-
-  it("should return null if the user already exists", async () => {
-    const userData: UserDataType = {
-      email: "existente@exemplo.com",
-      username: "Usuario Existente",
-      password: "senha-qualquer",
-    };
-    const existingUser = {
-      id: "uuid-existente-123",
-      email: userData.email,
-      username: userData.username,
-      passwordHash: "hash-existente",
-    };
-
-    prismaMock.user.findUnique.mockResolvedValue(existingUser);
-
-    const result = await createUser(userData);
-
-    expect(result).toBeNull();
-    expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
-      where: { email: userData.email },
-    });
-    expect(bcrypt.hash).not.toHaveBeenCalled();
-    expect(prisma.user.create).not.toHaveBeenCalled();
   });
 });
 
@@ -217,7 +219,7 @@ describe('createUserSchema', () => {
 
 
 describe('logInSchema', () => {
-  it('should pass validation when data is valid', async () => {
+  it('should pass validation when data is valid', () => {
     const validData = {
       email: 'email@valido.com',
       password: 'supersenha',
@@ -228,7 +230,7 @@ describe('logInSchema', () => {
     expect(result.success).toBe(true)
   })
 
-  it('should fail validation when email is not valid', async () => {
+  it('should fail validation when email is not valid', () => {
     const validData = {
       email: 'emailinvalido.com',
       password: 'supersenha',
@@ -243,7 +245,7 @@ describe('logInSchema', () => {
     }
   })
 
-  it('should fail validation when password is not valid', async () => {
+  it('should fail validation when password is not valid', () => {
     const validData = {
       email: 'email@valido.com',
       password: 'superse',
