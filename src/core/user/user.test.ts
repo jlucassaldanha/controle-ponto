@@ -12,6 +12,10 @@ beforeEach(() => {
   vi.clearAllMocks();
 });
 
+describe('findUserByEmail', () => {
+})
+
+// MUDAR
 describe("createUser", () => {
   it("should create and return a new user if the email does not exist", async () => {
     const userData: UserDataType = {
