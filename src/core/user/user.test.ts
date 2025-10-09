@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, type Mock } from "vitest";
 import bcrypt from "bcryptjs";
-import { prisma } from "@/lib/prisma";
 import prismaMock from "../../../test/setup";
 import { createUser, findUserByEmail, validateCredentials } from "./user.services";
 import { createUserSchema, logInSchema } from "./user.validation";

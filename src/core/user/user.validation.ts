@@ -1,4 +1,4 @@
-import { email, z } from 'zod'
+import { z } from 'zod'
 
 export const createUserSchema = z.object({
 	username: z.string().trim().min(3, { message: "Nome de usuário deve ter pelo menos 3 letras." }),
