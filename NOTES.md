@@ -26,4 +26,4 @@ npm install next-auth@beta
 Até agora:
 Esta feita a logica de criação de usuario, autenticação, interface
 Proximo passo:
-Revisar codigo adicionado e testes
+Implementar mais funções
