@@ -15,34 +15,17 @@ export default async function Dashboard() {
 
   const userId = session.user.id;
 
-  const userPreferences = {
-    id: 'string',
-    userId: 'string',
-    entryTime: 480,
-    exitTime: 1080,
-    lunchStartTime: 720,
-    lunchEndTime: 780,
-  }
-
-  /*const userPreferences = await prisma.config.findUnique({
+  const userPreferences = await prisma.config.findUnique({
     where: {
       userId: userId
     }
-  })*/
+  })
 
 
   return (
     <div className="flex justify-center items-center w-full">
       {userPreferences ? (
         <div className="flex flex-col">
-          <div className="flex gap-5">
-            <span>Horario de entrada: {minutesToTimeString(userPreferences.entryTime)}</span>
-            <span>Horario de saida: {minutesToTimeString(userPreferences.exitTime)}</span>
-            <span>Horario de almoço: {minutesToTimeString(userPreferences.lunchStartTime)} as {minutesToTimeString(userPreferences.lunchEndTime)}</span>
-          </div>
-          <div>
-            Tempo total de jornada: 
-          </div>
         </div>
         ) : (
           <div className="flex flex-col items-center gap-2">

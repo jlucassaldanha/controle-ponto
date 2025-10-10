@@ -20,14 +20,28 @@ model User {
 
 model Config {
   id String @id @default(uuid())
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @unique @map("user_id")
+
+  dailySchedules DailySchedule[]
+
+  @@map("configs")
+}
+
+model DailySchedule {
+  id String @id @default(uuid())
+  dayOfWeek Int @map("day_of_week")
   entryTime Int @map("entry_time")
   exitTime Int @map("exit_time")
   lunchStartTime Int @map("lunch_start_time")
   lunchEndTime Int @map("lunch_end_time")
 
-  @@map("configs")
+  configId String @map("config_id")
+  config Config @relation(fields: [configId], references: [id], onDelete: Cascade)
+
+  @@unique([configId, dayOfWeek])
+  @@map("daily_schedules")
 }
 
 enum PunchType {
