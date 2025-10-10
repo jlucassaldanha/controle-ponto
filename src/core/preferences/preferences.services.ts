@@ -17,45 +17,32 @@ export async function getUserPreferences(userId: string) {
 type UpdateConfigDataType = z.infer<typeof updateUserPreferencesSchema>;
 
 export async function updateUserPreferences(userId: string, data: UpdateConfigDataType) {
-	const userConfig = await prisma.config.findUnique({
-		where: {
-			userId: userId
-		},
-		select: {
-			id: true
-		}
-	})
+  const config = await prisma.config.upsert({
+    where: { userId: userId },
+    update: {}, 
+    create: { userId: userId }, 
+  });
 
-	if (!userConfig) {
-		throw new Error('Configuração não encontrada')
-	}
+  const configId = config.id;
 
-	const deleteOldSchedules = prisma.dailySchedule.deleteMany({
-		where: {
-			configId: userConfig.id
-		}
-	})
+  const deleteOldSchedules = prisma.dailySchedule.deleteMany({
+    where: { configId: configId },
+  });
 
-	const createNewSchedules = prisma.dailySchedule.createMany({
-		data: data.schedules.map((schedule) => ({
-			dayOfWeek: schedule.dayOfWeek,
-			entryTime: schedule.entryTime,
-			exitTime: schedule.exitTime,
-			lunchStartTime: schedule.lunchStartTime,
-			lunchEndTime: schedule.lunchEndTime,
-			configId: userConfig.id,
-		}))
-	})
+  const createNewSchedules = prisma.dailySchedule.createMany({
+    data: data.schedules.map((schedule) => ({
+      ...schedule,
+      configId: configId,
+    })),
+  });
 
-	try {
-		const transactionResult = await prisma.$transaction([
-			deleteOldSchedules,
-			createNewSchedules,
-		])
-
-		return transactionResult
-	} catch (error) {
-		console.log(error)
-		throw new Error("Não foi possivel salvar as configurações.")
-	}
+  try {
+    await prisma.$transaction([
+      deleteOldSchedules,
+      createNewSchedules,
+    ]);
+  } catch (error) {
+    console.error("Failed to update preferences transaction:", error);
+    throw new Error("Could not save preferences.");
+  }
 }

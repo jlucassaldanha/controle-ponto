@@ -13,6 +13,16 @@ export type PreferencesFormState = {
 	};
 }
 
+const dayKeyToNumberMap: { [key: string]: number } = {
+  sunday: 0,
+  monday: 1,
+  tuesday: 2,
+  wednesday: 3,
+  thursday: 4,
+  friday: 5,
+  saturday: 6,
+};
+
 export async function updatePreferencesAction(previousState: PreferencesFormState, formData: FormData) {
 	const session = await auth()
 	if (!session?.user?.id) {
@@ -20,25 +30,45 @@ export async function updatePreferencesAction(previousState: PreferencesFormStat
 	}
 
 	const schedulesPayload = formData.get('schedulesPayload')
-	let parsedSchedules = []
+	let parsedRules = []
 	if (typeof schedulesPayload === 'string') {
 		try {
-			parsedSchedules = JSON.parse(schedulesPayload)
+			parsedRules = JSON.parse(schedulesPayload)
 		} catch (e) {
 			console.log(e)
 			return { success: false, message: "erro ao processar os dados do formulario."}
 		}
 	}
-	const dataToValidate = { schedules: parsedSchedules}
 
+	const dailySchedulesForValidation = [];
+
+	for (const rule of parsedRules) {
+		for (const dayKey in rule.days) {
+			if (rule.days[dayKey] === true) {
+				dailySchedulesForValidation.push({
+				dayOfWeek: dayKeyToNumberMap[dayKey], 
+				entryTime: rule.entryTime,
+				exitTime: rule.exitTime,
+				lunchStartTime: rule.lunchStartTime,
+				lunchEndTime: rule.lunchEndTime,
+				});
+			}
+		}
+  	}
+
+	const dataToValidate = { schedules: dailySchedulesForValidation,}
+	
 	const validateFormData = updateUserPreferencesSchema.safeParse(dataToValidate)
-
+	
 	if (!validateFormData.success) {
+		console.log(z.flattenError(validateFormData.error).fieldErrors)
 		return { success: false, errors: z.flattenError(validateFormData.error).fieldErrors }
 	}
 
 	try {
 		await updateUserPreferences(session.user.id, validateFormData.data)
+		console.log("Configurações salvas com sucesso!")
+	
 		return { success: true, message: "Configurações salvas com sucesso!"}
 	} catch (error) {
 		console.log(error)
