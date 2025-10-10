@@ -9,10 +9,7 @@ export type PreferencesFormState = {
 	success: boolean;
 	message?: string;
 	errors?: {
-		entryTime?: string[] | undefined;
-		exitTime?: string[] | undefined;
-		lunchStartTime?: string[] | undefined;
-		lunchEndTime?: string[] | undefined;
+		schedules?: string[] | undefined;
 	};
 }
 
@@ -22,7 +19,18 @@ export async function updatePreferencesAction(previousState: PreferencesFormStat
 		return { success: false, message: "Acesso negado." }
 	}
 
-	const validateFormData = updateUserPreferencesSchema.safeParse(Object.fromEntries(formData))
+	const schedulesPayload = formData.get('schedulesPayload')
+	let parsedSchedules = []
+	if (typeof schedulesPayload === 'string') {
+		try {
+			parsedSchedules = JSON.parse(schedulesPayload)
+		} catch (e) {
+			return { success: false, message: "erro ao processar os dados do formulario."}
+		}
+	}
+	const dataToValidate = { schedules: parsedSchedules}
+
+	const validateFormData = updateUserPreferencesSchema.safeParse(dataToValidate)
 
 	if (!validateFormData.success) {
 		return { success: false, errors: z.flattenError(validateFormData.error).fieldErrors }
