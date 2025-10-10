@@ -1,8 +1,7 @@
 import { redirect } from "next/navigation";
 import { auth } from "../../api/auth/[...nextauth]/route";
-import { prisma } from "@/lib/prisma";
 import Link from "next/link";
-import { minutesToTimeString } from "@/lib/timeFormater";
+import { getUserPreferences } from "@/core/preferences/preferences.services";
 
 export const dynamic = "force-dynamic";
 
@@ -15,12 +14,7 @@ export default async function Dashboard() {
 
   const userId = session.user.id;
 
-  const userPreferences = await prisma.config.findUnique({
-    where: {
-      userId: userId
-    }
-  })
-
+  const userPreferences = await getUserPreferences(userId)
 
   return (
     <div className="flex justify-center items-center w-full">
@@ -29,7 +23,7 @@ export default async function Dashboard() {
         </div>
         ) : (
           <div className="flex flex-col items-center gap-2">
-            <p className="text-2xl">Você ainda não tem suas preferencias configuradas nem pontos registrados.</p>
+            <p className="text-2xl mx-5">Você ainda não tem suas preferencias configuradas nem pontos registrados.</p>
             <Link 
               className="font-bold text-blue-500"
               href='/preferences'

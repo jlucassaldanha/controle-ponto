@@ -12,7 +12,8 @@ const timeStringSchema = z.string()
 	})
 	.refine((minutes) => minutes >= 0, { message: "Horário inválido." })
 
-export const updateUserPreferencesSchema = z.object({
+const dailyScheduleSchema = z.object({
+	dayOfWeek: z.number(),
 	entryTime: timeStringSchema,
 	exitTime: timeStringSchema,
 	lunchStartTime: timeStringSchema,
@@ -30,3 +31,7 @@ export const updateUserPreferencesSchema = z.object({
     message: "O intervalo de almoço deve estar dentro do expediente.",
     path: ["lunchStartTime"],
 });
+
+export const updateUserPreferencesSchema = z.object({
+	schedules: z.array(dailyScheduleSchema),
+})

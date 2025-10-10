@@ -1,29 +1,61 @@
-import { ConfigDataType } from "./preferences.types";
 import { prisma } from '@/lib/prisma'
-import type { Config } from "@prisma/client";
+import z from "zod";
+import { updateUserPreferencesSchema } from "./preferences.validation";
 
-export async function getUserPreferences(userId: string): Promise<Config | null> {
+export async function getUserPreferences(userId: string) {
 	const userPreferences = prisma.config.findUnique({ 
 		where: { 
 			userId: userId 
+		},
+		include: {
+			dailySchedules: true
 		} 
 	})
 	return userPreferences
 }
 
-export async function updateUserPreferences(userId: string, data: ConfigDataType): Promise<Config | null> {
-	const updatedConfig = await prisma.config.upsert({
+type UpdateConfigDataType = z.infer<typeof updateUserPreferencesSchema>;
+
+export async function updateUserPreferences(userId: string, data: UpdateConfigDataType) {
+	const userConfig = await prisma.config.findUnique({
 		where: {
 			userId: userId
 		},
-		update: {
-			...data
-		},
-		create: {
-			userId: userId,
-			...data
+		select: {
+			id: true
 		}
 	})
 
-	return updatedConfig
+	if (!userConfig) {
+		throw new Error('Configuração não encontrada')
+	}
+
+	const deleteOldSchedules = prisma.dailySchedule.deleteMany({
+		where: {
+			configId: userConfig.id
+		}
+	})
+
+	const createNewSchedules = prisma.dailySchedule.createMany({
+		data: data.schedules.map((schedule) => ({
+			dayOfWeek: schedule.dayOfWeek,
+			entryTime: schedule.entryTime,
+			exitTime: schedule.exitTime,
+			lunchStartTime: schedule.lunchStartTime,
+			lunchEndTime: schedule.lunchEndTime,
+			configId: userConfig.id,
+		}))
+	})
+
+	try {
+		const transactionResult = await prisma.$transaction([
+			deleteOldSchedules,
+			createNewSchedules,
+		])
+
+		return transactionResult
+	} catch (error) {
+		console.log(error)
+		throw new Error("Não foi possivel salvar as configurações.")
+	}
 }
