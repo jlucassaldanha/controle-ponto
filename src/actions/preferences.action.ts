@@ -25,6 +25,7 @@ export async function updatePreferencesAction(previousState: PreferencesFormStat
 		try {
 			parsedSchedules = JSON.parse(schedulesPayload)
 		} catch (e) {
+			console.log(e)
 			return { success: false, message: "erro ao processar os dados do formulario."}
 		}
 	}
