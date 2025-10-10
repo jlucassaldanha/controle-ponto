@@ -39,10 +39,10 @@ export default function SignUp() {
             error={!!state.errors?.password}
             helperText={state.errors?.email?.[0]}
           />
-          <SubmitButton text="Cadastrar" pendingText="Cadastrando..." />
+          <SubmitButton text="Cadastrar" pendingText="Cadastrando..." variant="contained" />
         </div>
         {state.message && (
-          <p style={{ color: state.success ? "green" : "red" }}>
+          <p className={state.success ? "text-green-500":"text-red-500"} >
             {state.message}
           </p>
         )}

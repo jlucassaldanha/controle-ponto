@@ -1,6 +1,8 @@
 import { redirect } from "next/navigation";
 import { auth } from "../../api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
+import Link from "next/link";
+import { minutesToTimeString } from "@/lib/timeFormater";
 
 export const dynamic = "force-dynamic";
 
@@ -13,15 +15,46 @@ export default async function Dashboard() {
 
   const userId = session.user.id;
 
-  const userInfo = await prisma.user.findUnique({
+  const userPreferences = {
+    id: 'string',
+    userId: 'string',
+    entryTime: 480,
+    exitTime: 1080,
+    lunchStartTime: 720,
+    lunchEndTime: 780,
+  }
+
+  /*const userPreferences = await prisma.config.findUnique({
     where: {
-      id: userId,
-    },
-  });
+      userId: userId
+    }
+  })*/
+
 
   return (
-    <div className="flex flex-col">
-      teste
+    <div className="flex justify-center items-center w-full">
+      {userPreferences ? (
+        <div className="flex flex-col">
+          <div className="flex gap-5">
+            <span>Horario de entrada: {minutesToTimeString(userPreferences.entryTime)}</span>
+            <span>Horario de saida: {minutesToTimeString(userPreferences.exitTime)}</span>
+            <span>Horario de almoço: {minutesToTimeString(userPreferences.lunchStartTime)} as {minutesToTimeString(userPreferences.lunchEndTime)}</span>
+          </div>
+          <div>
+            Tempo total de jornada: 
+          </div>
+        </div>
+        ) : (
+          <div className="flex flex-col items-center gap-2">
+            <p className="text-2xl">Você ainda não tem suas preferencias configuradas nem pontos registrados.</p>
+            <Link 
+              className="font-bold text-blue-500"
+              href='/preferences'
+            >
+              Clique aqui para configurar suas preferencias
+            </Link>
+          </div>
+        )}
     </div>
   );
 }

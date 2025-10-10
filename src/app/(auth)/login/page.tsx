@@ -29,10 +29,10 @@ export default function LogIn() {
             error={!!state.errors?.password}
             helperText={state.errors?.email?.[0]}
           />
-          <SubmitButton text="Entrar" pendingText="Carregando..." />
+          <SubmitButton text="Entrar" pendingText="Carregando..." variant="contained" />
         </div>
         {state.message && (
-          <p style={{ color: state.success ? "green" : "red" }}>
+          <p className={state.success ? "text-green-500":"text-red-500"} >
             {state.message}
           </p>
         )}
