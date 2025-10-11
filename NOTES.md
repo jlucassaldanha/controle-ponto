@@ -22,9 +22,4 @@ npm install -D @types/bcryptjs
 Autenticação
 npm install next-auth@beta
 
-
-Até agora:
-Esta feita a logica de criação de usuario, autenticação, interface
-Lógica de preferencias do usuario
-Proximo passo:
-Testes para preferencias de usuario e interface
+ESTA OCORRENDO UM ERRO NAS PREFERENCIAS, ALGUNS IDS ESTÂO FICANDO IGUAIS E POR CONTA DISSO DOIS ITENS DIFERENTES SÂO TRATADOS COMO IGUAIS, CAUSANDO COMPORTAMENTO ESTRANHO NOS COMPONENTES, POR EXEMPLO: APAGAR UM HORARIO ACABA APAGANDO TODOS HOARARIOS COM O MESMO ID
