@@ -25,7 +25,7 @@ export default function PreferencesForm({ initialSchedules }: PreferencesFormPro
 		<div className="flex flex-col items-center gap-2">
 			{schedulesRules.map((rule, i) => (
 				<ScheduleRuleItem
-					key={i} 
+					key={rule.id} 
 					rule={rule}
 					handleDayChange={handleDayChange}
 					handleTimeChange={handleTimeChange}
