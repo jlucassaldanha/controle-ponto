@@ -32,7 +32,7 @@ export default async function Preferences() {
 
 		if (!scheduleRulesMap.has(timeKey)) {
 			scheduleRulesMap.set(timeKey, {
-				id: Date.now().toString(),
+				id: timeKey,
 				entryTime: minutesToTimeString(schedule.entryTime),
 				exitTime: minutesToTimeString(schedule.exitTime),
 				lunchStartTime: minutesToTimeString(schedule.lunchStartTime),
