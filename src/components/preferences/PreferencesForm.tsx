@@ -2,10 +2,10 @@
 
 import { PreferencesFormState, updatePreferencesAction } from '@/actions/preferences.action';
 import SubmitButton from '@/components/ui/SubmitButton';
-import { Button, IconButton } from '@mui/material';
+import { Button } from '@mui/material';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { useActionState } from "react"
-import { PreferencesFormProps } from './preferences.types';
+import { PreferencesFormProps } from '@/core/preferences/preferences.types';
 import ScheduleRuleItem from './ScheduleRuleItem';
 import { useScheduleRules } from '@/hooks/useScheduleRules';
 

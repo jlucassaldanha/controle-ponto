@@ -1,8 +1,8 @@
 'use client'
-import { Button, Card, CardContent, CardHeader, Checkbox, Divider, FormControlLabel, IconButton, TextField } from "@mui/material"
+import { Card, CardContent, CardHeader, Checkbox, Divider, FormControlLabel, IconButton, TextField } from "@mui/material"
 import DeleteIcon from '@mui/icons-material/Delete'
-import { ScheduleRuleItemProps } from "./preferences.types"
-import { daysOfWeek } from "./preferences.constants"
+import { ScheduleRuleItemProps } from "@/core/preferences/preferences.types"
+import { daysOfWeek } from "../../core/preferences/preferences.constants"
 
 //<div className='flex flex-col gap-5 justify-center items-center'>
 
