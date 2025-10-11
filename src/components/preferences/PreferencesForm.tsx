@@ -2,7 +2,8 @@
 
 import { PreferencesFormState, updatePreferencesAction } from '@/actions/preferences.action';
 import SubmitButton from '@/components/ui/SubmitButton';
-import { Button } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 import { useActionState } from "react"
 import { PreferencesFormProps } from './preferences.types';
 import ScheduleRuleItem from './ScheduleRuleItem';
@@ -31,8 +32,8 @@ export default function PreferencesForm({ initialSchedules }: PreferencesFormPro
 					handleRemove={handleRemove}
 				/>
 			))}
-			<Button onClick={handleAdd} variant='contained'>
-				Adicionar horario de trabalho
+			<Button variant='contained' onClick={handleAdd} startIcon={<AddBoxIcon />} >
+				Adicionar
 			</Button>
 			<form action={formAction} className="mt-4">
 				<input 
@@ -42,7 +43,7 @@ export default function PreferencesForm({ initialSchedules }: PreferencesFormPro
 				/>
 				<SubmitButton 
 					variant='contained' 
-					text='Salvar configurações' 
+					text='Salvar' 
 					pendingText='Salvando'
 				/>
 				{state.message && (
