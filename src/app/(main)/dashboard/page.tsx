@@ -20,6 +20,12 @@ export default async function Dashboard() {
     <div className="flex justify-center items-center w-full">
       {userPreferences ? (
         <div className="flex flex-col">
+          <Link 
+              className="font-bold text-blue-500"
+              href='/preferences'
+            >
+              Clique aqui para configurar suas preferencias
+          </Link>
         </div>
         ) : (
           <div className="flex flex-col items-center gap-2">

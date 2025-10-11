@@ -1,12 +1,24 @@
 'use client'
-import { Button, Checkbox, FormControlLabel, TextField } from "@mui/material"
+import { Button, Card, CardContent, CardHeader, Checkbox, Divider, FormControlLabel, IconButton, TextField } from "@mui/material"
+import DeleteIcon from '@mui/icons-material/Delete'
 import { ScheduleRuleItemProps } from "./preferences.types"
 import { daysOfWeek } from "./preferences.constants"
 
+//<div className='flex flex-col gap-5 justify-center items-center'>
+
 export default function ScheduleRuleItem({ rule, handleDayChange, handleTimeChange, handleRemove }: ScheduleRuleItemProps) {
    return (
-        <div key={rule.id} className='flex flex-col gap-5 justify-center items-center'>
-            <div>
+        <Card  variant="outlined" >
+            <CardHeader 
+                title="Regra de Horário"
+                action={
+                    <IconButton aria-label="delete" onClick={() => handleRemove(rule.id)}>
+                        <DeleteIcon />
+                    </IconButton>
+                }
+            />
+            <Divider />
+            <CardContent>
                 {daysOfWeek.map(day => (
                     <FormControlLabel 
                         key={day.key}
@@ -19,53 +31,47 @@ export default function ScheduleRuleItem({ rule, handleDayChange, handleTimeChan
                         label={day.label}
                     />
                 ))}
-            </div>
-            <div className='flex gap-5 justify-center items-center'>
-                Jornada:
-                <div className='flex gap-3'>
-                    <TextField
-                        variant="outlined"
-                        label="Entrada"
-                        type='time'
-                        name={`entryTime-${rule.id}`} 
-                        value={rule.entryTime} 
-                        onChange={(e) => handleTimeChange(rule.id, 'entryTime', e.target.value)}
-                    />
-                    <TextField
-                        variant="outlined"
-                        label="Saida"
-                        type='time'
-                        name={`exitTime-${rule.id}`} 
-                        value={rule.exitTime} 
-                        onChange={(e) => handleTimeChange(rule.id, 'exitTime', e.target.value)}
-                    />
+                <div className='flex gap-5 justify-center items-center'>
+                    Jornada:
+                    <div className='flex gap-3'>
+                        <TextField
+                            variant="outlined"
+                            label="Entrada"
+                            type='time'
+                            name={`entryTime-${rule.id}`} 
+                            value={rule.entryTime} 
+                            onChange={(e) => handleTimeChange(rule.id, 'entryTime', e.target.value)}
+                        />
+                        <TextField
+                            variant="outlined"
+                            label="Saida"
+                            type='time'
+                            name={`exitTime-${rule.id}`} 
+                            value={rule.exitTime} 
+                            onChange={(e) => handleTimeChange(rule.id, 'exitTime', e.target.value)}
+                        />
+                    </div>
+                    Almoço:
+                    <div className='flex gap-3'>
+                        <TextField
+                            variant="outlined"
+                            label="Entrada"
+                            type='time' 
+                            name={`lunchStartTime-${rule.id}`} 
+                            value={rule.lunchStartTime} 
+                            onChange={(e) => handleTimeChange(rule.id, 'lunchStartTime', e.target.value)}
+                        />
+                        <TextField
+                            variant="outlined"
+                            label="Saida"
+                            type='time' 
+                            name={`lunchEndTime-${rule.id}`} 
+                            value={rule.lunchEndTime} 
+                            onChange={(e) => handleTimeChange(rule.id, 'lunchEndTime', e.target.value)}
+                        />
+                    </div>
                 </div>
-                Almoço:
-                <div className='flex gap-3'>
-                    <TextField
-                        variant="outlined"
-                        label="Entrada"
-                        type='time' 
-                        name={`lunchStartTime-${rule.id}`} 
-                        value={rule.lunchStartTime} 
-                        onChange={(e) => handleTimeChange(rule.id, 'lunchStartTime', e.target.value)}
-                    />
-                    <TextField
-                        variant="outlined"
-                        label="Saida"
-                        type='time' 
-                        name={`lunchEndTime-${rule.id}`} 
-                        value={rule.lunchEndTime} 
-                        onChange={(e) => handleTimeChange(rule.id, 'lunchEndTime', e.target.value)}
-                    />
-                </div>
-            </div>
-            <Button 
-                onClick={() => handleRemove(rule.id)} 
-                variant='contained'
-            >
-                Remover
-            </Button>
-        </div>
+            </CardContent>
+        </Card>
    )
 }

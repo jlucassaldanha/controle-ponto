@@ -22,9 +22,9 @@ export default function PreferencesForm({ initialSchedules }: PreferencesFormPro
 
 	return (
 		<div className="flex flex-col items-center gap-2">
-			{schedulesRules.map((rule) => (
+			{schedulesRules.map((rule, i) => (
 				<ScheduleRuleItem
-					key={rule.id} 
+					key={i} 
 					rule={rule}
 					handleDayChange={handleDayChange}
 					handleTimeChange={handleTimeChange}
