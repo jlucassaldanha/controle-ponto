@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-const timeStringSchema = z.string()
+export const timeStringSchema = z.string()
 	.regex(/^\d{2}:\d{2}$/, { message: "Horario deve estar no formato HH:MM." })
 	.transform((time) => {
 		const [hours, minutes] = time.split(':').map(Number)
@@ -12,7 +12,7 @@ const timeStringSchema = z.string()
 	})
 	.refine((minutes) => minutes >= 0, { message: "Horário inválido." })
 
-const dailyScheduleSchema = z.object({
+export const dailyScheduleSchema = z.object({
 	dayOfWeek: z.number(),
 	entryTime: timeStringSchema,
 	exitTime: timeStringSchema,
