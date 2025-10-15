@@ -1,5 +1,4 @@
 'use client'
-
 import { PreferencesFormState, updatePreferencesAction } from '@/actions/preferences.action';
 import SubmitButton from '@/components/ui/SubmitButton';
 import { Button } from '@mui/material';

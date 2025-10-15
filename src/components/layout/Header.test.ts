@@ -1,5 +1,4 @@
 import { getCurrentUser } from "@/lib/session"
-import { logOutAction } from "@/actions/auth.action"
 import { render, screen } from "@testing-library/react"
 import Header from "./Header"
 

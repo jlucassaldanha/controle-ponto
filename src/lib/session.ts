@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { prisma } from "./prisma"
 import { auth } from "@/app/api/auth/[...nextauth]/route";
 
@@ -18,4 +19,14 @@ export async function getCurrentUser() {
 	}
 
 	return null
+}
+
+export async function requireUserSession() {	
+	const user = await getCurrentUser()
+
+	if (!user) {
+		return redirect("/login");
+	}
+
+	return user
 }

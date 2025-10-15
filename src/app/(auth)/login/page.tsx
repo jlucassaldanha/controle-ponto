@@ -7,6 +7,7 @@ import { useActionState } from "react";
 export default function LogIn() {
   const initialState: LogInFormState = { success: false };
   const [state, formAction] = useActionState(logInAction, initialState);
+  
   return (
     <section className="flex justify-center items-center w-full h-screen">
       <form action={formAction}>

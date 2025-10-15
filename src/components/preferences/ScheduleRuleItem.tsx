@@ -4,8 +4,6 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import { ScheduleRuleItemProps } from "@/core/preferences/preferences.types"
 import { daysOfWeek } from "../../core/preferences/preferences.constants"
 
-//<div className='flex flex-col gap-5 justify-center items-center'>
-
 export default function ScheduleRuleItem({ rule, handleDayChange, handleTimeChange, handleRemove }: ScheduleRuleItemProps) {
    return (
         <Card  variant="outlined" >
