@@ -1,21 +1,10 @@
-import { auth } from "@/app/api/auth/[...nextauth]/route";
 import Link from "next/link";
 import SubmitButton from "../ui/SubmitButton";
 import { logOutAction } from "@/actions/auth.action";
-import { prisma } from "@/lib/prisma";
-import { User } from "@prisma/client";
+import { getCurrentUser } from "@/lib/session";
 
 export default async function Header() {
-  const session = await auth();
-
-  let user: User | null = null;
-  if (session) {
-    user = await prisma.user.findUnique({
-      where: {
-        id: session?.user.id,
-      },
-    });
-  }
+  const user = await getCurrentUser()
 
   return (
     <header className="flex justify-between items-center p-4 border-b-[1px] border-[#ccc]">
@@ -23,7 +12,7 @@ export default async function Header() {
         <h1>Controle de Ponto</h1>
       </Link>
       <nav>
-        {session?.user ? (
+        {user ? (
           <div className="flex items-center gap-4">
             <Link href="/dashboard">
               <span>Olá, {user?.username}</span>

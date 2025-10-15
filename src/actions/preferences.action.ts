@@ -1,5 +1,4 @@
 'use server'
-
 import { auth } from "@/app/api/auth/[...nextauth]/route";
 import { updateUserPreferences } from "@/core/preferences/preferences.services";
 import { updateUserPreferencesSchema } from "@/core/preferences/preferences.validation";
@@ -25,22 +24,24 @@ const dayKeyToNumberMap: { [key: string]: number } = {
 
 export async function updatePreferencesAction(previousState: PreferencesFormState, formData: FormData) {
 	const session = await auth()
+
 	if (!session?.user?.id) {
 		return { success: false, message: "Acesso negado." }
 	}
 
 	const schedulesPayload = formData.get('schedulesPayload')
+
 	let parsedRules = []
 	if (typeof schedulesPayload === 'string') {
 		try {
 			parsedRules = JSON.parse(schedulesPayload)
-		} catch (e) {
-			console.log(e)
+		} catch (error) {
+			console.log(error)
 			return { success: false, message: "erro ao processar os dados do formulario."}
 		}
 	}
 
-	const dailySchedulesForValidation = [];
+	const dailySchedulesForValidation = []
 
 	for (const rule of parsedRules) {
 		for (const dayKey in rule.days) {

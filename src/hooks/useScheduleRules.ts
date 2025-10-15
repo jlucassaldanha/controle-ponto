@@ -1,4 +1,4 @@
-import { DayKey, SchedulesRulesType, TimeFieldKey } from "@/components/preferences/preferences.types";
+import { DayKey, SchedulesRulesType, TimeFieldKey } from "@/core/preferences/preferences.types";
 import { useState } from "react";
 
 export function useScheduleRules(initialSchedules: SchedulesRulesType[]) {
