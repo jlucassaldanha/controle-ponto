@@ -22,6 +22,7 @@ describe('getUserPreferences', () => {
 			}
 		]
 	}
+
 	it('should return userPreferences if it exists', async () => {
 		prismaMock.config.findUnique.mockResolvedValue(mockedUserPreferences)	
 		
@@ -186,5 +187,3 @@ describe('dailyScheduleSchema', () => {
 		}
 	})
 })
-
-describe('updateUserPreferencesSchema', () => {})

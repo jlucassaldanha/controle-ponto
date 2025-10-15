@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, type Mock } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { z } from 'zod'
 import { createUser, findUserByEmail } from "@/core/user/user.services";
 import { createUserSchema, logInSchema } from "@/core/user/user.validation";
@@ -42,19 +42,19 @@ beforeEach(() => {
 });
 
 describe('signUpAction', () => {
+  const inputData = {
+    username: "usuario teste",
+    email: 'teste@email.com',
+    password: 'senhateste'
+  }
+
+  const formData = new FormData()
+
+  formData.append("username", inputData.username)
+  formData.append("email", inputData.email)
+  formData.append("password", inputData.password)
+
   it('should success and return a object with success true and the new user', async () => {
-    const inputData = {
-      username: "usuario teste",
-      email: 'teste@email.com',
-      password: 'senhateste'
-    }
-
-    const formData = new FormData()
-
-    formData.append("username", inputData.username)
-    formData.append("email", inputData.email)
-    formData.append("password", inputData.password)
-
     vi.mocked(createUserSchema.safeParse).mockReturnValue({ success: true, data: inputData })
     vi.mocked(findUserByEmail).mockResolvedValue(null)
     vi.mocked(createUser).mockResolvedValue({ 
@@ -80,18 +80,6 @@ describe('signUpAction', () => {
   })
 
   it('should fail and return a object with success false and the errors if the fromData is invalid', async () => {
-    const inputData = {
-      username: "usuario teste",
-      email: 'teste@email.com',
-      password: 'senhateste'
-    }
-
-    const formData = new FormData()
-
-    formData.append("username", inputData.username)
-    formData.append("email", inputData.email)
-    formData.append("password", inputData.password)
-
     vi.mocked(createUserSchema.safeParse).mockReturnValue({ success: false, error: {} as any })
     vi.mocked(z.flattenError).mockReturnValue({ 
       formErrors: [], 
@@ -107,18 +95,6 @@ describe('signUpAction', () => {
   })
 
   it('should fail and return a object with success false and the errors if the email is used', async () => {
-    const inputData = {
-      username: "usuario teste",
-      email: 'teste@email.com',
-      password: 'senhateste'
-    }
-
-    const formData = new FormData()
-
-    formData.append("username", inputData.username)
-    formData.append("email", inputData.email)
-    formData.append("password", inputData.password)
-
     vi.mocked(createUserSchema.safeParse).mockReturnValue({ success: true, data: inputData })
     vi.mocked(findUserByEmail).mockResolvedValue({ 
       id: "id-la", 
@@ -165,12 +141,15 @@ describe('signUpAction', () => {
 })
 
 describe('logInAction', () => {
+  const inputData = { 
+    email: 'teste@exemplo.com', 
+    password: 'senha-correta' 
+  }
+  const formData = new FormData();
+  formData.append('email', inputData.email);
+  formData.append('password', inputData.password);
+  
   it('should call sighIn with correct data on successful validation', async () => {
-    const inputData = { email: 'teste@exemplo.com', password: 'senha-correta' }
-    const formData = new FormData();
-    formData.append('email', inputData.email);
-    formData.append('password', inputData.password);
-
     vi.mocked(logInSchema.safeParse).mockReturnValue({ success: true, data: inputData })
     vi.mocked(signIn).mockResolvedValue(undefined as any)
 
@@ -185,7 +164,10 @@ describe('logInAction', () => {
   })
 
   it('should fail on validation if form data in invalid', async () => {
-    const inputData = { email: 'testeexemplo.com', password: 'senha-correta' }
+    const inputData = { 
+      email: 'testeexemplo.com', 
+      password: 'senha-correta' 
+    }
     const formData = new FormData();
     formData.append('email', inputData.email);
     formData.append('password', inputData.password);
@@ -204,11 +186,6 @@ describe('logInAction', () => {
   })
 
   it('should fail if credentials are wrong', async () => {
-    const inputData = { email: 'teste@exemplo.com', password: 'senha-correta' }
-    const formData = new FormData();
-    formData.append('email', inputData.email);
-    formData.append('password', inputData.password);
-
     vi.mocked(logInSchema.safeParse).mockReturnValue({ success: true, data: inputData })
     const errorMock = new AuthError()
     errorMock.type = 'CredentialsSignin'

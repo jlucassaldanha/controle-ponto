@@ -12,9 +12,9 @@ beforeEach(() => {
 });
 
 describe('findUserByEmail', () => {
+  const email: string = "existente@exemplo.com"
+
   it("should return null if the user don't exists", async () => {
-    const email: string = "existente@exemplo.com"
-    
     prismaMock.user.findUnique.mockResolvedValue(null);
 
     const result = await findUserByEmail(email)
@@ -27,7 +27,6 @@ describe('findUserByEmail', () => {
 
   it("should return user if exists", async () => {
     
-    const email: string = "existente@exemplo.com"
     const existingUser = {
       id: "uuid-existente-123",
       email: email,
@@ -46,14 +45,16 @@ describe('findUserByEmail', () => {
   });
 })
 
+const userData: UserDataType = {
+  email: "email@exemplo.com",
+  username: "user name",
+  password: "senha-123",
+};
+
 describe("createUser", () => {
   it("should create and return a new user", async () => {
-    const userData: UserDataType = {
-      email: "novo@exemplo.com",
-      username: "Usuario Novo",
-      password: "senha-nova-123",
-    };
     const mockPasswordHash = "hash-novo-gerado";
+
     const createdUser = {
       id: "uuid-novo-456",
       email: userData.email,
@@ -79,20 +80,14 @@ describe("createUser", () => {
 });
 
 describe('validateCredentials', () => {
+  const existingUser = {
+    id: "uuid-existente-123",
+    email: userData.email,
+    username: userData.username,
+    passwordHash: "hash-existente",
+  };
+
   it('should return user if exist and have correct credentials', async () => {
-    const userData: UserDataType = {
-      email: "existente@exemplo.com",
-      username: "Usuario Existente",
-      password: "senha-qualquer",
-    };
-
-    const existingUser = {
-      id: "uuid-existente-123",
-      email: userData.email,
-      username: userData.username,
-      passwordHash: "hash-existente",
-    };
-
     prismaMock.user.findUnique.mockResolvedValue(existingUser);
     (bcrypt.compare as Mock).mockResolvedValue(true);
 
@@ -110,18 +105,6 @@ describe('validateCredentials', () => {
   })
 
   it('should return null if password is incorrect', async () => {
-    const userData = {
-      email: "existente@exemplo.com",
-      password: "senha-qualquer",
-    };
-
-    const existingUser = {
-      id: "uuid-existente-123",
-      email: userData.email,
-      username: "nome teste",
-      passwordHash: "hash-existente",
-    };
-
     prismaMock.user.findUnique.mockResolvedValue(existingUser);
     (bcrypt.compare as Mock).mockResolvedValue(false);
 
@@ -133,12 +116,8 @@ describe('validateCredentials', () => {
     });
     expect(bcrypt.compare).toHaveBeenCalledWith(userData.password, existingUser.passwordHash);
   })
-  it('should return null if email not exist', async () => {
-    const userData = {
-      email: "teste@exemplo.com",
-      password: "senha-qualquer",
-    };
 
+  it('should return null if email not exist', async () => {
     prismaMock.user.findUnique.mockResolvedValue(null);
 
     const result = await validateCredentials(userData.email, userData.password)
@@ -153,14 +132,7 @@ describe('validateCredentials', () => {
 
 describe('createUserSchema', () => {
   it('should pass validation when data is valid', () => {
-    const validData = {
-      username: 'usuario valido',
-      email: 'email@valido.com',
-      password: 'supersenha',
-    }
-
-    const result = createUserSchema.safeParse(validData)
-
+    const result = createUserSchema.safeParse(userData)
     expect(result.success).toBe(true)
   })
 
@@ -216,26 +188,25 @@ describe('createUserSchema', () => {
   })
 })
 
-
 describe('logInSchema', () => {
   it('should pass validation when data is valid', () => {
-    const validData = {
+    const validLogin = {
       email: 'email@valido.com',
       password: 'supersenha',
     }
 
-    const result = logInSchema.safeParse(validData)
+    const result = logInSchema.safeParse(validLogin)
 
     expect(result.success).toBe(true)
   })
 
   it('should fail validation when email is not valid', () => {
-    const validData = {
+    const invalidLogin = {
       email: 'emailinvalido.com',
       password: 'supersenha',
     }
 
-    const result = logInSchema.safeParse(validData)
+    const result = logInSchema.safeParse(invalidLogin)
 
     expect(result.success).toBe(false)
     if (!result.success) {
@@ -245,12 +216,12 @@ describe('logInSchema', () => {
   })
 
   it('should fail validation when password is not valid', () => {
-    const validData = {
+    const invalidLogin = {
       email: 'email@valido.com',
       password: 'superse',
     }
 
-    const result = logInSchema.safeParse(validData)
+    const result = logInSchema.safeParse(invalidLogin)
 
     expect(result.success).toBe(false)
     if (!result.success) {
