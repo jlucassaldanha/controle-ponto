@@ -73,67 +73,89 @@ export default function AddPunch() {
 		}))
 	}
 
-	const usedPunchType = punchFields.map((field) => {
-		return field.type
-	})
-
 	return (
 		<div className="flex flex-col items-center justify-center w-full gap-2">
 			<div className="flex flex-col gap-5">
-				{punchFields.map((field, i) => (
-					<div key={field.id} className="flex flex-col gap-5" >
-						<div className="flex gap-5">
-							<FormControl fullWidth>
-								<InputLabel id="type" >Tipo</InputLabel>
-								<Select
-									labelId="type"
-									id="type"
-									label="Tipo"
-									value={field.type}
-									onChange={(e) => handleSelectChange(e, field.id)}
-								>
-									<MenuItem value={"entryTime"} >Entrada</MenuItem>
-									<MenuItem value={"exitTime"} >Saída</MenuItem>
-									<MenuItem value={"lunchStartTime"} >Entrada almoço</MenuItem>
-									<MenuItem value={"lunchEndTime"} >Saída almoço</MenuItem>
-								</Select>
-							</FormControl>
-							<IconButton aria-label="delete" onClick={() => handleRemove(field.id)}>
-								<DeleteIcon />
-							</IconButton>
-						</div>
-						<div className="flex gap-5">
+				{punchFields.map((field, i) => {
+					const usedPunchType = punchFields.map((field) => {
+						return field.type
+					})
+
+					return (
+						<div key={field.id} className="flex flex-col gap-5" >
+							<div className="flex gap-5">
+								<FormControl fullWidth>
+									<InputLabel id="type" >Tipo</InputLabel>
+									<Select
+										labelId="type"
+										id="type"
+										label="Tipo"
+										value={field.type}
+										onChange={(e) => handleSelectChange(e, field.id)}
+									>
+										<MenuItem 
+											value={"entryTime"} 
+											disabled={usedPunchType.includes('entryTime')}
+										>
+											Entrada
+										</MenuItem>
+										<MenuItem 
+											value={"exitTime"} 
+											disabled={usedPunchType.includes('exitTime')}
+										>
+											Saída
+										</MenuItem>
+										<MenuItem 
+											value={"lunchStartTime"} 
+											disabled={usedPunchType.includes('lunchStartTime')}
+										>
+											Entrada almoço
+										</MenuItem>
+										<MenuItem 
+											value={"lunchEndTime"} 
+											disabled={usedPunchType.includes('lunchEndTime')}
+										>
+											Saída almoço
+										</MenuItem>
+									</Select>
+								</FormControl>
+								<IconButton aria-label="delete" onClick={() => handleRemove(field.id)}>
+									<DeleteIcon />
+								</IconButton>
+							</div>
+							<div className="flex gap-5">
+								<TextField
+									variant="outlined"
+									label="Data"
+									name="punchDate"
+									id="punchDate"
+									type="date"
+									onChange={(e) => handleDateChange(field.id, e.target.value)}
+									value={field.date}
+									disabled={checkToday}
+								/>
+								<FormControlLabel 
+									control={ 
+										<Checkbox 
+											checked={checkToday} 
+											onChange={(event) => handleTodayCheckChange(event, field.id)}
+										/> 
+									}
+									label="Hoje"
+								/>
+							</div>
 							<TextField
 								variant="outlined"
-								label="Data"
-								name="punchDate"
-								id="punchDate"
-								type="date"
-								onChange={(e) => handleDateChange(field.id, e.target.value)}
-								value={field.date}
-								disabled={checkToday}
-							/>
-							<FormControlLabel 
-								control={ 
-									<Checkbox 
-										checked={checkToday} 
-										onChange={(event) => handleTodayCheckChange(event, field.id)}
-									/> 
-								}
-								label="Hoje"
+								label="Hora"
+								name="punchTime"
+								id="punchTime"
+								type="time"
+								onChange={(e) => handleTimeChange(field.id, e.target.value)}
+								value={field.time}
 							/>
 						</div>
-						<TextField
-							variant="outlined"
-							label="Hora"
-							name="punchTime"
-							id="punchTime"
-							type="time"
-							onChange={(e) => handleTimeChange(field.id, e.target.value)}
-							value={field.time}
-						/>
-					</div>
-				))}
+					)
+				})}
 				<Button variant='contained' onClick={handleAdd} startIcon={<AddBoxIcon />} disabled={punchFields.length >= 4}>
 					Adicionar
 				</Button>
