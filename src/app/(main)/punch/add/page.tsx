@@ -17,13 +17,15 @@ export default function AddPunch() {
 	const [punchFields, setPunchFields] = useState<PunchFieldType[]>([])
 
 	const handleAdd = () => {
-		const blankPunchField = {
-			id: Date.now().toString(),
-			date: '',
-			time: '',
-			type: ''
+		if (punchFields.length < 4) {
+			const blankPunchField = {
+				id: Date.now().toString(),
+				date: '',
+				time: '',
+				type: ''
+			}
+			setPunchFields(prev => [...prev, blankPunchField])
 		}
-		setPunchFields(prev => [...prev, blankPunchField])
 	}
 
 	const handleRemove = (id: string) => {
@@ -70,6 +72,10 @@ export default function AddPunch() {
 			return field
 		}))
 	}
+
+	const usedPunchType = punchFields.map((field) => {
+		return field.type
+	})
 
 	return (
 		<div className="flex flex-col items-center justify-center w-full gap-2">
@@ -128,7 +134,7 @@ export default function AddPunch() {
 						/>
 					</div>
 				))}
-				<Button variant='contained' onClick={handleAdd} startIcon={<AddBoxIcon />} >
+				<Button variant='contained' onClick={handleAdd} startIcon={<AddBoxIcon />} disabled={punchFields.length >= 4}>
 					Adicionar
 				</Button>
 				<SubmitButton 
