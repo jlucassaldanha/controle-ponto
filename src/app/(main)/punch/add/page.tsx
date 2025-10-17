@@ -1,8 +1,9 @@
 'use client'
 import SubmitButton from "@/components/ui/SubmitButton";
-import { Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
+import { Button, Checkbox, FormControl, FormControlLabel, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
 import { useState } from "react";
 import AddBoxIcon from '@mui/icons-material/AddBox';
+import DeleteIcon from '@mui/icons-material/Delete'
 
 type PunchFieldType = {
 	id: string,
@@ -26,7 +27,7 @@ export default function AddPunch() {
 	}
 
 	const handleRemove = (id: string) => {
-		setPunchFields(prev => prev.filter(field => field.id === id))
+		setPunchFields(prev => prev.filter(field => field.id !== id))
 	}
 
 	const handleSelectChange = (event: SelectChangeEvent, fieldId: string) => {
@@ -42,6 +43,7 @@ export default function AddPunch() {
 		setCheckToday(event.target.checked)
 
 		if (event.target.checked) {
+			// Repetido, transformar em uma função
 			setPunchFields(currentFields => currentFields.map((field) => {
 				if (field.id === fieldId) {
 					return { ...field, date: Date.now().toString() }
@@ -51,26 +53,49 @@ export default function AddPunch() {
 		}
 	}
 
+	const handleDateChange = (fieldId: string, date: string) => {
+		setPunchFields(currentFields => currentFields.map((field) => {
+			if (field.id === fieldId) {
+				return { ...field, date }
+			}
+			return field
+		}))
+	}
+
+	const handleTimeChange = (fieldId: string, time: string) => {
+		setPunchFields(currentFields => currentFields.map((field) => {
+			if (field.id === fieldId) {
+				return { ...field, time }
+			}
+			return field
+		}))
+	}
+
 	return (
 		<div className="flex flex-col items-center justify-center w-full gap-2">
 			<div className="flex flex-col gap-5">
 				{punchFields.map((field, i) => (
 					<div key={field.id} className="flex flex-col gap-5" >
-						<FormControl>
-							<InputLabel id="type" >Tipo</InputLabel>
-							<Select
-								labelId="type"
-								id="type"
-								label="Tipo"
-								value={field.type}
-								onChange={(e) => handleSelectChange(e, field.id)}
-							>
-								<MenuItem value={"entryTime"} >Entrada</MenuItem>
-								<MenuItem value={"exitTime"} >Saída</MenuItem>
-								<MenuItem value={"lunchStartTime"} >Entrada almoço</MenuItem>
-								<MenuItem value={"lunchEndTime"} >Saída almoço</MenuItem>
-							</Select>
-						</FormControl>
+						<div className="flex gap-5">
+							<FormControl fullWidth>
+								<InputLabel id="type" >Tipo</InputLabel>
+								<Select
+									labelId="type"
+									id="type"
+									label="Tipo"
+									value={field.type}
+									onChange={(e) => handleSelectChange(e, field.id)}
+								>
+									<MenuItem value={"entryTime"} >Entrada</MenuItem>
+									<MenuItem value={"exitTime"} >Saída</MenuItem>
+									<MenuItem value={"lunchStartTime"} >Entrada almoço</MenuItem>
+									<MenuItem value={"lunchEndTime"} >Saída almoço</MenuItem>
+								</Select>
+							</FormControl>
+							<IconButton aria-label="delete" onClick={() => handleRemove(field.id)}>
+								<DeleteIcon />
+							</IconButton>
+						</div>
 						<div className="flex gap-5">
 							<TextField
 								variant="outlined"
@@ -78,6 +103,7 @@ export default function AddPunch() {
 								name="punchDate"
 								id="punchDate"
 								type="date"
+								onChange={(e) => handleDateChange(field.id, e.target.value)}
 								value={field.date}
 								disabled={checkToday}
 							/>
@@ -97,6 +123,7 @@ export default function AddPunch() {
 							name="punchTime"
 							id="punchTime"
 							type="time"
+							onChange={(e) => handleTimeChange(field.id, e.target.value)}
 							value={field.time}
 						/>
 					</div>
