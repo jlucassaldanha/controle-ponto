@@ -41,28 +41,25 @@ export default function AddPunch() {
 		}))
 	}
 
+	const updateDateFromState = (fieldId: string, date: string) => {
+		setPunchFields(currentFields => currentFields.map((field) => {
+			if (field.id === fieldId) {
+				return { ...field, date: date }
+			}
+			return field
+		}))	
+	}
+
 	const handleTodayCheckChange = (event: React.ChangeEvent<HTMLInputElement>, fieldId: string) => {
 		setCheckToday(event.target.checked)
 
 		if (event.target.checked) {
-			// Repetido, transformar em uma função
-			setPunchFields(currentFields => currentFields.map((field) => {
-				if (field.id === fieldId) {
-					return { ...field, date: Date.now().toString() }
-				}
-				return field
-			}))	
+			updateDateFromState(fieldId, Date.now().toString())
 		}
 	}
 
-	const handleDateChange = (fieldId: string, date: string) => {
-		setPunchFields(currentFields => currentFields.map((field) => {
-			if (field.id === fieldId) {
-				return { ...field, date }
-			}
-			return field
-		}))
-	}
+	const handleDateChange = updateDateFromState
+	
 
 	const handleTimeChange = (fieldId: string, time: string) => {
 		setPunchFields(currentFields => currentFields.map((field) => {
