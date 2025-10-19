@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { PunchType } from "@prisma/client"
 
 export const timeStringSchema = z.string()
 	.regex(/^\d{2}:\d{2}$/, { message: "Horario deve estar no formato HH:MM." })
@@ -18,20 +19,26 @@ export const dateStringSchema = z.string()
 		const [day, month, year] = date.split('/').map(Number)
 		const jsDate = new Date(Date.UTC(year, month - 1, day))
 
-		if (isNaN(jsDate.getTime())) {
-			return NaN
-		}
-
-		const msTimeStamp = jsDate.getTime()
-
-		return (msTimeStamp / 1000) / 60
+		return jsDate
 	})
-	.refine(minutes => !isNaN(minutes), { message: "Data inválida." })
 
 export const punchSchema = z.object({
 	date: dateStringSchema,
 	time: timeStringSchema,
-	type: z.string(),
+	type: z.enum([
+		PunchType.CLOCK_IN,
+		PunchType.START_LUNCH,
+		PunchType.END_LUNCH,
+		PunchType.CLOCK_OUT,
+	]),
+})
+.transform((punch) => {
+	const date = new Date(punch.date.getTime() + (punch.time * 60000))
+
+	return {
+		timestamp: date,
+		type: punch.type
+	}
 })
 
 
