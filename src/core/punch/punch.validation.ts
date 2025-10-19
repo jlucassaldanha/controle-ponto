@@ -23,7 +23,6 @@ export const dateStringSchema = z.string()
 	})
 
 export const punchSchema = z.object({
-	date: dateStringSchema,
 	time: timeStringSchema,
 	type: z.enum([
 		PunchType.CLOCK_IN,
@@ -32,16 +31,64 @@ export const punchSchema = z.object({
 		PunchType.CLOCK_OUT,
 	]),
 })
-.transform((punch) => {
-	const date = new Date(punch.date.getTime() + (punch.time * 60000))
-
-	return {
-		timestamp: date,
-		type: punch.type
-	}
-})
-
 
 export const addPunchesSchema = z.object({
+	date: dateStringSchema,
 	punches: z.array(punchSchema),
 })
+	.transform((addPunchesSchema) => {
+		const newPunches = addPunchesSchema.punches.map((punch) => {
+			return {
+				type: punch.type, 
+				timestamp: new Date(addPunchesSchema.date.getTime() + (punch.time * 60000))
+			}
+		})
+
+		return {
+			date: addPunchesSchema.date,
+			punches: newPunches
+		}
+	})
+	.refine((addPunchesSchema) => {
+		const types = addPunchesSchema.punches.map((punche) => punche.type)
+		const uniqueTypes = new Set(types)
+
+		return uniqueTypes.size === types.length
+	}, { message: "Não deve haver pontos repetidos para o mesmo dia."})
+	.refine((addPunchesSchema) => {
+		if (addPunchesSchema.punches.length === 0) {
+			return true
+		}
+
+		const sortedPunches = [ ...addPunchesSchema.punches ].sort((a, b) => {
+			return a.timestamp.getTime() - b.timestamp.getTime()
+		})
+
+		if (sortedPunches[0].type !== PunchType.CLOCK_IN) {
+			return false
+		}
+
+		
+		for (let i = 1; i < sortedPunches.length; i++) {
+			const prevType = sortedPunches[i - 1].type
+			const currentType = sortedPunches[i].type
+
+			if (prevType === PunchType.CLOCK_IN && currentType !== PunchType.START_LUNCH && currentType !== PunchType.CLOCK_OUT) {
+				return false
+			}
+
+			if (prevType === PunchType.START_LUNCH && currentType !== PunchType.END_LUNCH) {
+				return false
+			}
+
+			if (prevType === PunchType.END_LUNCH && currentType !== PunchType.CLOCK_OUT) {
+				return false
+			}
+
+			if (prevType === PunchType.CLOCK_OUT) {
+				return false
+			}
+		}
+
+		return true
+	}, { message: "A sequência de pontos é inválida."})

@@ -23,3 +23,6 @@ Autenticação
 npm install next-auth@beta
 
 Problema resolvido trocando o id na page de preferencias
+
+MUDANÇA PARA ADIÇÂO DE PONTOS:
+os pontos serão apenas par um dia de cada vez, então a tera apenas uma entrada de data, a validação de form tera punches e date e a função de busca pode confiar que tem só uma data

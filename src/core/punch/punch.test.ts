@@ -1,11 +1,11 @@
 import { getADayInterval } from "@/lib/dateUtils"
 import prismaMock from "../../../test/setup"
 import { PunchType } from "@prisma/client"
-import { searchForPunches } from "./punch.services"
+import { getADayPunches } from "./punch.services"
 
 vi.mock("@/lib/dateUtils")
 
-describe('searchForPunches', () => {
+describe('getADayPunches', () => {
     it('should return a list of punches for that day', async () => {
         const userId = "user-uuid"
 
@@ -18,28 +18,24 @@ describe('searchForPunches', () => {
             {
                 id: 'punch_uuid_001',
                 userId: 'clx_user_12345',
-                // Entrada da jornada às 09:00
                 timestamp: new Date('2025-10-19T09:00:00.000Z'),
                 type: PunchType.CLOCK_IN, 
             },
             {
                 id: 'punch_uuid_002',
                 userId: 'clx_user_12345',
-                // Saída para o almoço às 12:00
                 timestamp: new Date('2025-10-19T12:00:00.000Z'),
                 type: PunchType.START_LUNCH,
             },
             {
                 id: 'punch_uuid_003',
                 userId: 'clx_user_12345',
-                // Volta do almoço às 13:00
                 timestamp: new Date('2025-10-19T13:00:00.000Z'),
                 type: PunchType.END_LUNCH,
             },
             {
                 id: 'punch_uuid_004',
                 userId: 'clx_user_12345',
-                // Fim da jornada às 18:00
                 timestamp: new Date('2025-10-19T18:00:00.000Z'),
                 type: PunchType.CLOCK_OUT,
             },
@@ -51,7 +47,7 @@ describe('searchForPunches', () => {
 
         prismaMock.punch.findMany.mockResolvedValue(mockedPunches)
 
-        const res = await searchForPunches(userId, searcDate)
+        const res = await getADayPunches(userId, searcDate)
 
         expect(res).toStrictEqual(mockedPunches)
         expect(getADayInterval).toBeCalledWith(searcDate)
