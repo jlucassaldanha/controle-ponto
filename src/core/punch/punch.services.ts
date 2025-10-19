@@ -5,7 +5,7 @@ import { getADayInterval } from "@/lib/dateUtils";
 
 type AddPunchDataType = z.infer<typeof addPunchesSchema>;
 
-export async function addPunch(userId: string, punchData: AddPunchDataType) {
+export async function addPunches(userId: string, punchData: AddPunchDataType) {
 	const dbPunches = await getADayPunches(userId, punchData.date)
 
 	const dbPunchesWithoutIds = dbPunches.map((punch) => ({
