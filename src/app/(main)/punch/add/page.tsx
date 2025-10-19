@@ -7,20 +7,19 @@ import DeleteIcon from '@mui/icons-material/Delete'
 
 type PunchFieldType = {
 	id: string,
-	date: string,
 	time: string,
 	type: string,
 }
 
 export default function AddPunch() {
 	const [checkToday, setCheckToday] = useState(false)
+	const [date, setDate] = useState('')
 	const [punchFields, setPunchFields] = useState<PunchFieldType[]>([])
 
 	const handleAdd = () => {
 		if (punchFields.length < 4) {
 			const blankPunchField = {
 				id: Date.now().toString(),
-				date: '',
 				time: '',
 				type: ''
 			}
@@ -41,26 +40,6 @@ export default function AddPunch() {
 		}))
 	}
 
-	const updateDateFromState = (fieldId: string, date: string) => {
-		setPunchFields(currentFields => currentFields.map((field) => {
-			if (field.id === fieldId) {
-				return { ...field, date: date }
-			}
-			return field
-		}))	
-	}
-
-	const handleTodayCheckChange = (event: React.ChangeEvent<HTMLInputElement>, fieldId: string) => {
-		setCheckToday(event.target.checked)
-
-		if (event.target.checked) {
-			updateDateFromState(fieldId, Date.now().toString())
-		}
-	}
-
-	const handleDateChange = updateDateFromState
-	
-
 	const handleTimeChange = (fieldId: string, time: string) => {
 		setPunchFields(currentFields => currentFields.map((field) => {
 			if (field.id === fieldId) {
@@ -73,6 +52,27 @@ export default function AddPunch() {
 	return (
 		<div className="flex flex-col items-center justify-center w-full gap-2">
 			<div className="flex flex-col gap-5">
+				<div className="flex gap-5">
+					<TextField
+						variant="outlined"
+						label="Data"
+						name="punchDate"
+						id="punchDate"
+						type="date"
+						onChange={(e) => setDate(e.target.value)}
+						value={date}
+						disabled={checkToday}
+					/>
+					<FormControlLabel 
+						control={ 
+							<Checkbox 
+								checked={checkToday} 
+								onChange={(e) => setCheckToday(e.target.checked)}
+							/> 
+						}
+						label="Hoje"
+					/>
+				</div>
 				{punchFields.map((field, i) => {
 					const usedPunchType = punchFields.map((field) => {
 						return field.type
@@ -119,27 +119,6 @@ export default function AddPunch() {
 								<IconButton aria-label="delete" onClick={() => handleRemove(field.id)}>
 									<DeleteIcon />
 								</IconButton>
-							</div>
-							<div className="flex gap-5">
-								<TextField
-									variant="outlined"
-									label="Data"
-									name="punchDate"
-									id="punchDate"
-									type="date"
-									onChange={(e) => handleDateChange(field.id, e.target.value)}
-									value={field.date}
-									disabled={checkToday}
-								/>
-								<FormControlLabel 
-									control={ 
-										<Checkbox 
-											checked={checkToday} 
-											onChange={(event) => handleTodayCheckChange(event, field.id)}
-										/> 
-									}
-									label="Hoje"
-								/>
 							</div>
 							<TextField
 								variant="outlined"
