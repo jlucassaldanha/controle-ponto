@@ -1,0 +1,44 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+        "name": "Debug com ts-node",
+        "type": "node",
+        "request": "launch",
+        "runtimeArgs": ["-r", "ts-node/register"],
+        "args": ["${relativeFile}"]
+    },
+    {
+      "name": "Debug Arquivo Atual",
+      "type": "node",
+      "request": "launch",
+      "program": "${file}", // Isso diz para rodar o arquivo que está aberto
+      "preLaunchTask": "tsc: build - tsconfig.json",
+      "outFiles": ["${workspaceFolder}/**/*.js"]
+    },
+    {
+      "name": "Next.js: Debug Server-Side",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run dev"
+    },
+    {
+      "name": "Next.js: Debug Client-Side",
+      "type": "chrome", // ou "msedge"
+      "request": "launch",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
+      "name": "Next.js: Full Stack",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run dev",
+      "serverReadyAction": {
+        "pattern": "started server on .+, url: (https?://.+)",
+        "uriFormat": "%s",
+        "action": "debugWithChrome"
+      }
+    }
+  ]
+}
