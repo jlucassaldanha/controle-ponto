@@ -1,7 +1,7 @@
 import { getADayInterval } from "./dateUtils"
 
 describe('getADayInterval', () => {
-    it.only('Should return a interval from day 00:00:00 to next day 00:00:00', () => {
+    it('Should return a interval from day 00:00:00 to next day 00:00:00', () => {
         const date = new Date(Date.UTC(2025, 9, 19))
 
         const res = getADayInterval(date)
