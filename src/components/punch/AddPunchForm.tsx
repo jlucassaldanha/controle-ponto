@@ -7,6 +7,7 @@ import { addPunchesAction, type addPunchesActionForm } from "@/actions/punch.act
 import DateInput from "@/components/punch/DateInput";
 import PunchTypeTimeForm from "@/components/punch/PunchTypeTimeForm";
 import AddPunchHiddenInputs from "@/components/punch/AddPunchHiddenInputs";
+import { useAddPunch } from "@/hooks/useAddPunch";
 
 export type PunchFieldType = {
 	id: string,
@@ -18,42 +19,17 @@ export default function AddPunchForm() {
 	const initialState: addPunchesActionForm = { success: false }
 	const [state, formAction] = useActionState(addPunchesAction, initialState);
 
-	const [checkToday, setCheckToday] = useState(false)
-	const [date, setDate] = useState('')
-	const [punchFields, setPunchFields] = useState<PunchFieldType[]>([])
-
-	const handleAdd = () => {
-		if (punchFields.length < 4) {
-			const blankPunchField = {
-				id: Date.now().toString(),
-				time: '',
-				type: ''
-			}
-			setPunchFields(prev => [...prev, blankPunchField])
-		}
-	}
-
-	const handleRemove = (id: string) => {
-		setPunchFields(prev => prev.filter(field => field.id !== id))
-	}
-
-	const handleSelectChange = (event: SelectChangeEvent, fieldId: string) => {
-		setPunchFields(currentFields => currentFields.map((field) => {
-			if (field.id === fieldId) {
-				return { ...field, type: event.target.value }
-			}
-			return field
-		}))
-	}
-
-	const handleTimeChange = (fieldId: string, time: string) => {
-		setPunchFields(currentFields => currentFields.map((field) => {
-			if (field.id === fieldId) {
-				return { ...field, time }
-			}
-			return field
-		}))
-	}
+	const {
+		checkToday,
+		date,
+		punchFields,
+		setCheckToday,
+		setDate,
+		handleAdd,
+		handleRemove,
+		handleSelectChange,
+		handleTimeChange,
+	} = useAddPunch()
 	
 	return (
 		<form action={formAction} className="flex flex-col gap-5 mt-4">
