@@ -5,9 +5,9 @@ import { getCurrentUser } from "@/lib/session"
 import { revalidatePath } from "next/cache"
 import z from "zod"
 
-type addPunchesActionForm = {
+export type addPunchesActionForm = {
 	success: boolean;
-    errors: {
+    errors?: {
         date?: string[] | undefined;
         punches?: string[] | undefined;
     };
@@ -29,7 +29,7 @@ export async function addPunchesAction(previousState: addPunchesActionForm, form
 			parsedPunches = JSON.parse(punchesPayload)
 		} catch (error) {
 			console.log(error)
-			return { succes: false, message: "erro ao processar os dados do formulario."}
+			return { success: false, message: "erro ao processar os dados do formulario."}
 		}
 	}
 
