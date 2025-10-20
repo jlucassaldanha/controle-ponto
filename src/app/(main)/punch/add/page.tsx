@@ -7,9 +7,6 @@ export default async function AddPunch() {
 
 	return (
 		<div className="flex flex-col items-center justify-center w-full gap-2" >
-			<Link className="text-blue-500 p-4 hover:bg-blue-50 rounded-md" href="/dashboard">
-				Dashboard
-			</Link>
 			<AddPunchForm />
 		</div>
 	)
