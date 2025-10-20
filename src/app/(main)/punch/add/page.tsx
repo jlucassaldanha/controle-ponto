@@ -67,6 +67,8 @@ export default function AddPunch() {
 							onChange={(e) => setDate(e.target.value)}
 							value={date}
 							disabled={checkToday}
+							error={!!state.errors?.date}
+    						helperText={state.errors?.date?.[0]}
 						/>
 						<FormControlLabel 
 							control={ 
@@ -86,6 +88,7 @@ export default function AddPunch() {
 						const usedPunchType = punchFields.map((field) => {
 							return field.type
 						})
+						const fieldErrors = state.errors?.punches?.[i];
 						return (
 							<div key={field.id} className="flex flex-col gap-5" >
 								<div className="flex gap-5">
