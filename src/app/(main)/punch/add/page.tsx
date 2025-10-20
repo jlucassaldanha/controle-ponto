@@ -56,7 +56,7 @@ export default function AddPunch() {
 	return (
 		<div className="flex flex-col items-center justify-center w-full gap-2">
 			<div className="flex flex-col gap-5">
-				<form action={formAction} className="mt-4">
+				<form action={formAction} className="flex flex-col gap-5 mt-4">
 					<div className="flex gap-5">
 						<TextField
 							variant="outlined"
@@ -77,7 +77,7 @@ export default function AddPunch() {
 									onChange={(e) => {
 										setCheckToday(e.target.checked)
 										const dateNow = new Date()
-										setDate(`${dateNow.getUTCDate()}/${(dateNow.getUTCMonth() + 1).toString().padStart(2, '0')}/${dateNow.getUTCFullYear()}`)
+										setDate(`${dateNow.getUTCFullYear()}-${(dateNow.getUTCMonth() + 1).toString().padStart(2, '0')}-${dateNow.getUTCDate().toString().padStart(2, '0')}`)
 									}}
 								/> 
 							}
@@ -151,7 +151,7 @@ export default function AddPunch() {
 					<input 
 						type="hidden" 
 						name="date" 
-						value={JSON.stringify(date)} 
+						value={date} 
 					/>
 					<Button variant='contained' onClick={handleAdd} startIcon={<AddBoxIcon />} disabled={punchFields.length >= 4}>
 						Adicionar

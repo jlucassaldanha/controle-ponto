@@ -14,9 +14,9 @@ export const timeStringSchema = z.string()
 	.refine((minutes) => minutes >= 0, { message: "Horário inválido." })
 
 export const dateStringSchema = z.string()
-	.regex(/^\d{2}\/\d{2}\/\d{4}$/, { message: "Data deve estar no formato dd/mm/aaaa." })
+	.regex(/^\d{4}-\d{2}-\d{2}$/, { message: "Data deve estar no formato aaaa-mm-dd." })
 	.transform((date) => {
-		const [day, month, year] = date.split('/').map(Number)
+		const [year, month, day] = date.split('-').map(Number)
 		const jsDate = new Date(Date.UTC(year, month - 1, day))
 
 		return jsDate
