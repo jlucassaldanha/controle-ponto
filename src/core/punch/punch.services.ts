@@ -19,7 +19,7 @@ export async function addPunches(userId: string, punchData: AddPunchDataType) {
 	const uniqueTypes = new Set(allTypes)
 
 	if (allPunches.length !== uniqueTypes.size) {
-		throw new Error('Tipos de pontos duplicados.')
+		throw new Error('Err1: Duplicated punch types.')
 	}
 
 	try {
@@ -32,7 +32,7 @@ export async function addPunches(userId: string, punchData: AddPunchDataType) {
 		})
 	} catch (error) {
     	console.error(error);
-    	throw new Error("Could not save punch.");
+    	throw new Error("Err2: Could not save punch.", );
   	}
 
 }

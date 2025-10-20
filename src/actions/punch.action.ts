@@ -50,6 +50,14 @@ export async function addPunchesAction(previousState: addPunchesActionForm, form
 
 	} catch (error) {
 		console.log(error)
+		if (error instanceof Error) {
+			if (error.message.includes("Err1")) {
+				return { success: false, message: "O tipo de ponto já está registrado para esse dia."}
+			}
+			if (error.message.includes("Err2")) {
+				return { success: false, message: "Não foi possivel salvar as alterações."}
+			}
+		}
 		return { success: false, message: "Falha ao registrar pontos."}
 	}
 }
