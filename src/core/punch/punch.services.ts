@@ -53,3 +53,14 @@ export async function getADayPunches(userId: string, date: Date) {
 		},
 	})
 }
+
+export async function getPunches(userId: string) {
+	return await prisma.punch.findMany({
+		where: {
+			userId: userId
+		},
+		orderBy: {
+			timestamp: 'asc',
+		},
+	})
+}
