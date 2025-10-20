@@ -14,9 +14,9 @@ export const timeStringSchema = z.string()
 	.refine((minutes) => minutes >= 0, { message: "Horário inválido." })
 
 export const dateStringSchema = z.string()
-	.regex(/^\d{2}\/\d{2}\/\d{4}$/, { message: "Data deve estar no formato dd/mm/aaaa." })
+	.regex(/^\d{4}-\d{2}-\d{2}$/, { message: "Data deve estar no formato aaaa-mm-dd." })
 	.transform((date) => {
-		const [day, month, year] = date.split('/').map(Number)
+		const [year, month, day] = date.split('-').map(Number)
 		const jsDate = new Date(Date.UTC(year, month - 1, day))
 
 		return jsDate
@@ -54,7 +54,7 @@ export const addPunchesSchema = z.object({
 		const uniqueTypes = new Set(types)
 
 		return uniqueTypes.size === types.length
-	}, { message: "Não deve haver pontos repetidos para o mesmo dia."})
+	}, { message: "Não deve haver pontos repetidos para o mesmo dia." })
 	.refine((addPunchesSchema) => {
 		if (addPunchesSchema.punches.length === 0) {
 			return true
@@ -91,4 +91,4 @@ export const addPunchesSchema = z.object({
 		}
 
 		return true
-	}, { message: "A sequência de pontos é inválida."})
+	}, { message: "A sequência de pontos é inválida." })
