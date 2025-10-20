@@ -15,11 +15,12 @@ export type PunchFieldType = {
 }
 
 export default function AddPunchForm() {
+	const initialState: addPunchesActionForm = { success: false }
+	const [state, formAction] = useActionState(addPunchesAction, initialState);
+
 	const [checkToday, setCheckToday] = useState(false)
 	const [date, setDate] = useState('')
 	const [punchFields, setPunchFields] = useState<PunchFieldType[]>([])
-	const initialState: addPunchesActionForm = { success: false }
-	const [state, formAction] = useActionState(addPunchesAction, initialState);
 
 	const handleAdd = () => {
 		if (punchFields.length < 4) {
