@@ -61,6 +61,7 @@ export default function PunchTypeTimeForm({ field, usedPunchType, fieldErrors, h
 				name="punchTime"
 				id="punchTime"
 				type="time"
+				slotProps={{ inputLabel: { shrink: true } }}
 				onChange={(e) => handleTimeChange(field.id, e.target.value)}
 				value={field.time}
 			/>

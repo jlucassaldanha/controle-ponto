@@ -19,6 +19,7 @@ export default function DateInput({ date, checkToday, state, setDate, setCheckTo
 				name="punchDate"
 				id="punchDate"
 				type="date"
+				slotProps={{ inputLabel: { shrink: true } }}
 				onChange={(e) => setDate(e.target.value)}
 				value={date}
 				disabled={checkToday}
