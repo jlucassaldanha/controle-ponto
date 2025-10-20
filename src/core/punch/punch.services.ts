@@ -32,7 +32,7 @@ export async function addPunches(userId: string, punchData: AddPunchDataType) {
 		})
 	} catch (error) {
     	console.error(error);
-    	throw new Error("Err2: Could not save punch.", );
+    	throw new Error("Err2: Could not save punch.");
   	}
 
 }
