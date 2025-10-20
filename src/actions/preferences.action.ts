@@ -62,7 +62,6 @@ export async function updatePreferencesAction(previousState: PreferencesFormStat
 	const validateFormData = updateUserPreferencesSchema.safeParse(dataToValidate)
 	
 	if (!validateFormData.success) {
-		console.log(z.flattenError(validateFormData.error).fieldErrors)
 		return { success: false, errors: z.flattenError(validateFormData.error).fieldErrors }
 	}
 
