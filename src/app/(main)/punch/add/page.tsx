@@ -88,7 +88,7 @@ export default function AddPunch() {
 						const usedPunchType = punchFields.map((field) => {
 							return field.type
 						})
-						const fieldErrors = state.errors?.punches?.[i];
+						const fieldErrors = state.errors?.punches
 						return (
 							<div key={field.id} className="flex flex-col gap-5" >
 								<div className="flex gap-5">
@@ -140,6 +140,7 @@ export default function AddPunch() {
 									onChange={(e) => handleTimeChange(field.id, e.target.value)}
 									value={field.time}
 								/>
+								{fieldErrors?.map((error) => <p className="text-red-500" key={error}>{error}</p>)}
 							</div>
 						)
 					})}

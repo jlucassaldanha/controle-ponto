@@ -29,7 +29,7 @@ export const punchSchema = z.object({
 		PunchType.START_LUNCH,
 		PunchType.END_LUNCH,
 		PunchType.CLOCK_OUT,
-	]),
+	], { message: "Valores invalidos." }),
 })
 
 export const addPunchesSchema = z.object({
