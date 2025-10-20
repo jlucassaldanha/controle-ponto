@@ -26,3 +26,4 @@ Problema resolvido trocando o id na page de preferencias
 
 MUDANÇA PARA ADIÇÂO DE PONTOS E PREFERENCIAS:
 mostrar erros nos inputs
+necessario verificar caso de pontos duplicados ao adicionar um ponto por vez
