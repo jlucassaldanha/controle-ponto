@@ -3,15 +3,13 @@ import { addPunches } from "@/core/punch/punch.services"
 import { addPunchesSchema } from "@/core/punch/punch.validation"
 import { getCurrentUser } from "@/lib/session"
 import { revalidatePath } from "next/cache"
-import z from "zod"
+import { $ZodIssue } from "zod/v4/core"
+
 
 export type addPunchesActionForm = {
-	success: boolean;
-    errors?: {
-        date?: string[] | undefined;
-        punches?: string[] | undefined;
-    };
-    message?: string;
+	success: boolean
+    errors?: $ZodIssue[]
+    message?: string
 }
 
 export async function addPunchesAction(previousState: addPunchesActionForm, formData: FormData) {
@@ -38,7 +36,7 @@ export async function addPunchesAction(previousState: addPunchesActionForm, form
 	const validateFormData = addPunchesSchema.safeParse({ date: date, punches: parsedPunches })
 	
 	if (!validateFormData.success) {
-		return { success: false, errors: validateFormData.error.format() }
+		return { success: false, errors: validateFormData.error.issues }
 	}
 
 	try {

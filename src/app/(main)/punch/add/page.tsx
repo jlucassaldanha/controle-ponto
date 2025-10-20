@@ -1,6 +1,6 @@
 'use client'
 import SubmitButton from "@/components/ui/SubmitButton";
-import { Button, Checkbox, FormControl, FormControlLabel, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
+import { Button, Checkbox, FormControl, FormControlLabel, FormHelperText, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
 import { useActionState, useState } from "react";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -53,6 +53,11 @@ export default function AddPunch() {
 		}))
 	}
 
+	// NOVO: Encontramos os erros fora do JSX para deixar o código mais limpo
+    const dateError = state.errors?.find((e) => e.path[0] === 'date')?.message;
+    // Erro geral do array de punches (ex: sequência inválida)
+    const punchesArrayError = state.errors?.find((e) => e.path.length === 1 && e.path[0] === 'punches')?.message;
+
 	return (
 		<div className="flex flex-col items-center justify-center w-full gap-2">
 			
@@ -61,14 +66,15 @@ export default function AddPunch() {
 					<TextField
 						variant="outlined"
 						label="Data"
+						InputLabelProps={{ shrink: true }}
 						name="punchDate"
 						id="punchDate"
 						type="date"
 						onChange={(e) => setDate(e.target.value)}
 						value={date}
 						disabled={checkToday}
-						error={!!state.errors?.date}
-						helperText={state.errors?.date?.[0]}
+						error={!!dateError}
+                        helperText={dateError}
 					/>
 					<FormControlLabel 
 						control={ 
@@ -88,15 +94,22 @@ export default function AddPunch() {
 					const usedPunchType = punchFields.map((field) => {
 						return field.type
 					})
-					const fieldErrors = state.errors
-					console.log(fieldErrors)
+
+					const timeError = state.errors?.find(
+                        (e) => e.path[0] === 'punches' && e.path[1] === i && e.path[2] === 'time'
+                    )?.message;
+
+                    const typeError = state.errors?.find(
+                        (e) => e.path[0] === 'punches' && e.path[1] === i && e.path[2] === 'type'
+                    )?.message;
+
 					return (
 						<div key={field.id} className="flex flex-col gap-5" >
 							<div className="flex gap-5">
-								<FormControl fullWidth>
-									<InputLabel id="type" >Tipo</InputLabel>
+								<FormControl fullWidth error={!!typeError} >
+									<InputLabel id={`type-label-${field.id}`} >Tipo</InputLabel>
 									<Select
-										labelId="type"
+										labelId={`type-label-${field.id}`}
 										id="type"
 										label="Tipo"
 										value={field.type}
@@ -127,6 +140,7 @@ export default function AddPunch() {
 											Saída almoço
 										</MenuItem>
 									</Select>
+									{typeError && <FormHelperText>{typeError}</FormHelperText>}
 								</FormControl>
 								<IconButton aria-label="delete" onClick={() => handleRemove(field.id)}>
 									<DeleteIcon />
@@ -138,9 +152,11 @@ export default function AddPunch() {
 								name="punchTime"
 								id="punchTime"
 								type="time"
-								//onChange={(e) => handleTimeChange(field.id, e.target.value)}
-								//value={field.time}
-								value="1-1"
+								InputLabelProps={{ shrink: true }}
+								onChange={(e) => handleTimeChange(field.id, e.target.value)}
+								value={field.time}
+								error={!!timeError}
+                                helperText={timeError}
 							/>
 						</div>
 					)
