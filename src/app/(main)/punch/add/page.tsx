@@ -5,7 +5,7 @@ export default async function AddPunch() {
 	await requireUserSession()
 
 	return (
-		<div className="flex flex-col items-center justify-center w-full gap-2">
+		<div className="flex flex-col items-center justify-center w-full gap-2" >
 			<AddPunchForm />
 		</div>
 	)
