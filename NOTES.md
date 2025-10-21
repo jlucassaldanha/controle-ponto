@@ -27,3 +27,21 @@ Problema resolvido trocando o id na page de preferencias
 MUDANÇA PARA ADIÇÂO DE PONTOS E PREFERENCIAS:
 mostrar erros nos inputs
 necessario verificar caso de pontos duplicados ao adicionar um ponto por vez
+
+# Organizando ideias:
+
+- Melhoria: Checkbox "Hoje" inicia marcado
+
+## Visualização de pontos
+
+Separar por linhas e colunas
+
+- Linhas: Dia
+- Colunas: Tipo de entrada, quantas horas foram feitas, horas a mais ou a menos
+
+## Calculos de horas
+
+- É necessário identificar o dia da semana e qual o horário daquele dia para que possa ser feito o calculo corrento
+- Preciso entender como calcular as horas semanais e mensais
+
+- Preciso saber quando são os feriados ou ter uma caixa de seleção na hora de registrar o ponto para marcar o dia como feriado, ou abono por exemplo
