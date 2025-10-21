@@ -44,6 +44,8 @@ Separar por linhas e colunas
 
 ## Próximos passos
 1. Implementar visualização de pontos sem calculos de horas
-2. Adicionar calculo de horas
-3. Iniciar "Hoje" marcado
+2. Iniciar "Hoje" marcado 
+3. Adicionar calculo de horas
 4. Adicionar opcão de abono na pagina de adição ou pagina de edição
+
+## Verificação de sequencia não permite adicionar pontos do meio da jornada, necessario revisar

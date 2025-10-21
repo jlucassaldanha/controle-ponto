@@ -55,6 +55,7 @@ export const addPunchesSchema = z.object({
 
 		return uniqueTypes.size === types.length
 	}, { message: "Não deve haver pontos repetidos para o mesmo dia."})
+	// MUDAR VERIFICAÇÂO DE SEQUENCIA
 	.refine((addPunchesSchema) => {
 		if (addPunchesSchema.punches.length === 0) {
 			return true

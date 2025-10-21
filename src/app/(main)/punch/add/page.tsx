@@ -1,6 +1,5 @@
 import AddPunchForm from "@/components/punch/AddPunchForm";
 import { requireUserSession } from "@/lib/session";
-import Link from "next/link";
 
 export default async function AddPunch() {
 	await requireUserSession()

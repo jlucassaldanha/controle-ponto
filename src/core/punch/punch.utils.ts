@@ -1,11 +1,4 @@
-import { type Punch, PunchType } from "@prisma/client";
-
-const PunchTypeToKeyMap: { [key: string]: string } = {
-  [PunchType.CLOCK_IN] : 'Entrada', 
-  [PunchType.CLOCK_OUT] : 'Saída',
-  [PunchType.START_LUNCH] : 'Entrada Almoço',
-  [PunchType.END_LUNCH] : 'Entrada Almoço',
-}
+import { type Punch } from "@prisma/client";
 
 const dayNumberToKeyMap: { [key: number]: string } = {
   0: 'Dom', 
@@ -17,8 +10,7 @@ const dayNumberToKeyMap: { [key: number]: string } = {
   6: 'Sáb',
 }
 
-export function formatPunchInfo(punch: Punch) {
-	const type = PunchTypeToKeyMap[punch.type]
+export function formatPunchDateTime(punch: Punch) {
 
 	const day = punch.timestamp.getUTCDate().toString().padStart(2, '0')
 	const month = (punch.timestamp.getUTCMonth() + 1).toString().padStart(2, '0')
@@ -31,5 +23,5 @@ export function formatPunchInfo(punch: Punch) {
 
 	const dayOfWeek = dayNumberToKeyMap[punch.timestamp.getUTCDay()]
 
-	return { type, date, dayOfWeek, time, }
+	return { date, dayOfWeek, time, }
 }

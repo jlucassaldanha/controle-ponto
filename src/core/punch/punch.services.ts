@@ -2,6 +2,7 @@ import z from "zod";
 import { addPunchesSchema } from "./punch.validation";
 import { prisma } from '@/lib/prisma'
 import { getADayInterval } from "@/lib/dateUtils";
+import { Punch } from "@prisma/client";
 
 type AddPunchDataType = z.infer<typeof addPunchesSchema>;
 
@@ -34,7 +35,6 @@ export async function addPunches(userId: string, punchData: AddPunchDataType) {
     	console.error(error);
     	throw new Error("Err2: Could not save punch.");
   	}
-
 }
 
 export async function getADayPunches(userId: string, date: Date) {
@@ -60,7 +60,40 @@ export async function getPunches(userId: string) {
 			userId: userId
 		},
 		orderBy: {
-			timestamp: 'asc',
+			timestamp: 'desc',
 		},
 	})
+}
+
+type PunchesGroupedByDay = {
+    date: string
+    punches: Punch[]
+}
+
+export async function groupPunchesByDay(userId: string) {
+	const allPunches = await getPunches(userId)
+
+	if (allPunches.length === 0) {
+        return [] 
+    }
+
+	const groupedPunches = allPunches.reduce((accumulator, punch) => {
+		const date = punch.timestamp.toISOString().slice(0, 10)
+
+		if (!accumulator[date]) {
+			accumulator[date] = []
+		}
+
+		accumulator[date].push(punch)
+
+		return accumulator
+
+	}, {} as Record<string, Punch[]>) 
+
+	const result: PunchesGroupedByDay[] = Object.entries(groupedPunches).map(([date, punches]) => ({
+		date,
+		punches: punches.reverse(),
+	}))
+
+	return result
 }

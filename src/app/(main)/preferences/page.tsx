@@ -1,6 +1,6 @@
 import PreferencesForm from "@/components/preferences/PreferencesForm"
 import { getUserPreferences } from "@/core/preferences/preferences.services"
-import { groupSchedulesIntoRules } from "@/lib/groupSchedulesIntoRules"
+import { groupSchedulesIntoRules } from "@/core/preferences/preferences.utils"
 import { requireUserSession } from "@/lib/session"
 
 export const dynamic = 'force-dynamic'
