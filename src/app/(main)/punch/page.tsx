@@ -1,5 +1,4 @@
-import { getPunches, groupPunchesByDay } from "@/core/punch/punch.services"
-import { formatPunchDateTime } from "@/core/punch/punch.utils"
+import { groupPunchesByDay } from "@/core/punch/punch.services"
 import { requireUserSession } from "@/lib/session"
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,7 +7,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Punch, PunchType } from "@prisma/client";
+import { type Punch, PunchType } from "@prisma/client";
+import { formatTime } from "@/lib/dateUtils";
 
 
 export const dynamic = 'force-dynamic'
@@ -20,8 +20,7 @@ export default async function Punch() {
 	const getPunchTime = (punches: Punch[], type: PunchType) => {
 		const punch = punches.find((punch) => ( punch.type === type ))
 		if (punch) {
-			const punchInfo = formatPunchDateTime(punch)
-			return punchInfo.time
+			return formatTime(punch.timestamp)
 		}
 	}
 
@@ -46,7 +45,7 @@ export default async function Punch() {
 									sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
 								>
 									<TableCell component="th" scope="row">
-										{day.date}
+										{day.date} <br/> {day.dayOfWeek}
 									</TableCell>
 									<TableCell align="right">
 										{getPunchTime(day.punches, PunchType.CLOCK_IN)}
