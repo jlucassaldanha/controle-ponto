@@ -1,5 +1,6 @@
 import { DayKey, SchedulesRulesType } from "@/core/preferences/preferences.types";
 import { minutesToTimeString } from "@/lib/timeFormater";
+import { DailySchedule } from "@prisma/client";
 
 type dailySchedulesType = {
 	id: string;
@@ -57,3 +58,21 @@ export function groupSchedulesIntoRules(dailySchedulesFromDb: dailySchedulesType
 
 	return Array.from(scheduleRulesMap.values());
 }
+
+export function getDailySchedulesTime(schedules: DailySchedule[] | undefined) {
+		if (!schedules) {
+			return []
+		}
+
+		return schedules.map((daySchedule) => {
+			const journeyTime = daySchedule.exitTime - daySchedule.entryTime
+			const lunchTime = daySchedule.lunchEndTime - daySchedule.lunchStartTime
+
+			const workTime = journeyTime - lunchTime
+
+			return {
+				dayOfWeek: daySchedule.dayOfWeek,
+				workTime
+			}
+		})
+	}

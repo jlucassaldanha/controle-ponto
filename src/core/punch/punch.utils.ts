@@ -1,6 +1,7 @@
 import { PunchType, type Punch } from "@prisma/client";
 import { GroupedPunchesType } from "./punch.services";
 import { formatTime } from "@/lib/dateUtils";
+import { minutesToTimeString } from "@/lib/timeFormater";
 
 const dayNumberToKeyMap: { [key: number]: string } = {
   0: 'Dom', 
@@ -46,4 +47,15 @@ export function getPunchTime(punches: Punch[], type: PunchType) {
 	if (punch) {
 		return formatTime(punch.timestamp)
 	}
+}
+
+export function formatOvertime(workTime: number, workedTime: number) {
+	const overtime = workedTime - workTime
+	const stringTime = minutesToTimeString(overtime)
+	
+	if (overtime > 0) { 
+		return "-" + stringTime
+	}
+
+	return stringTime
 }
