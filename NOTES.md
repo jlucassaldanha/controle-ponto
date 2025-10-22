@@ -46,7 +46,10 @@ Separar por linhas e colunas
 1. Implementar visualização de pontos sem calculos de horas (FEITO)
 2. Iniciar "Hoje" marcado (FEITO)
 3. Adicionar calculo de horas
-	- Calculo de horario trabalhado
+	- Calculo de horario trabalhado (FEITO)
+	- Verificação: Esta dentro do horario, esta devendo hora
+		- Necessario: Ler preferencias -> Calcular hora trabalhada por dia prestando atenção na exceção -> verificar o dia trabalhado -> o tempo trabalhdo -> verificar se esta fora ou dentro do tempo
+	- Calculo de horas extras
 4. Adicionar opção de visualização por dia, semana e mes
 5. Adicionar opcão de abono na pagina de adição ou pagina de edição
 

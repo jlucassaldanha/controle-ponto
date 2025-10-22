@@ -4,8 +4,18 @@ import { prisma } from '@/lib/prisma'
 import { formatDate, getADayInterval, getDayOfWeek } from "@/lib/dateUtils";
 import { Punch, PunchType } from "@prisma/client";
 import { minutesToTimeString } from "@/lib/timeFormater";
+import { getPunchTimestampMinutes } from "./punch.utils";
 
 type AddPunchDataType = z.infer<typeof addPunchesSchema>;
+
+export type GroupedPunchesType = {
+		date: string,
+		dayOfWeek: {
+			dayString: string,
+			day: number
+		},
+		punches: Punch[],
+	}
 
 export async function addPunches(userId: string, punchData: AddPunchDataType) {
 	const dbPunches = await getADayPunches(userId, punchData.date)
@@ -73,12 +83,6 @@ export async function groupPunchesByDay(userId: string) {
         return [] 
     }
 
-	type GroupedPunchesType = {
-		date: string,
-		dayOfWeek: string,
-		punches: Punch[],
-	}
-
 	const groupedPunches = allPunches.reduce((accumulator, punch) => {
 		const date = formatDate(punch.timestamp)
 		
@@ -87,7 +91,10 @@ export async function groupPunchesByDay(userId: string) {
 			const dayOfWeek = getDayOfWeek(punch.timestamp)
 
 			accumulator[date] = {
-				dayOfWeek,
+				dayOfWeek: {
+					dayString: dayOfWeek,
+					day: punch.timestamp.getUTCDay()
+				},
 				date,
 				punches: []
 			}
@@ -98,22 +105,6 @@ export async function groupPunchesByDay(userId: string) {
 		return accumulator
 
 	}, {} as Record<string, GroupedPunchesType>) 
-
-	const groupedPunchesArray = Object.values(groupedPunches).reverse()
-
-	const getPunchTimestampMinutes = (punchesObj: GroupedPunchesType, type: PunchType) => {
-		const punch = punchesObj.punches.find((punch) => punch.type === type)
-		
-		if (!punch) {
-			return 0
-		}
-
-		const minutes = punch.timestamp.getMinutes()
-		const hours = punch.timestamp.getHours()
-
-		return hours * 60 + minutes
-	}
-
 	
 	const punchesArray = Object.values(groupedPunches).reverse()
 
