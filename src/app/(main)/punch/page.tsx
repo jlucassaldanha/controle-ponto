@@ -26,15 +26,16 @@ export default async function Punch() {
 
 	return (
 		<div className="flex flex-col items-center justify-center w-full gap-2">
-			<TableContainer component={Paper}  sx={{ maxHeight: 600 }}>
+			<TableContainer component={Paper}  sx={{ maxHeight: 600, maxWidth: 800 }} >
 				<Table stickyHeader sx={{minWidth: 400}} arial-label="tabela simples">
 					<TableHead>
 						<TableRow>
 							<TableCell>Data</TableCell>
-							<TableCell align="right">Entrada</TableCell>
-							<TableCell align="right">Entrada almoço</TableCell>
-							<TableCell align="right">Saída almoço</TableCell>
-							<TableCell align="right">Saída</TableCell>
+							<TableCell align="center">Entrada</TableCell>
+							<TableCell align="center">Entrada almoço</TableCell>
+							<TableCell align="center">Saída almoço</TableCell>
+							<TableCell align="center">Saída</TableCell>
+							<TableCell align="center">Total</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -47,17 +48,20 @@ export default async function Punch() {
 									<TableCell component="th" scope="row">
 										{day.date} <br/> {day.dayOfWeek}
 									</TableCell>
-									<TableCell align="right">
+									<TableCell align="center">
 										{getPunchTime(day.punches, PunchType.CLOCK_IN)}
 									</TableCell>
-									<TableCell align="right">
+									<TableCell align="center">
 										{getPunchTime(day.punches, PunchType.START_LUNCH)}
 									</TableCell>
-									<TableCell align="right">
+									<TableCell align="center">
 										{getPunchTime(day.punches, PunchType.END_LUNCH)}
 									</TableCell>
-									<TableCell align="right">
+									<TableCell align="center">
 										{getPunchTime(day.punches, PunchType.CLOCK_OUT)}
+									</TableCell>
+									<TableCell align="center">
+										00:00
 									</TableCell>
 								</TableRow>
 							)
