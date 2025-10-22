@@ -61,7 +61,7 @@ export default async function Punch() {
 										{getPunchTime(day.punches, PunchType.CLOCK_OUT)}
 									</TableCell>
 									<TableCell align="center">
-										00:00
+										{day.workedTime.timeString}
 									</TableCell>
 								</TableRow>
 							)

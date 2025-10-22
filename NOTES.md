@@ -43,9 +43,11 @@ Separar por linhas e colunas
 - Preciso saber quando são os feriados ou ter uma caixa de seleção na hora de registrar o ponto para marcar o dia como feriado, ou abono por exemplo
 
 ## Próximos passos
-1. Implementar visualização de pontos sem calculos de horas
-2. Iniciar "Hoje" marcado 
+1. Implementar visualização de pontos sem calculos de horas (FEITO)
+2. Iniciar "Hoje" marcado (FEITO)
 3. Adicionar calculo de horas
-4. Adicionar opcão de abono na pagina de adição ou pagina de edição
+	- Calculo de horario trabalhado
+4. Adicionar opção de visualização por dia, semana e mes
+5. Adicionar opcão de abono na pagina de adição ou pagina de edição
 
 ## Verificação de sequencia não permite adicionar pontos do meio da jornada, necessario revisar

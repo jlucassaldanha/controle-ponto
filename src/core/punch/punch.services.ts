@@ -2,7 +2,8 @@ import z from "zod";
 import { addPunchesSchema } from "./punch.validation";
 import { prisma } from '@/lib/prisma'
 import { formatDate, getADayInterval, getDayOfWeek } from "@/lib/dateUtils";
-import { Punch } from "@prisma/client";
+import { Punch, PunchType } from "@prisma/client";
+import { minutesToTimeString } from "@/lib/timeFormater";
 
 type AddPunchDataType = z.infer<typeof addPunchesSchema>;
 
@@ -98,7 +99,45 @@ export async function groupPunchesByDay(userId: string) {
 
 	}, {} as Record<string, GroupedPunchesType>) 
 
-	const result = Object.values(groupedPunches).reverse()
+	const groupedPunchesArray = Object.values(groupedPunches).reverse()
 
+	const getPunchTimestampMinutes = (punchesObj: GroupedPunchesType, type: PunchType) => {
+		const punch = punchesObj.punches.find((punch) => punch.type === type)
+		
+		if (!punch) {
+			return 0
+		}
+
+		const minutes = punch.timestamp.getMinutes()
+		const hours = punch.timestamp.getHours()
+
+		return hours * 60 + minutes
+	}
+
+	
+	const punchesArray = Object.values(groupedPunches).reverse()
+
+	const result = punchesArray.map((punchesObj) => {
+		const clockIn = getPunchTimestampMinutes(punchesObj, PunchType.CLOCK_IN)
+		const clockOut = getPunchTimestampMinutes(punchesObj, PunchType.CLOCK_OUT)
+		const journeyTime = clockOut - clockIn
+		
+		const lunchIn = getPunchTimestampMinutes(punchesObj, PunchType.START_LUNCH)
+		const lunchOut = getPunchTimestampMinutes(punchesObj, PunchType.END_LUNCH)
+		const lunchTime = lunchOut - lunchIn
+
+		const workedTime = journeyTime - lunchTime
+
+		const workedTimeString = minutesToTimeString(workedTime)
+
+		return {
+			...punchesObj,
+			workedTime: {
+				timeString: workedTimeString,
+				time: workedTime,
+			}
+		}
+	})
+	
 	return result
 }
