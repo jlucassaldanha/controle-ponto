@@ -47,7 +47,7 @@ Separar por linhas e colunas
 2. Iniciar "Hoje" marcado (FEITO)
 3. Adicionar calculo de horas
 	- Calculo de horario trabalhado (FEITO)
-	- Verificação: Esta dentro do horario, esta devendo hora
+	- Verificação: Esta dentro do horario, esta devendo hora (FEITO)
 		- Necessario: Ler preferencias -> Calcular hora trabalhada por dia prestando atenção na exceção -> verificar o dia trabalhado -> o tempo trabalhdo -> verificar se esta fora ou dentro do  (FEITO)
 	- Calculo de horas extras (FEITO)
 4. Adicionar opção de visualização por dia, semana e mes
@@ -55,3 +55,4 @@ Separar por linhas e colunas
 6. Deixar pagina de edição iniciando com todos pontos e entrada e saida serem fixos (FEITO)
 
 ## Verificação de sequencia não permite adicionar pontos do meio da jornada, necessario revisar
+- Erros mostrados, porem repetidamente

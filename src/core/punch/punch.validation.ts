@@ -54,42 +54,45 @@ export const addPunchesSchema = z.object({
 		const uniqueTypes = new Set(types)
 
 		return uniqueTypes.size === types.length
-	}, { message: "Não deve haver pontos repetidos para o mesmo dia."})
-	// MUDAR VERIFICAÇÂO DE SEQUENCIA
-	/*.refine((addPunchesSchema) => {
-		if (addPunchesSchema.punches.length === 0) {
-			return true
-		}
+	}, { message: "Não deve haver pontos repetidos para o mesmo dia.", path: ["punches"] })
+	.refine((data) => {
+        const types = data.punches.map(p => p.type);
+        const hasStartLunch = types.includes(PunchType.START_LUNCH);
+        const hasEndLunch = types.includes(PunchType.END_LUNCH);
+        
+        return hasStartLunch === hasEndLunch;
+    }, { message: "Início e Fim do Almoço devem ser registrados em conjunto.", path: ["punches"] })
+    .refine((data) => {
+        if (data.punches.length === 0) return true;
 
-		const sortedPunches = [ ...addPunchesSchema.punches ].sort((a, b) => {
-			return a.timestamp.getTime() - b.timestamp.getTime()
-		})
+        const sortedPunches = [...data.punches].sort(
+            (a, b) => a.timestamp.getTime() - b.timestamp.getTime()
+        );
 
-		if (sortedPunches[0].type !== PunchType.CLOCK_IN) {
-			return false
-		}
+        const types = sortedPunches.map(p => p.type);
 
-		
-		for (let i = 1; i < sortedPunches.length; i++) {
-			const prevType = sortedPunches[i - 1].type
-			const currentType = sortedPunches[i].type
+        const indexOfClockIn = types.indexOf(PunchType.CLOCK_IN);
+        const indexOfClockOut = types.indexOf(PunchType.CLOCK_OUT);
+        const indexOfStartLunch = types.indexOf(PunchType.START_LUNCH);
+        const indexOfEndLunch = types.indexOf(PunchType.END_LUNCH);
 
-			if (prevType === PunchType.CLOCK_IN && currentType !== PunchType.START_LUNCH && currentType !== PunchType.CLOCK_OUT) {
-				return false
-			}
+        if (indexOfClockOut !== -1 && indexOfClockOut < indexOfClockIn) {
+            return false;
+        }
 
-			if (prevType === PunchType.START_LUNCH && currentType !== PunchType.END_LUNCH) {
-				return false
-			}
+        if (indexOfEndLunch !== -1 && indexOfEndLunch < indexOfStartLunch) {
+            return false;
+        }
 
-			if (prevType === PunchType.END_LUNCH && currentType !== PunchType.CLOCK_OUT) {
-				return false
-			}
-
-			if (prevType === PunchType.CLOCK_OUT) {
-				return false
-			}
-		}
-
-		return true
-	}, { message: "A sequência de pontos é inválida."})*/
+        if (indexOfStartLunch !== -1) {
+            if (indexOfClockIn === -1 || indexOfStartLunch < indexOfClockIn) {
+                return false;
+            }
+            
+            if (indexOfClockOut === -1 || indexOfEndLunch > indexOfClockOut) {
+                return false;
+            }
+        }
+        
+        return true; 
+    }, { message: "A ordem ou combinação dos pontos é inválida.", path: ["punches"] });
