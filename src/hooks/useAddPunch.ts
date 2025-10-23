@@ -1,14 +1,38 @@
 import { PunchFieldType } from "@/components/punch/AddPunchForm"
 import { SelectChangeEvent } from "@mui/material"
+import { PunchType } from "@prisma/client"
 import { useState } from "react"
 
 export function useAddPunch() {
 	const dateNow = new Date()
 	const formatedDateNow = `${dateNow.getUTCFullYear()}-${(dateNow.getUTCMonth() + 1).toString().padStart(2, '0')}-${dateNow.getUTCDate().toString().padStart(2, '0')}`
+
+	const initialFields = [
+		{
+			id: '1',
+			time: '',
+			type: PunchType.CLOCK_IN,
+		},
+		{
+			id: '2',
+			time: '',
+			type: PunchType.START_LUNCH,
+		},
+		{
+			id: '3',
+			time: '',
+			type: PunchType.END_LUNCH,
+		},
+		{
+			id: '4',
+			time: '',
+			type: PunchType.CLOCK_OUT,
+		}
+	]
 	
 	const [checkToday, setCheckToday] = useState(true)
 	const [date, setDate] = useState(formatedDateNow)
-	const [punchFields, setPunchFields] = useState<PunchFieldType[]>([])
+	const [punchFields, setPunchFields] = useState<PunchFieldType[]>(initialFields)
 
 	const handleAdd = () => {
 		if (punchFields.length < 4) {

@@ -61,11 +61,13 @@ export default function PunchTypeTimeForm({ field, usedPunchType, fieldErrors, h
 				value={field.time}
 			/>
 			{fieldErrors?.map((error) => <p className="text-red-500" key={error}>{error}</p>)}
-			<div className="flex justify-center items-center w-full border-t-[1px] border-gray-200 pt-3" >
-				<IconButton aria-label="delete" onClick={() => handleRemove(field.id)}>
-					<DeleteIcon />
-				</IconButton>
-			</div>
+			
+				<div className="flex justify-center items-center w-full border-t-[1px] border-gray-200 pt-3" >
+					<IconButton disabled={field.type === PunchType.CLOCK_IN || field.type === PunchType.CLOCK_OUT} aria-label="delete" onClick={() => handleRemove(field.id)}>
+						<DeleteIcon />
+					</IconButton>
+				</div>
+			
 		</div>
 	)
 }

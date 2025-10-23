@@ -52,6 +52,6 @@ Separar por linhas e colunas
 	- Calculo de horas extras (FEITO)
 4. Adicionar opção de visualização por dia, semana e mes
 5. Adicionar opcão de abono na pagina de adição ou pagina de edição
-6. Deixar pagina de edição iniciando com todos pontos e entrada e saida serem fixos
+6. Deixar pagina de edição iniciando com todos pontos e entrada e saida serem fixos (FEITO)
 
 ## Verificação de sequencia não permite adicionar pontos do meio da jornada, necessario revisar
