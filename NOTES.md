@@ -54,5 +54,5 @@ Separar por linhas e colunas
 5. Adicionar opcão de abono na pagina de adição ou pagina de edição
 6. Deixar pagina de edição iniciando com todos pontos e entrada e saida serem fixos (FEITO)
 
-## Verificação de sequencia não permite adicionar pontos do meio da jornada, necessario revisar
-- Erros mostrados, porem repetidamente
+## Verificação de visualização de pontos
+Pontos com hora positiva sendo mostrados como hora negativa
