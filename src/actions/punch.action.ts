@@ -38,7 +38,6 @@ export async function addPunchesAction(previousState: addPunchesActionForm, form
 	const validateFormData = addPunchesSchema.safeParse({ date: date, punches: parsedPunches })
 
 	if (!validateFormData.success) {
-		console.log(z.flattenError(validateFormData.error).fieldErrors)
 		return { success: false, errors: z.flattenError(validateFormData.error).fieldErrors }
 	}
 	

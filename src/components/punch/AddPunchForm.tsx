@@ -47,11 +47,10 @@ export default function AddPunchForm() {
 					const usedPunchType = punchFields.map((field) => {
 						return field.type
 					})
-					const fieldErrors = state.errors?.punches
+					
 					return (
 						<PunchTypeTimeForm 
 							field={field}
-							fieldErrors={fieldErrors}
 							usedPunchType={usedPunchType}
 							handleRemove={handleRemove}
 							handleSelectChange={handleSelectChange}
@@ -81,8 +80,26 @@ export default function AddPunchForm() {
 				/>
 				{state.message && (
 					<p className={state.success ? "text-green-500":"text-red-500"} >
-						{state.message}
+						{state.message}  
 					</p>
+				)}
+				{state.errors?.punches && (
+					<div>
+						{[...new Set(state.errors.punches)].map((error, i) => (
+							<p key={i} className="text-red-500" >
+								{error}
+							</p>
+						))}
+					</div>
+				)}
+				{state.errors?.date && (
+					<div>
+						{[...new Set(state.errors.date)].map((error, i) => (
+							<p key={i} className="text-red-500" >
+								{error}
+							</p>
+						))}
+					</div>
 				)}
 			</div>
 			

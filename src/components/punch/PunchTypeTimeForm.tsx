@@ -6,13 +6,12 @@ import { PunchFieldType } from "./AddPunchForm";
 type PunchTypeTimeFormProps = {
 	field: PunchFieldType
 	usedPunchType: string[]
-	fieldErrors: string[] | undefined
 	handleRemove: (id: string) => void
 	handleTimeChange: (fieldId: string, time: string) => void
 	handleSelectChange: (event: SelectChangeEvent, fieldId: string) => void 
 }
 
-export default function PunchTypeTimeForm({ field, usedPunchType, fieldErrors, handleRemove, handleSelectChange, handleTimeChange}: PunchTypeTimeFormProps) {
+export default function PunchTypeTimeForm({ field, usedPunchType,  handleRemove, handleSelectChange, handleTimeChange}: PunchTypeTimeFormProps) {
 	return (
 		<div className="flex flex-col gap-5 min-w-[220px] border-[1px] border-gray-300 rounded-md p-5" >
 			<FormControl className="min-w-[100px]">
@@ -60,13 +59,11 @@ export default function PunchTypeTimeForm({ field, usedPunchType, fieldErrors, h
 				onChange={(e) => handleTimeChange(field.id, e.target.value)}
 				value={field.time}
 			/>
-			{fieldErrors?.map((error) => <p className="text-red-500" key={error}>{error}</p>)}
-			
-				<div className="flex justify-center items-center w-full border-t-[1px] border-gray-200 pt-3" >
-					<IconButton disabled={field.type === PunchType.CLOCK_IN || field.type === PunchType.CLOCK_OUT} aria-label="delete" onClick={() => handleRemove(field.id)}>
-						<DeleteIcon />
-					</IconButton>
-				</div>
+			<div className="flex justify-center items-center w-full border-t-[1px] border-gray-200 pt-3" >
+				<IconButton disabled={field.type === PunchType.CLOCK_IN || field.type === PunchType.CLOCK_OUT} aria-label="delete" onClick={() => handleRemove(field.id)}>
+					<DeleteIcon />
+				</IconButton>
+			</div>
 			
 		</div>
 	)
