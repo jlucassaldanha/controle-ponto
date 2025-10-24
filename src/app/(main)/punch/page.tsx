@@ -9,7 +9,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { type Punch, PunchType } from "@prisma/client";
 import { getUserPreferences } from "@/core/preferences/preferences.services";
-import { overtimeUndertime, getPunchTime } from "@/core/punch/punch.utils";
+import { overtimeUndertime, getPunchTime, getTotalOvertime } from "@/core/punch/punch.utils";
 import { getDailySchedulesTime } from "@/core/preferences/preferences.utils";
 
 export const dynamic = 'force-dynamic'
@@ -22,7 +22,7 @@ export default async function Punch() {
 	const DailySchedulesTime = getDailySchedulesTime(userPreferences?.dailySchedules)
 
 	return (
-		<div className="flex flex-col items-center justify-center w-full gap-2">
+		<div className="flex items-center justify-center w-full gap-2">
 			<TableContainer component={Paper}  sx={{ maxHeight: 600, maxWidth: 800 }} >
 				<Table stickyHeader sx={{minWidth: 400}} arial-label="tabela simples">
 					<TableHead>
@@ -74,7 +74,7 @@ export default async function Punch() {
 										{day.workedTime.timeString}
 									</TableCell>
 									<TableCell align="center" sx={{color: color}}>
-										{overUnder.time}
+										{overUnder.timeStr}
 									</TableCell>
 								</TableRow>
 							)
@@ -82,6 +82,9 @@ export default async function Punch() {
 					</TableBody>
 				</Table>
 			</TableContainer>
+			<div>
+				{getTotalOvertime(punchesPerDay, DailySchedulesTime).timeStr /* rever isso*/}
+			</div>
 		</div>
 	)
 }
