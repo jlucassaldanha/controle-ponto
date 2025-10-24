@@ -49,13 +49,30 @@ export function getPunchTime(punches: Punch[], type: PunchType) {
 	}
 }
 
-export function formatOvertime(workTime: number, workedTime: number) {
+export function overtimeUndertime(workTime: number, workedTime: number) {
 	const overtime = workedTime - workTime
-	const stringTime = minutesToTimeString(overtime)
-	
-	if (overtime > 0) { 
-		return "-" + stringTime
-	}
+	const time = minutesToTimeString(Math.abs(overtime))
 
-	return stringTime
+	console.log(overtime)
+	console.log(time)
+
+	if (overtime < 0) { 
+		return {
+			overtime: false,
+			undertime: true,
+			time,
+		}
+	} else if (overtime > 0) {
+		return {
+			overtime: true,
+			undertime: false,
+			time,
+		}
+	} else {
+		return {
+			overtime: false,
+			undertime: false,
+			time,
+		}
+	}
 }

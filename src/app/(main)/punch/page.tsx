@@ -9,7 +9,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { type Punch, PunchType } from "@prisma/client";
 import { getUserPreferences } from "@/core/preferences/preferences.services";
-import { formatOvertime, getPunchTime } from "@/core/punch/punch.utils";
+import { overtimeUndertime, getPunchTime } from "@/core/punch/punch.utils";
 import { getDailySchedulesTime } from "@/core/preferences/preferences.utils";
 
 export const dynamic = 'force-dynamic'
@@ -41,6 +41,14 @@ export default async function Punch() {
 							const daySchedule = DailySchedulesTime.find((schedule) => schedule.dayOfWeek === day.dayOfWeek.day)
 
 							const workTime = daySchedule ? daySchedule.workTime : 0
+							const overUnder = overtimeUndertime(workTime, day.workedTime.time)
+							
+							let color = ''
+							if (overUnder.overtime && !overUnder.undertime) {
+								color = "green"
+							} else if (!overUnder.overtime && overUnder.undertime) {
+								color = "red"
+							}
 							
 							return (
 								<TableRow
@@ -65,8 +73,8 @@ export default async function Punch() {
 									<TableCell align="center">
 										{day.workedTime.timeString}
 									</TableCell>
-									<TableCell align="center">
-										{formatOvertime(workTime, day.workedTime.time)}
+									<TableCell align="center" sx={{color: color}}>
+										{overUnder.time}
 									</TableCell>
 								</TableRow>
 							)
