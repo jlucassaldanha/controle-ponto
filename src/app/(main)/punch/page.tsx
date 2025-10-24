@@ -21,6 +21,15 @@ export default async function Punch() {
 
 	const DailySchedulesTime = getDailySchedulesTime(userPreferences?.dailySchedules)
 
+	const totalOvertimeData = getTotalOvertime(punchesPerDay, DailySchedulesTime)
+
+	let color = ''
+	if (totalOvertimeData.overtime && !totalOvertimeData.undertime) {
+		color = "green"
+	} else if (!totalOvertimeData.overtime && totalOvertimeData.undertime) {
+		color = "red"
+	}
+
 	return (
 		<div className="flex items-center justify-center w-full gap-2">
 			<TableContainer component={Paper}  sx={{ maxHeight: 600, maxWidth: 800 }} >
@@ -82,8 +91,13 @@ export default async function Punch() {
 					</TableBody>
 				</Table>
 			</TableContainer>
-			<div>
-				{getTotalOvertime(punchesPerDay, DailySchedulesTime).timeStr /* rever isso*/}
+			<div className="m-7 border-[1px] border-gray-400 rounded-md p-3">
+				<div className="border-b-[1px] border-gray-400 p-2">
+					Total de horas extras ou faltantes
+				</div>
+				<p className={"text-" + color + "-500 flex items-center justify-center p-2"}>
+					{totalOvertimeData.timeStr}	
+				</p>
 			</div>
 		</div>
 	)
