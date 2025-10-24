@@ -53,6 +53,7 @@ Separar por linhas e colunas
 4. Adicionar opção de visualização por dia, semana e mes
 5. Adicionar opcão de abono na pagina de adição ou pagina de edição
 6. Deixar pagina de edição iniciando com todos pontos e entrada e saida serem fixos (FEITO)
+7. Mostrar total de extras ou faltantes
 
 ## Verificação de visualização de pontos
 Pontos com hora positiva sendo mostrados como hora negativa
