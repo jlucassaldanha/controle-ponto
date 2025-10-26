@@ -58,14 +58,16 @@ export default function Home() {
           </Typography>
           <div className="flex gap-5 justify-center">
             <Link 
-              href='/signin'
+              href='https://linkedin.com/in/joao-lucas-saldanha/'
+              target="_blank"
               className='flex gap-2 justify-center items-center'
             >
               <LinkedInIcon/>
               Linkedin
             </Link>
             <Link 
-              href="/login"
+              href="https://github.com/jlucassaldanha"
+              target='_blank'
               className='flex gap-2 justify-center items-center'
             >
               <GitHubIcon/>
