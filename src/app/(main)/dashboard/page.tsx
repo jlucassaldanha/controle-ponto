@@ -11,7 +11,7 @@ export default async function Dashboard() {
 
   return (
     <div className="flex flex-col justify-center items-center w-full">
-      <div className="flex flex-col border-[1px] border-gray-300 rounded-md p-3 gap-2">
+      <div className="flex flex-col border-[1px] border-gray-300 rounded-md p-3 gap-2 m-8">
         <span className="flex justify-center border-b-[1px] border-gray-300 pb-2">Opções</span>
         {userPreferences ? (
           <div className="flex flex-col">
@@ -20,6 +20,18 @@ export default async function Dashboard() {
               href='/preferences'
             >
               Editar preferencias
+            </Link>
+            <Link 
+              className="text-blue-500 p-4 hover:bg-blue-50 rounded-md"
+              href='/punch/add'
+            >
+              Adicionar ponto
+            </Link>
+            <Link 
+              className="text-blue-500 p-4 hover:bg-blue-50 rounded-md"
+              href='/punch'
+            >
+              Visualizar pontos
             </Link>
           </div>
           ) : (
@@ -35,18 +47,7 @@ export default async function Dashboard() {
               </Link>
             </div>
           )}
-        <Link 
-          className="text-blue-500 p-4 hover:bg-blue-50 rounded-md"
-          href='/punch/add'
-        >
-          Adicionar ponto
-        </Link>
-        <Link 
-          className="text-blue-500 p-4 hover:bg-blue-50 rounded-md"
-          href='/punch'
-        >
-          Visualizar pontos
-        </Link>
+        
       </div>
       
     </div>

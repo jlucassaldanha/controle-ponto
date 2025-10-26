@@ -13,7 +13,7 @@ type PunchTypeTimeFormProps = {
 
 export default function PunchTypeTimeForm({ field, usedPunchType,  handleRemove, handleSelectChange, handleTimeChange}: PunchTypeTimeFormProps) {
 	return (
-		<div className="flex flex-col gap-5 min-w-[220px] border-[1px] border-gray-300 rounded-md p-5" >
+		<div className="flex flex-col gap-5 min-w-[250px] md:min-w-[220px] border-[1px] border-gray-300 rounded-md p-5" >
 			<FormControl className="min-w-[100px]">
 				<InputLabel id="type" >Tipo</InputLabel>
 				<Select

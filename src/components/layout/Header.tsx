@@ -2,28 +2,33 @@ import Link from "next/link";
 import SubmitButton from "../ui/SubmitButton";
 import { logOutAction } from "@/actions/auth.action";
 import { getCurrentUser } from "@/lib/session";
+import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
+import HomeIcon from '@mui/icons-material/Home';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 export default async function Header() {
   const user = await getCurrentUser()
 
   return (
     <header className="flex justify-between items-center p-4 border-b-[1px] border-[#ccc]">
-      <Link href="/">
+      <Link className="flex gap-2" href="/">
+        <WorkHistoryIcon />
         <h1>Controle de Ponto</h1>
       </Link>
       <nav>
         {user ? (
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <Link href="/dashboard">
-              <span>Olá, {user?.username}</span>
+              <HomeIcon color="primary"/>
             </Link>
             <form action={logOutAction}>
               <SubmitButton text="Sair" pendingText="Saindo..." />
             </form>
           </div>
         ) : (
-          <Link className="text-blue-400" href="/login">
+          <Link className="text-blue-400 flex justify-center items-center gap-1" href="/login">
             Entrar
+            <ArrowForwardIcon />
           </Link>
         )}
       </nav>

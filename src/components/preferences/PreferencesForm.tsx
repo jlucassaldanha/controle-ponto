@@ -34,13 +34,14 @@ export default function PreferencesForm({ initialSchedules }: PreferencesFormPro
 			<Button variant='contained' onClick={handleAdd} startIcon={<AddBoxIcon />} >
 				Adicionar
 			</Button>
-			<form action={formAction} className="mt-4">
+			<form action={formAction} className="mt-4 flex flex-col gap-2 justify-center items-center">
 				<input 
 					type="hidden" 
 					name="schedulesPayload" 
 					value={JSON.stringify(schedulesRules)} 
 				/>
 				<SubmitButton 
+					className='w-[140px]'
 					variant='contained' 
 					text='Salvar' 
 					pendingText='Salvando'

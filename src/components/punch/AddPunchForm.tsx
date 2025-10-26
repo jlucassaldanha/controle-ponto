@@ -32,7 +32,7 @@ export default function AddPunchForm() {
 	const [state, formAction] = useActionState(addPunchesAction, initialState);
 
 	return (
-		<form action={formAction} className="flex flex-col gap-5 mt-4 border-[1px] border-gray-300 rounded-md p-5">
+		<form action={formAction} className="flex flex-col gap-5 m-8 border-[1px] border-gray-300 rounded-md p-7">
 			<div className="flex justify-center items-center">
 				<DateInput 
 					checkToday={checkToday} 
@@ -42,7 +42,7 @@ export default function AddPunchForm() {
 					setCheckToday={setCheckToday} 
 				/>
 			</div>
-			<div className="flex gap-7 justify-center items-center">
+			<div className="flex flex-col md:flex-row gap-7 justify-center items-center">
 				{punchFields.map((field, i) => {
 					const usedPunchType = punchFields.map((field) => {
 						return field.type

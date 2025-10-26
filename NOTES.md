@@ -22,6 +22,12 @@ npm install -D @types/bcryptjs
 
 # Autenticação
 npm install next-auth@beta
+
+# tema
+
+npm install @mui/material-nextjs
+
+npm install @mui/material @emotion/react @emotion/styled @mui/icons-material
 ```
 
 ## Organizando ideias:

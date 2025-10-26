@@ -1,7 +1,7 @@
 "use client";
 import { logInAction, LogInFormState } from "@/actions/auth.action";
 import SubmitButton from "@/components/ui/SubmitButton";
-import { TextField } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 import { useActionState } from "react";
 
 export default function LogIn() {
@@ -9,7 +9,13 @@ export default function LogIn() {
   const [state, formAction] = useActionState(logInAction, initialState);
   
   return (
-    <section className="flex justify-center items-center w-full h-screen">
+    <section className="flex flex-col gap-8 justify-center items-center w-full h-screen">
+      <Typography 
+        variant="h3" 
+        component="h2" 
+      >
+        Log In
+      </Typography>
       <form action={formAction}>
         <div className="flex flex-col gap-5">
           <TextField
