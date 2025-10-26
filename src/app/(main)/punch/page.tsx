@@ -12,6 +12,7 @@ import { getUserPreferences } from "@/core/preferences/preferences.services";
 import { overtimeUndertime, getPunchTime, getTotalOvertime } from "@/core/punch/punch.utils";
 import { getDailySchedulesTime } from "@/core/preferences/preferences.utils";
 import { Card, CardContent, CardHeader, Divider, Typography } from "@mui/material";
+import PunchTable from "@/components/punch/punchTable/PunchTable";
 
 export const dynamic = 'force-dynamic'
 
@@ -47,8 +48,10 @@ export default async function Punch() {
 					</p>
 				</CardContent>
 			</Card>
-			<div className="hidden md:flex">
-				<TableContainer component={Paper}  sx={{ maxHeight: 600, maxWidth: 800 }} >
+			<PunchTable punchesPerDay={punchesPerDay} dailySchedulesTime={DailySchedulesTime} />
+			<div className="hidden">
+				<div className="hidden md:flex">
+				<TableContainer component={Paper} sx={{ maxHeight: 600, maxWidth: 800 }} >
 					<Table stickyHeader sx={{minWidth: 400}} arial-label="tabela simples">
 						<TableHead>
 							<TableRow>
@@ -109,8 +112,8 @@ export default async function Punch() {
 				</TableContainer>
 			</div>
 			<div className="md:hidden">
-				<TableContainer component={Paper}  sx={{ maxHeight: 600, maxWidth: 400 }} >
-					<Table stickyHeader sx={{minWidth: 200}} arial-label="tabela simples">
+				<TableContainer component={Paper}  sx={{ maxHeight: 600, maxWidth: {xs: 400, md: 800} }} >
+					<Table stickyHeader sx={{minWidth: {xs: 200, md: 400}}} arial-label="tabela simples">
 						<TableHead>
 							<TableRow>
 								<TableCell>Data</TableCell>
@@ -176,6 +179,7 @@ export default async function Punch() {
 						</TableBody>
 					</Table>
 				</TableContainer>
+			</div>
 			</div>				
 		</div>
 	)
