@@ -63,7 +63,7 @@ export default function Home() {
               className='flex gap-2 justify-center items-center'
             >
               <LinkedInIcon/>
-              Linkedin
+              LinkedIn
             </Link>
             <Link 
               href="https://github.com/jlucassaldanha"

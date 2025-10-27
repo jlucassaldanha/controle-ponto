@@ -61,3 +61,17 @@ Separar por linhas e colunas
 6. Deixar pagina de edição iniciando com todos pontos e entrada e saida serem fixos (FEITO)
 7. Mostrar total de extras ou faltantes (FEITO)
 8. Adicionar opção para registrar horas extras anteriores
+
+## Post
+
+🚀 Controle de Ponto com Next.js e Vitest
+
+Criei um sistema de controle de ponto para estudar e ainda por cima resolver uma necessidade real: facilitar o registro de horas para mim e meus colegas.
+
+O principal objetivo foi evoluir minhas habilidades com Next.js e implementar uma cultura de qualidade com testes unitários usando Vitest.
+
+A aplicação (versão beta) já possui autenticação, registro de horas e cálculo de extras. O código é open-source e está no meu GitHub.
+
+🔗 Link para o repositório: https://github.com/jlucassaldanha/controle-ponto
+
+#NextJS #ReactJS #TypeScript #Vitest #Prisma #DesenvolvimentoWeb #Portfolio #SoftwareEngineering
