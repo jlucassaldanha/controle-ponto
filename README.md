@@ -1,4 +1,4 @@
-# ⏰ [Nome do Projeto]
+# ⏰ Controle de ponto
 
 [![Deploy on Vercel](https://img.shields.io/badge/Deploy-Vercel-000?logo=vercel)]([URL_DO_DEPLOY_AQUI])
 [![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js&logoColor=white)](https://nextjs.org/)
@@ -6,12 +6,12 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript)](https://www.typescriptlang.org/)
 [![Prisma](https://img.shields.io/badge/Prisma-3-2d3748?logo=prisma)](https://www.prisma.io/)
 [![Vitest](https://img.shields.io/badge/Vitest-passing-yellowgreen?logo=vitest)](https://vitest.dev/)
-[![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)]([URL_DO_SEU_REPOSITORIO])
+[![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)](https://github.com/jlucassaldanha/controle-ponto)
 
 ## 📌 Sobre o projeto
 Um sistema de controle de ponto moderno e funcional, criado para simplificar o registro de horas de trabalho. Além de uma ferramenta de uso pessoal, este projeto serviu como um campo de estudo prático para aprofundar conhecimentos em **Next.js** e testes unitários com **Vitest**.
 
-**👉 Acesse a aplicação em produção aqui: [[Nome do Projeto]]([URL_DO_DEPLOY])**
+**👉 Acesse a aplicação em produção aqui: [Controle de ponto](https://github.com/jlucassaldanha/controle-ponto)**
 
 ## 🛠️ Tecnologias Utilizadas
 - **Full-Stack Framework** → Next.js (com Server Actions)
@@ -48,10 +48,10 @@ Um sistema de controle de ponto moderno e funcional, criado para simplificar o r
 
 ```bash
 # 1. Clone o repositório
-git clone [URL_REPOSITORIO]
+git clone https://github.com/jlucassaldanha/controle-ponto
 
 # 2. Acesse a pasta do projeto
-cd [NOME_DA_PASTA_DO_PROJETO]
+cd controle_ponto
 
 # 3. Instale as dependências
 npm install
@@ -69,7 +69,7 @@ npm run dev
 A aplicação estará disponível em `http://localhost:3000`.
 
 ## 📜 Licença
-Este projeto está licenciado sob a **MIT License**.
+Este projeto está licenciado sob a **MIT License** – veja o arquivo [LICENSE](./LICENSE) para mais detalhes.
 
 ## 📫 Contato
 - **LinkedIn:** [@joao-lucas-saldanha](https://linkedin.com/in/joao-lucas-saldanha/)
