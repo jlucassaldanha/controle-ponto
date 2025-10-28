@@ -1,3 +1,0 @@
-DATABASE_URL="file:./dev.db"
-AUTH_SECRET="fhgfjgjkytrkglgjlkjçççuityjdfh"
-Auth_URL="http://localhost:3000"
