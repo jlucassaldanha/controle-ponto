@@ -73,5 +73,6 @@ O principal objetivo foi evoluir minhas habilidades com Next.js e implementar um
 A aplicação (versão beta) já possui autenticação, registro de horas e cálculo de extras. O código é open-source e está no meu GitHub.
 
 🔗 Link para o repositório: https://github.com/jlucassaldanha/controle-ponto
+🔗 Link para o projeto em produção: https://controleponto.vercel.app
 
 #NextJS #ReactJS #TypeScript #Vitest #Prisma #DesenvolvimentoWeb #Portfolio #SoftwareEngineering

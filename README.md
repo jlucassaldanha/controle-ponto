@@ -1,6 +1,6 @@
 # ⏰ Controle de ponto
 
-[![Deploy on Vercel](https://img.shields.io/badge/Deploy-Vercel-000?logo=vercel)]([URL_DO_DEPLOY_AQUI])
+[![Deploy on Vercel](https://img.shields.io/badge/Deploy-Vercel-000?logo=vercel)]()
 [![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js&logoColor=white)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-18-61dafb?logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript)](https://www.typescriptlang.org/)
@@ -11,7 +11,7 @@
 ## 📌 Sobre o projeto
 Um sistema de controle de ponto moderno e funcional, criado para simplificar o registro de horas de trabalho. Além de uma ferramenta de uso pessoal, este projeto serviu como um campo de estudo prático para aprofundar conhecimentos em **Next.js** e testes unitários com **Vitest**.
 
-**👉 Acesse a aplicação em produção aqui: [Controle de ponto](https://github.com/jlucassaldanha/controle-ponto)**
+**👉 Acesse a aplicação em produção aqui: [Controle de ponto](https://controleponto.vercel.app)**
 
 ## 🛠️ Tecnologias Utilizadas
 - **Full-Stack Framework** → Next.js (com Server Actions)
@@ -35,11 +35,14 @@ Um sistema de controle de ponto moderno e funcional, criado para simplificar o r
 
 ## 🖼️ Preview
 
+### Tela de Inicial
+![Tela de Inicio](./imagem_home.png)
+
 ### Tela de Login
 ![Tela de Login do Projeto](./imagem_login.png)
 
-### Dashboard Principal
-![Dashboard com os registros de ponto](./imagem_dashboard.png)
+### Resigtros de Pontos
+![Tela de registros de ponto](./imagem_ponto.png)
 
 ### Versão Mobile
 ![Aplicação rodando em um celular](./imagem_mobile.png)
