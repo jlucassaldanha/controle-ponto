@@ -34,7 +34,7 @@ export default async function Dashboard() {
               </Link>
               <Link 
                 className="text-blue-500 p-4 hover:bg-blue-50 rounded-md"
-                href='/punch'
+                href='/punch/history'
               >
                 Visualizar pontos
               </Link>

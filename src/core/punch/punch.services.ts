@@ -17,6 +17,15 @@ export type GroupedPunchesType = {
 		punches: Punch[],
 	}
 
+export async function addPunche(userId: string) {
+	const todayDate = new Date()
+	const todayPunches = await getADayPunches(userId, todayDate)
+
+	const todayTypes = todayPunches.map((punch) => punch.type)
+
+	
+}
+
 export async function addPunches(userId: string, punchData: AddPunchDataType) {
 	const dbPunches = await getADayPunches(userId, punchData.date)
 
