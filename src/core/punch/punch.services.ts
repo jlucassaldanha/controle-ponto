@@ -17,7 +17,7 @@ export type GroupedPunchesType = {
 		punches: Punch[],
 	}
 
-export async function addPunche(userId: string) {
+export async function addPunch(userId: string) {
 	const todayDate = new Date()
 
 	try {

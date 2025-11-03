@@ -1,10 +1,9 @@
 'use server'
-import { addPunches } from "@/core/punch/punch.services"
+import { addPunch, addPunches } from "@/core/punch/punch.services"
 import { addPunchesSchema } from "@/core/punch/punch.validation"
 import { getCurrentUser } from "@/lib/session"
 import { revalidatePath } from "next/cache"
 import z from "zod"
-
 
 export type addPunchesActionForm = {
 	success: boolean
@@ -13,6 +12,30 @@ export type addPunchesActionForm = {
     	punches?: string[] | undefined;
 	}
     message?: string
+}
+
+export async function addPunchAction() {
+	const session = await getCurrentUser()
+	
+	if (!session?.id) {
+		return { success: false, message: "Acesso negado." }
+	}
+
+	try {
+		const result =  await addPunch(session.id)
+
+		if (result === null) {
+			return {success: false, message: "Nenhum ponto adicionado."}
+		}	
+		
+		revalidatePath('/punch/history')
+
+		return {success: true, data: result}
+	} catch (error) {
+		console.log(error)
+
+		return { success: false, error: "Não foi possivel registrar o ponto por algum erro no servidor."}
+	}
 }
 
 export async function addPunchesAction(previousState: addPunchesActionForm, formData: FormData) {
