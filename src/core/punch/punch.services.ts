@@ -19,11 +19,84 @@ export type GroupedPunchesType = {
 
 export async function addPunche(userId: string) {
 	const todayDate = new Date()
-	const todayPunches = await getADayPunches(userId, todayDate)
 
-	const todayTypes = todayPunches.map((punch) => punch.type)
+	try {
+		const result = await prisma.$transaction(async (tx) => {
+			const todayPunches = await tx.punch.findMany({
+				where: {
+					userId: userId,
+					timestamp: {
+						gte: new Date(todayDate.setHours(0, 0, 0, 0)),
+						lt: new Date(todayDate.setHours(23, 59, 59, 999))
+					}
+				},
+				orderBy: {
+					timestamp: 'asc'
+				}
+			})
 
-	
+			const punchCount = todayPunches.length
+
+			if (punchCount === 0) {
+				await tx.punch.create({
+					data: {
+						type: PunchType.CLOCK_IN,
+						userId,
+						timestamp: todayDate
+					}
+				})
+			}
+
+			if (punchCount === 1) {
+				await tx.punch.create({
+					data: {
+						type: PunchType.CLOCK_OUT,
+						userId,
+						timestamp: todayDate
+					}
+				})
+			}
+
+			if (punchCount === 2) {
+				const punchOut = todayPunches.find(punch => punch.type === PunchType.CLOCK_OUT)
+				if (!punchOut) {
+					throw new Error("Estado inválido: 2 pontos, mas sem CLOCK_OUT para atualizar.")
+				}
+
+				await tx.punch.update({
+					where: { id: punchOut.id },
+					data: { type: PunchType.START_LUNCH }
+				})
+
+				await tx.punch.create({
+					data: {
+						type: PunchType.END_LUNCH,
+						userId,
+						timestamp: todayDate
+					}
+				})
+			}
+
+			if (punchCount === 3) {
+				await tx.punch.create({
+					data: {
+						type: PunchType.CLOCK_OUT,
+						userId,
+						timestamp: todayDate
+					}
+				})
+			} 
+
+			return null
+
+		})
+		
+		return result
+
+	} catch (error) {
+		console.error(error);
+    	throw new Error("Err2: Could not save punch.");
+	}
 }
 
 export async function addPunches(userId: string, punchData: AddPunchDataType) {
