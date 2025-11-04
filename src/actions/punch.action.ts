@@ -29,6 +29,7 @@ export async function addPunchAction() {
 		}	
 		
 		revalidatePath('/punch/history')
+		revalidatePath('/punch')
 
 		return {success: true, data: result}
 	} catch (error) {
