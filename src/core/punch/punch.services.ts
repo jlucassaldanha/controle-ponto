@@ -24,7 +24,6 @@ export async function addPunch(userId: string) {
 		const result = await prisma.$transaction(async (tx) => {
 			const todayPunches = await getADayPunches(userId, todayDate)
 			const punchCount = todayPunches.length
-			console.log(todayPunches)
 
 			if (punchCount === 0) {
 				await tx.punch.create({
