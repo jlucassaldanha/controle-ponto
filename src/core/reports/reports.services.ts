@@ -1,5 +1,8 @@
 import { minutesToTimeString } from "@/lib/timeFormater"
 import { $Enums, PunchType, type Punch } from "@prisma/client";
+import { getFirstPunch, groupPunchesByDay } from "../punch/punch.services";
+import { getDailySchedulesTime } from "../preferences/preferences.utils";
+import { group } from "console";
 
 export function overtimeUndertime(workTime: number, workedTime: number) {
 	const overtime = workedTime - workTime
@@ -72,6 +75,11 @@ export function getTotalOvertime(punches: PunchesPerDayType[], schedules: {dayOf
 	}
 }
 
-export default async function getWorkdayBalanceReport(params:type) {
-	
+export default async function getWorkdayBalanceReport(userId: string, dailySchedulesTime: ReturnType<typeof getDailySchedulesTime>) {
+	const firstPunch = await getFirstPunch(userId)
+	const firstDate = firstPunch?.timestamp
+	const todayDate = new Date()
+	const punchesPerDay = await groupPunchesByDay(userId)
+
+
 }
