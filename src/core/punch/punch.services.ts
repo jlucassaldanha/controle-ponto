@@ -201,3 +201,16 @@ export async function groupPunchesByDay(userId: string) {
 	
 	return result
 }
+
+export async function getFirstPunch(userId: string) {
+	const firstPunch = await prisma.punch.findFirst({
+		where: {
+			userId: userId
+		},
+		orderBy: {
+			timestamp: 'asc'
+		}
+	})
+
+	return firstPunch
+}

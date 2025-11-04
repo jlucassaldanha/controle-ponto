@@ -9,10 +9,11 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { type Punch, PunchType } from "@prisma/client";
 import { getUserPreferences } from "@/core/preferences/preferences.services";
-import { overtimeUndertime, getPunchTime, getTotalOvertime } from "@/core/punch/punch.utils";
+import { getPunchTime } from "@/core/punch/punch.utils";
 import { getDailySchedulesTime } from "@/core/preferences/preferences.utils";
 import { Card, CardContent, CardHeader, Divider, Typography } from "@mui/material";
 import PunchTable from "@/components/punch/punchTable/PunchTable";
+import { getTotalOvertime, overtimeUndertime } from "@/core/reports/reports.services";
 
 export const dynamic = 'force-dynamic'
 
