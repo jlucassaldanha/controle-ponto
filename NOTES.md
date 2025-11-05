@@ -13,4 +13,4 @@
 6. Deixar pagina de edição iniciando com todos pontos e entrada e saida serem fixos (FEITO)
 7. Mostrar total de extras ou faltantes (FEITO)
 8. Adicionar opção para registrar horas extras anteriores
-9. Caso nenhum ponto seja adicionado para o dia, ele deve ser contado no calculo.
+9. Caso nenhum ponto seja adicionado para o dia, ele deve ser contado no calculo. (FEITO)

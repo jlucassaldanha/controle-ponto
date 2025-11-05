@@ -7,7 +7,7 @@ import TableHeadDesktop from "./TableHeadDesktop";
 import TableHeadMobile from "./TableHeadMobile";
 import TableBodyRowDesktop from "./TableBodyRowDesktop";
 import TableBodyRowMobile from "./TableBodyRowMobile";
-import { overtimeUndertime } from "@/core/reports/reports.services";
+import { overtimeUndertime } from "@/core/punch/punch.reports";
 
 type PunchTableProps = {
 	punchesPerDay: Awaited<ReturnType<typeof groupPunchesByDay>>

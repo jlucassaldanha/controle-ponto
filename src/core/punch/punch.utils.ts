@@ -46,6 +46,3 @@ export function getPunchTime(punches: Punch[], type: PunchType) {
 		return formatTime(punch.timestamp)
 	}
 }
-
-
-

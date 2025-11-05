@@ -1,4 +1,4 @@
-import { groupPunchesByDay } from "@/core/punch/punch.services"
+import { getFirstPunch } from "@/core/punch/punch.services"
 import { requireUserSession } from "@/lib/session"
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,24 +7,29 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { type Punch, PunchType } from "@prisma/client";
+import { PunchType } from "@prisma/client";
 import { getUserPreferences } from "@/core/preferences/preferences.services";
 import { getPunchTime } from "@/core/punch/punch.utils";
 import { getDailySchedulesTime } from "@/core/preferences/preferences.utils";
 import { Card, CardContent, CardHeader, Divider, Typography } from "@mui/material";
 import PunchTable from "@/components/punch/punchTable/PunchTable";
-import { getTotalOvertime, overtimeUndertime } from "@/core/reports/reports.services";
+import { overtimeUndertime, getWorkdayBalanceReport, getTotalOvertime } from "@/core/punch/punch.reports";
 
 export const dynamic = 'force-dynamic'
 
 export default async function PunchHistory() {
 	const session = await requireUserSession()
+	
+	const firstPunch = await getFirstPunch(session.id)	
+	const initialDate = firstPunch?.timestamp || new Date()
+	const todayDate = new Date()
+
 	const userPreferences = await getUserPreferences(session.id)
-	const punchesPerDay = await groupPunchesByDay(session.id)
+	const dailySchedulesTime = getDailySchedulesTime(userPreferences?.dailySchedules)
+	
+	const punchesPerDay = await getWorkdayBalanceReport(session.id, initialDate, todayDate, dailySchedulesTime)
 
-	const DailySchedulesTime = getDailySchedulesTime(userPreferences?.dailySchedules)
-
-	const totalOvertimeData = getTotalOvertime(punchesPerDay, DailySchedulesTime)
+	const totalOvertimeData = getTotalOvertime(punchesPerDay, dailySchedulesTime)
 
 	let color = ''
 	if (totalOvertimeData.overtime && !totalOvertimeData.undertime) {
@@ -49,7 +54,7 @@ export default async function PunchHistory() {
 					</p>
 				</CardContent>
 			</Card>
-			<PunchTable punchesPerDay={punchesPerDay} dailySchedulesTime={DailySchedulesTime} />
+			<PunchTable punchesPerDay={punchesPerDay} dailySchedulesTime={dailySchedulesTime} />
 			<div className="hidden">
 				<div className="hidden md:flex">
 				<TableContainer component={Paper} sx={{ maxHeight: 600, maxWidth: 800 }} >
@@ -67,7 +72,7 @@ export default async function PunchHistory() {
 						</TableHead>
 						<TableBody>
 							{punchesPerDay.map((day) => {
-								const daySchedule = DailySchedulesTime.find((schedule) => schedule.dayOfWeek === day.dayOfWeek.day)
+								const daySchedule = dailySchedulesTime.find((schedule) => schedule.dayOfWeek === day.dayOfWeek.day)
 
 								const workTime = daySchedule ? daySchedule.workTime : 0
 								const overUnder = overtimeUndertime(workTime, day.workedTime.time)
@@ -128,7 +133,7 @@ export default async function PunchHistory() {
 						</TableHead>
 						<TableBody>
 							{punchesPerDay.map((day) => {
-								const daySchedule = DailySchedulesTime.find((schedule) => schedule.dayOfWeek === day.dayOfWeek.day)
+								const daySchedule = dailySchedulesTime.find((schedule) => schedule.dayOfWeek === day.dayOfWeek.day)
 
 								const workTime = daySchedule ? daySchedule.workTime : 0
 								const overUnder = overtimeUndertime(workTime, day.workedTime.time)

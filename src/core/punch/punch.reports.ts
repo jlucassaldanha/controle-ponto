@@ -1,8 +1,8 @@
+import { $Enums } from "@prisma/client";
+import {  groupPunchesByDay } from "./punch.services";
 import { minutesToTimeString } from "@/lib/timeFormater"
-import { $Enums, PunchType, type Punch } from "@prisma/client";
-import { getFirstPunch, groupPunchesByDay } from "../punch/punch.services";
 import { getDailySchedulesTime } from "../preferences/preferences.utils";
-import { group } from "console";
+import { formatDate, getDayOfWeek } from "@/lib/dateUtils";
 
 export function overtimeUndertime(workTime: number, workedTime: number) {
 	const overtime = workedTime - workTime
@@ -75,11 +75,47 @@ export function getTotalOvertime(punches: PunchesPerDayType[], schedules: {dayOf
 	}
 }
 
-export default async function getWorkdayBalanceReport(userId: string, dailySchedulesTime: ReturnType<typeof getDailySchedulesTime>) {
-	const firstPunch = await getFirstPunch(userId)
-	const firstDate = firstPunch?.timestamp
-	const todayDate = new Date()
+type dailySchedulesTimeType = ReturnType<typeof getDailySchedulesTime>[number]
+
+export async function getWorkdayBalanceReport(userId: string, initialDate: Date, finalDate: Date, dailySchedulesTime: dailySchedulesTimeType[]) {
 	const punchesPerDay = await groupPunchesByDay(userId)
+	
+	const punchesPerDayMap = new Map<string, PunchesPerDayType>(
+		punchesPerDay.map(day => [day.date, day])
+	)
+	const dailySchedulesTimeMap = new Map<number, dailySchedulesTimeType>(
+		dailySchedulesTime.map(day => [day.dayOfWeek, day])
+	)
 
+	const currentDate = initialDate
+	const finalReportList = []
+	while (currentDate <= finalDate) {
+		const currentDay = currentDate.getUTCDay()
+		if (dailySchedulesTimeMap.has(currentDay)) {
+			const currentDateString = formatDate(currentDate)
+			const currentDayString = getDayOfWeek(currentDate)
 
+			const dayPunch = punchesPerDayMap.get(currentDateString)
+
+			if (dayPunch) {
+				finalReportList.push(dayPunch)
+			} else {
+				finalReportList.push({
+					workedTime: {
+						timeString: "00:00",
+						time: 0,
+					},
+					date: currentDateString,
+					dayOfWeek: {
+						dayString: currentDayString,
+						day: currentDay,
+					},
+					punches: []
+				})
+			}
+		}
+		currentDate.setDate(currentDate.getDate() + 1)
+	}
+
+	return finalReportList
 }
