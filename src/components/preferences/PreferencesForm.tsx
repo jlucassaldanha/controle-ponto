@@ -21,7 +21,7 @@ export default function PreferencesForm({ initialSchedules }: PreferencesFormPro
 	const [state, formAction] = useActionState(updatePreferencesAction, initialState);
 
 	return (
-		<div className="flex flex-col items-center gap-2">
+		<div className="flex flex-col items-center gap-2 m-5">
 			{schedulesRules.map((rule, i) => (
 				<ScheduleRuleItem
 					key={rule.id} 

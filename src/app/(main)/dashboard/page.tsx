@@ -28,6 +28,12 @@ export default async function Dashboard() {
               </Link>
               <Link 
                 className="text-blue-500 p-4 hover:bg-blue-50 rounded-md"
+                href='/punch'
+              >
+                Bater ponto
+              </Link>
+              <Link 
+                className="text-blue-500 p-4 hover:bg-blue-50 rounded-md"
                 href='/punch/add'
               >
                 Adicionar ponto
