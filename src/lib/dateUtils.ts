@@ -1,11 +1,9 @@
-import { timeStamp } from "console"
-
 export function getADayInterval(date: Date) {
     const startOfDay = new Date(date)
-	startOfDay.setUTCHours(0, 0, 0, 0)
+	startOfDay.setHours(0, 0, 0, 0)
 
 	const endOfDay = new Date(startOfDay)
-	endOfDay.setUTCDate(startOfDay.getUTCDate() + 1)
+	endOfDay.setDate(startOfDay.getDate() + 1)
 
     return {
         startOfDay,
@@ -14,16 +12,16 @@ export function getADayInterval(date: Date) {
 }
 
 export function formatDate(timestamp: Date) {
-    const day = timestamp.getUTCDate().toString().padStart(2, '0')
-	const month = (timestamp.getUTCMonth() + 1).toString().padStart(2, '0')
-	const year = timestamp.getUTCFullYear()
+    const day = timestamp.getDate().toString().padStart(2, '0')
+	const month = (timestamp.getMonth() + 1).toString().padStart(2, '0')
+	const year = timestamp.getFullYear()
 
 	return `${day}/${month}/${year}`
 }
 
 export function formatTime(timestamp: Date) {
-    const hours = timestamp.getUTCHours().toString().padStart(2, '0')
-	const minutes = timestamp.getUTCMinutes().toString().padStart(2, '0')
+    const hours = timestamp.getHours().toString().padStart(2, '0')
+	const minutes = timestamp.getMinutes().toString().padStart(2, '0')
 	
     return `${hours}:${minutes}`
 }
@@ -38,5 +36,5 @@ export function getDayOfWeek(timestamp: Date) {
         5: 'Sex', 
         6: 'Sáb',
     }
-    return dayNumberToKeyMap[timestamp.getUTCDay()]
+    return dayNumberToKeyMap[timestamp.getDay()]
 }
