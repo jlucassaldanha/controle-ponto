@@ -5,6 +5,8 @@ import { getCurrentUser } from "@/lib/session";
 import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 import HomeIcon from '@mui/icons-material/Home';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import UpdateModal from "../modal/UpdateModal";
+
 
 export default async function Header() {
   const user = await getCurrentUser()
@@ -18,6 +20,7 @@ export default async function Header() {
       <nav>
         {user ? (
           <div className="flex items-center gap-3">
+            <UpdateModal />
             <Link href="/dashboard">
               <HomeIcon color="primary"/>
             </Link>
