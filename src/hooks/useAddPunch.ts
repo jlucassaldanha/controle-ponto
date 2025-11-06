@@ -5,7 +5,7 @@ import { useState } from "react"
 
 export function useAddPunch() {
 	const dateNow = new Date()
-	const formatedDateNow = `${dateNow.getUTCFullYear()}-${(dateNow.getUTCMonth() + 1).toString().padStart(2, '0')}-${dateNow.getUTCDate().toString().padStart(2, '0')}`
+	const formatedDateNow = `${dateNow.getFullYear()}-${(dateNow.getMonth() + 1).toString().padStart(2, '0')}-${dateNow.getDate().toString().padStart(2, '0')}`
 
 	const initialFields = [
 		{

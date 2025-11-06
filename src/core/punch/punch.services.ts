@@ -162,7 +162,7 @@ export async function groupPunchesByDay(userId: string) {
 			accumulator[date] = {
 				dayOfWeek: {
 					dayString: dayOfWeek,
-					day: punch.timestamp.getUTCDay()
+					day: punch.timestamp.getDay()
 				},
 				date,
 				punches: []

@@ -13,16 +13,16 @@ const dayNumberToKeyMap: { [key: number]: string } = {
 }
 
 export function formatPunchDateTime(punch: Punch) {
-	const day = punch.timestamp.getUTCDate().toString().padStart(2, '0')
-	const month = (punch.timestamp.getUTCMonth() + 1).toString().padStart(2, '0')
-	const year = punch.timestamp.getUTCFullYear()
+	const day = punch.timestamp.getDate().toString().padStart(2, '0')
+	const month = (punch.timestamp.getMonth() + 1).toString().padStart(2, '0')
+	const year = punch.timestamp.getFullYear()
 	const date = `${day}/${month}/${year}`
 
-	const hours = punch.timestamp.getUTCHours().toString().padStart(2, '0')
-	const minutes = punch.timestamp.getUTCMinutes().toString().padStart(2, '0')
+	const hours = punch.timestamp.getHours().toString().padStart(2, '0')
+	const minutes = punch.timestamp.getMinutes().toString().padStart(2, '0')
 	const time = `${hours}:${minutes}`
 
-	const dayOfWeek = dayNumberToKeyMap[punch.timestamp.getUTCDay()]
+	const dayOfWeek = dayNumberToKeyMap[punch.timestamp.getDay()]
 
 	return { date, dayOfWeek, time, }
 }
