@@ -1,5 +1,5 @@
 "use client"
-import { Button } from "@mui/material";
+import { Alert, Button } from "@mui/material";
 import { useState, useTransition } from "react";
 import { addPunchAction } from "@/actions/punch.action";
 
@@ -27,9 +27,9 @@ export default function PunchButton({disabled}: {disabled: boolean}) {
 				{isPending ? 'Registrando...' : 'Bater ponto'}
 			</Button>
 			{errorMessage && (
-				<p className="text-red-600 mt-2">
+				<Alert severity="error">
 					{errorMessage}
-				</p>
+				</Alert>
 			)}
 		</div>
 	)

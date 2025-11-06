@@ -1,7 +1,7 @@
 "use client";
 import { signUpAction, SignUpFormState } from "@/actions/auth.action";
 import SubmitButton from "@/components/ui/SubmitButton";
-import { Typography } from "@mui/material";
+import { Alert, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { redirect } from "next/navigation";
 import { useActionState } from "react";
@@ -51,9 +51,9 @@ export default function SignUp() {
           <SubmitButton text="Cadastrar" pendingText="Cadastrando..." variant="contained" />
         </div>
         {state.message && (
-          <p className={state.success ? "text-green-500":"text-red-500"} >
+          <Alert severity={state.success ? "success" : "error"}>
             {state.message}
-          </p>
+          </Alert>
         )}
       </form>
     </section>

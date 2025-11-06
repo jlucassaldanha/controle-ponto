@@ -1,7 +1,7 @@
 "use client";
 import { logInAction, LogInFormState } from "@/actions/auth.action";
 import SubmitButton from "@/components/ui/SubmitButton";
-import { TextField, Typography } from "@mui/material";
+import { Alert, TextField, Typography } from "@mui/material";
 import { useActionState } from "react";
 
 export default function LogIn() {
@@ -39,9 +39,9 @@ export default function LogIn() {
           <SubmitButton text="Entrar" pendingText="Carregando..." variant="contained" />
         </div>
         {state.message && (
-          <p className={state.success ? "text-green-500":"text-red-500"} >
+          <Alert severity={state.success ? "success" : "error"}>
             {state.message}
-          </p>
+          </Alert>
         )}
       </form>
     </section>
