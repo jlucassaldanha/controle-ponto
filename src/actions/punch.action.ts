@@ -64,14 +64,6 @@ export async function addPunchesAction(previousState: addPunchesActionForm, form
 	if (!validateFormData.success) {
 		return { success: false, errors: z.flattenError(validateFormData.error).fieldErrors }
 	}
-
-	const {date, ...restOfFormData} = validateFormData.data
-
-	const utcDate = date.getUTC
-	const punchesData = {
-		date: date,
-		...restOfFormData
-	}
 	
 	try {
 		await addPunches(session.id, validateFormData.data)
