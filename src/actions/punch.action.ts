@@ -58,11 +58,19 @@ export async function addPunchesAction(previousState: addPunchesActionForm, form
 		}
 	}
 
-	const date = formData.get('date')
-	const validateFormData = addPunchesSchema.safeParse({ date: date, punches: parsedPunches })
+	const formDataDate = formData.get('date')
+	const validateFormData = addPunchesSchema.safeParse({ date: formDataDate, punches: parsedPunches })
 
 	if (!validateFormData.success) {
 		return { success: false, errors: z.flattenError(validateFormData.error).fieldErrors }
+	}
+
+	const {date, ...restOfFormData} = validateFormData.data
+
+	const utcDate = date.getUTC
+	const punchesData = {
+		date: date,
+		...restOfFormData
 	}
 	
 	try {

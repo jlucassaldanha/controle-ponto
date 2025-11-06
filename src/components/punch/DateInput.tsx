@@ -33,7 +33,7 @@ export default function DateInput({ date, checkToday, state, setDate, setCheckTo
 						onChange={(e) => {
 							setCheckToday(e.target.checked)
 							const dateNow = new Date()
-							setDate(`${dateNow.getUTCFullYear()}-${(dateNow.getUTCMonth() + 1).toString().padStart(2, '0')}-${dateNow.getUTCDate().toString().padStart(2, '0')}`)
+							setDate(`${dateNow.getFullYear()}-${(dateNow.getMonth() + 1).toString().padStart(2, '0')}-${dateNow.getDate().toString().padStart(2, '0')}`)
 						}}
 					/> 
 				}
