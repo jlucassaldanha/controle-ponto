@@ -22,6 +22,7 @@ export default async function Dashboard() {
     const dailySchedulesTime = getDailySchedulesTime(userPreferences?.dailySchedules)
     
     const punchesPerDay = await getWorkdayBalanceReport(session.id, initialDate, todayDate, dailySchedulesTime)
+    const slicedPunchesPerDay = punchesPerDay.slice(punchesPerDay.length - 6, punchesPerDay.length - 1)
   
     const totalOvertimeData = getTotalOvertime(punchesPerDay, dailySchedulesTime)
   
@@ -34,7 +35,16 @@ export default async function Dashboard() {
 
   return (
     <div className="flex flex-col justify-center items-center w-full gap-5">
-      {!userPreferences && (
+      {userPreferences ? (
+        <section className="flex flex-col gap-8 items-center">
+          <PunchRegister session={session}/>
+          <Typography variant="h4" component="h3" className="mb-6 text-center">
+            Última semana
+          </Typography>
+          <OvertimeCard time={totalOvertimeData.timeStr} color={color}/>
+          <PunchTable punchesPerDay={slicedPunchesPerDay} dailySchedulesTime={dailySchedulesTime} />
+      </section>
+      ) : (
         <Card>
           <CardContent>
             <div className="flex flex-col items-center gap-2">
@@ -51,14 +61,6 @@ export default async function Dashboard() {
           </CardContent>
         </Card>
       )}
-      <section className="flex flex-col gap-8 items-center">
-          <PunchRegister session={session}/>
-          <OvertimeCard time={totalOvertimeData.timeStr} color={color}/>
-          <Typography variant="h4" component="h3" className="mb-6 text-center">
-            Espelho Ponto
-          </Typography>
-          <PunchTable punchesPerDay={punchesPerDay} dailySchedulesTime={dailySchedulesTime} />
-      </section>
     </div>
   );
 }

@@ -32,10 +32,10 @@ export default async function PunchHistory() {
 
 	return (
 		<div className="flex flex-col items-center justify-center w-full gap-5 m-5">
-			<OvertimeCard time={totalOvertimeData.timeStr} color={color}/>
 			<Typography variant="h4" component="h1" className="mb-6 text-center">
 				Espelho Ponto
 			</Typography>
+			<OvertimeCard time={totalOvertimeData.timeStr} color={color}/>
 			<PunchTable punchesPerDay={punchesPerDay} dailySchedulesTime={dailySchedulesTime} />			
 		</div>
 	)
