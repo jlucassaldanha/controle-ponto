@@ -5,6 +5,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Profile from "../ui/Profile";
 import { Tooltip } from "@mui/material";
+import NotificationMenu from "../ui/NotificationMenu";
 
 
 export default async function Header() {
@@ -25,6 +26,7 @@ export default async function Header() {
               </Link>
             </Tooltip>
             {/*<Notifications />*/}
+            <NotificationMenu />
             <Profile username={user.username}/>
           </div>
         ) : (
