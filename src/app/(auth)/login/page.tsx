@@ -38,12 +38,12 @@ export default function LogIn() {
           />
           <SubmitButton text="Entrar" pendingText="Carregando..." variant="contained" />
         </div>
-        {state.message && (
-          <Alert severity={state.success ? "success" : "error"}>
-            {state.message}
-          </Alert>
-        )}
       </form>
+      {state.message && (
+        <Alert severity={state.success ? "success" : "error"}>
+          {state.message}
+        </Alert>
+      )}
     </section>
   );
 }

@@ -50,12 +50,12 @@ export default function SignUp() {
           />
           <SubmitButton text="Cadastrar" pendingText="Cadastrando..." variant="contained" />
         </div>
-        {state.message && (
-          <Alert severity={state.success ? "success" : "error"}>
-            {state.message}
-          </Alert>
-        )}
       </form>
+      {state.message && (
+        <Alert severity={state.success ? "success" : "error"}>
+          {state.message}
+        </Alert>
+      )}
     </section>
   );
 }
