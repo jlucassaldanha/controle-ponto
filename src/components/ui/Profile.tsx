@@ -27,16 +27,14 @@ export default function Profile({ username }: {username: string}) {
 
 	return (
 		<div>
-			<div>
-				<Tooltip title="Opções">
-					<IconButton
-						onClick={handleClick}
-						size="small"
-					>
-						<Avatar>{username[0].toUpperCase()}</Avatar>
-					</IconButton>
-				</Tooltip>
-			</div>
+			<Tooltip title="Opções">
+				<IconButton
+					onClick={handleClick}
+					size="small"
+				>
+					<Avatar>{username[0].toUpperCase()}</Avatar>
+				</IconButton>
+			</Tooltip>
 			<Menu
 				anchorEl={anchorEl}
 				open={open}

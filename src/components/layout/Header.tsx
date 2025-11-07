@@ -3,8 +3,7 @@ import { getCurrentUser } from "@/lib/session";
 import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 import HomeIcon from '@mui/icons-material/Home';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import UpdateModal from "../modal/UpdateModal";
-import Profile from "./Profile";
+import Profile from "../ui/Profile";
 import { Tooltip } from "@mui/material";
 
 
@@ -25,7 +24,7 @@ export default async function Header() {
                 <HomeIcon color="primary"/>
               </Link>
             </Tooltip>
-            <UpdateModal />
+            {/*<Notifications />*/}
             <Profile username={user.username}/>
           </div>
         ) : (
