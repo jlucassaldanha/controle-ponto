@@ -1,12 +1,10 @@
 import Link from "next/link";
-import SubmitButton from "../ui/SubmitButton";
-import { logOutAction } from "@/actions/auth.action";
 import { getCurrentUser } from "@/lib/session";
 import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 import HomeIcon from '@mui/icons-material/Home';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import UpdateModal from "../modal/UpdateModal";
-
+import Profile from "../ui/Profile";
+import { Tooltip } from "@mui/material";
 
 export default async function Header() {
   const user = await getCurrentUser()
@@ -20,13 +18,14 @@ export default async function Header() {
       <nav>
         {user ? (
           <div className="flex items-center gap-3">
-            <UpdateModal />
-            <Link href='/dashboard' className="hover:bg-blue-50 rounded-[50%] p-2">
-              <HomeIcon color="primary"/>
-            </Link>
-            <form action={logOutAction}>
-              <SubmitButton text="Sair" pendingText="Saindo..." />
-            </form>
+            <Tooltip title="Dashboard">
+              <Link href='/dashboard' className="hover:bg-blue-50 rounded-[50%] p-2">
+                <HomeIcon color="primary"/>
+              </Link>
+            </Tooltip>
+            {/*<Notifications />*/}
+            {/*<NotificationMenu />*/}
+            <Profile username={user.username}/>
           </div>
         ) : (
           <Link className="text-blue-400 flex justify-center items-center gap-1" href="/login">

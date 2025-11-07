@@ -1,7 +1,7 @@
 'use client'
 import { PreferencesFormState, updatePreferencesAction } from '@/actions/preferences.action';
 import SubmitButton from '@/components/ui/SubmitButton';
-import { Button } from '@mui/material';
+import { Alert, Button } from '@mui/material';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { useActionState } from "react"
 import { PreferencesFormProps } from '@/core/preferences/preferences.types';
@@ -47,9 +47,9 @@ export default function PreferencesForm({ initialSchedules }: PreferencesFormPro
 					pendingText='Salvando'
 				/>
 				{state.message && (
-					<p className={state.success ? "text-green-500":"text-red-500"} >
+					<Alert severity={state.success ? "success" : "error"}>
 						{state.message}
-					</p>
+					</Alert>
 				)}
 			</form>
 		</div>

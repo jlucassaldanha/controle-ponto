@@ -1,6 +1,6 @@
 'use client'
 import SubmitButton from "@/components/ui/SubmitButton";
-import { Button } from "@mui/material";
+import { Alert, Button } from "@mui/material";
 import { useActionState } from "react";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { addPunchesAction, type addPunchesActionForm } from "@/actions/punch.action";
@@ -79,30 +79,29 @@ export default function AddPunchForm() {
 					pendingText='Salvando'
 				/>
 				{state.message && (
-					<p className={state.success ? "text-green-500":"text-red-500"} >
-						{state.message}  
-					</p>
+					<Alert severity={state.success ? "success" : "error"}>
+						{state.message}
+					</Alert>
 				)}
 				{state.errors?.punches && (
 					<div>
 						{[...new Set(state.errors.punches)].map((error, i) => (
-							<p key={i} className="text-red-500" >
+							<Alert key={i} severity="error">
 								{error}
-							</p>
+							</Alert>
 						))}
 					</div>
 				)}
 				{state.errors?.date && (
 					<div>
 						{[...new Set(state.errors.date)].map((error, i) => (
-							<p key={i} className="text-red-500" >
+							<Alert key={i} severity="error">
 								{error}
-							</p>
+							</Alert>
 						))}
 					</div>
 				)}
 			</div>
-			
 		</form>
 	)
 }

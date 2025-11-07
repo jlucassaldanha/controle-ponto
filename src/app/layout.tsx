@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Controle de ponto",
-  description: "Aplicação desenvolvida por João Lucas Saldanha",
+  description: "Controle seu ponto e horas extras\n Desenvolvido por João Lucas Saldanha",
 };
 
 export default function RootLayout({
