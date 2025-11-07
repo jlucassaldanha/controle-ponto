@@ -3,7 +3,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useEffect, useState } from 'react';
-import { Badge, Button, Card, CardActions, CardContent, IconButton } from '@mui/material';
+import { Badge, Button, Card, CardActions, CardContent, IconButton, Tooltip } from '@mui/material';
 
 const style = {
   position: 'absolute',
@@ -37,11 +37,13 @@ export default function UpdateModal() {
 
   return (
     <div>
-      <IconButton aria-label="info" onClick={handleOpen}>
-        <Badge badgeContent={!hasSeen && 1} color={hasSeen ? 'default' : 'primary'}>
-          <NotificationsIcon/>
-        </Badge>
-      </IconButton>
+      <Tooltip title="Notificações">
+        <IconButton aria-label="info" onClick={handleOpen}>
+          <Badge badgeContent={!hasSeen && 1} color={hasSeen ? 'default' : 'primary'}>
+            <NotificationsIcon/>
+          </Badge>
+        </IconButton>
+      </Tooltip>
       <Modal
         open={open}
         aria-labelledby="update-info"

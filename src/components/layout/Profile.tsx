@@ -17,24 +17,9 @@ export default function Profile({ username }: {username: string}) {
 		setAnchorEl(null)
 	}
 
-	const handlePreferencesRedirect = () => {
+	const handleRedirect = (url: string) => {
 		setAnchorEl(null)
-		redirect('/preferences')
-	}
-
-	const handlePunchRedirect = () => {
-		setAnchorEl(null)
-		redirect('/punch')
-	}
-
-	const handlePunchesRedirect = () => {
-		setAnchorEl(null)
-		redirect('/punch/add')
-	}
-
-	const handleViewPunchesRedirect = () => {
-		setAnchorEl(null)
-		redirect('/punch/history')
+		redirect(url)
 	}
 
 	return (
@@ -54,23 +39,28 @@ export default function Profile({ username }: {username: string}) {
 				open={open}
 				onClose={handleClose}
 			>
-				<MenuItem onClick={handlePunchRedirect}>
+				<MenuItem onClick={() => handleRedirect('/dashboard')}>
+					<ListItemText>
+						Dashboard
+					</ListItemText>
+				</MenuItem>
+				<MenuItem onClick={() => handleRedirect('/punch')}>
 					<ListItemText>
 						Bater ponto
 					</ListItemText>
 				</MenuItem>
-				<MenuItem onClick={handlePunchesRedirect}>
+				<MenuItem onClick={() => handleRedirect('/punch/add')}>
 					<ListItemText>
 						Adicionar pontos
 					</ListItemText>
 				</MenuItem>
-				<MenuItem onClick={handleViewPunchesRedirect}>
+				<MenuItem onClick={() => handleRedirect('/punch/history')}>
 					<ListItemText>
 						Visualizar pontos
 					</ListItemText>
 				</MenuItem>
 				<Divider />
-				<MenuItem onClick={handlePreferencesRedirect}>
+				<MenuItem onClick={() => handleRedirect('/preferences')}>
 					<ListItemIcon>
 						<Settings fontSize="small"/>
 					</ListItemIcon>
