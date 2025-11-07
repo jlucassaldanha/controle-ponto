@@ -2,6 +2,7 @@
 import { Alert, Button } from "@mui/material";
 import { useState, useTransition } from "react";
 import { addPunchAction } from "@/actions/punch.action";
+import PunchClockIcon from '@mui/icons-material/PunchClock';
 
 
 export default function PunchButton({disabled}: {disabled: boolean}) {
@@ -23,7 +24,13 @@ export default function PunchButton({disabled}: {disabled: boolean}) {
 
 	return (
 		<div>
-			<Button onClick={handleClick} disabled={isPending || disabled} variant="contained" >
+			<Button 
+				onClick={handleClick} 
+				disabled={isPending || disabled} 
+				variant="contained" 
+				sx={{display: "flex", gap: "10px"}} 
+			>
+				<PunchClockIcon />
 				{isPending ? 'Registrando...' : 'Bater ponto'}
 			</Button>
 			{errorMessage && (
