@@ -7,7 +7,7 @@ import JourneyCard from "./JourneyCard"
 
 export default function ScheduleRuleItem({ rule, handleDayChange, handleTimeChange, handleRemove }: ScheduleRuleItemProps) {
    return (
-        <Card variant="outlined" className="m-6 max-w-[400px]">
+        <Card variant="outlined" className="m-6 max-w-[420px]">
             <CardHeader 
                 title="Regra de Horário"
                 action={
