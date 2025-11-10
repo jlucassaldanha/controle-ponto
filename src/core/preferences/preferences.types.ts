@@ -36,3 +36,13 @@ export type ScheduleRuleItemProps = {
   handleTimeChange: (ruleId: string, field: TimeFieldKey, value: string) => void
   handleRemove: (id: string) => void
 }
+
+export type JourneyCardProps = { 
+	rule: SchedulesRulesType, 
+	variant: {
+		title: "Jornada" | "Almoço",
+		entryField: TimeFieldKey,
+		exitField: TimeFieldKey,
+	} 
+	handleTimeChange: (ruleId: string, field: TimeFieldKey, value: string) => void 
+}
