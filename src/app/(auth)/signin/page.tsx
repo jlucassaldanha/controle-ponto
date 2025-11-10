@@ -48,6 +48,15 @@ export default function SignUp() {
             error={!!state.errors?.password}
             helperText={state.errors?.email?.[0]}
           />
+          <TextField
+            variant="outlined"
+            label="Confirmar senha"
+            name="confirm_password"
+            id="confirm_password"
+            type="password"
+            error={!!state.errors?.confirm_password}
+            helperText={state.errors?.email?.[0]}
+          />
           <SubmitButton text="Cadastrar" pendingText="Cadastrando..." variant="contained" />
         </div>
       </form>
