@@ -23,19 +23,12 @@ export default async function PunchHistory() {
 
 	const totalOvertimeData = getTotalOvertime(punchesPerDay, dailySchedulesTime)
 
-	let color = ''
-	if (totalOvertimeData.overtime && !totalOvertimeData.undertime) {
-		color = "green"
-	} else if (!totalOvertimeData.overtime && totalOvertimeData.undertime) {
-		color = "red"
-	}
-
 	return (
 		<div className="flex flex-col items-center justify-center w-full gap-5 m-5">
 			<Typography variant="h4" component="h1" className="mb-6 text-center">
 				Espelho Ponto
 			</Typography>
-			<OvertimeCard time={totalOvertimeData.timeStr} color={color}/>
+			<OvertimeCard totalOvertime={totalOvertimeData}/>
 			<PunchTable punchesPerDay={punchesPerDay} dailySchedulesTime={dailySchedulesTime} />			
 		</div>
 	)
