@@ -57,7 +57,7 @@ export default function Profile({ username }: {username: string}) {
 						Adicionar pontos
 					</ListItemText>
 				</MenuItem>
-				<MenuItem onClick={() => handleRedirect('/punch/add')}>
+				<MenuItem onClick={() => handleRedirect('/punch/history')}>
 					<ListItemIcon>
 						<CalendarViewMonthIcon />
 					</ListItemIcon>
