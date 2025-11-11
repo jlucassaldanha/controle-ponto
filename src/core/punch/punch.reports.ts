@@ -90,32 +90,30 @@ export async function getWorkdayBalanceReport(userId: string, initialDate: Date,
 	const currentDate = initialDate
 	const finalReportList = []
 	while (currentDate <= finalDate) {
+		const currentDateString = formatDate(currentDate)
 		const currentDay = currentDate.getDay()
-		if (dailySchedulesTimeMap.has(currentDay)) {
-			const currentDateString = formatDate(currentDate)
+		const currentPunch = punchesPerDayMap.get(currentDateString)
+		
+		if (currentPunch) {
+			finalReportList.push(currentPunch)
+		} else if (punchesPerDay.length > 0 && dailySchedulesTimeMap.has(currentDay)){
 			const currentDayString = getDayOfWeek(currentDate)
 
-			const dayPunch = punchesPerDayMap.get(currentDateString)
-
-			if (dayPunch) {
-				finalReportList.push(dayPunch)
-			} else if (punchesPerDay.length > 0){
-				finalReportList.push({
-					workedTime: {
-						timeString: "00:00",
-						time: 0,
-					},
-					date: currentDateString,
-					dayOfWeek: {
-						dayString: currentDayString,
-						day: currentDay,
-					},
-					punches: []
-				})
-			}
+			finalReportList.push({
+				workedTime: {
+					timeString: "00:00",
+					time: 0,
+				},
+				date: currentDateString,
+				dayOfWeek: {
+					dayString: currentDayString,
+					day: currentDay,
+				},
+				punches: []
+			})
 		}
 		currentDate.setDate(currentDate.getDate() + 1)
 	}
-
+	
 	return finalReportList
 }
