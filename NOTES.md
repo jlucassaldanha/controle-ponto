@@ -10,14 +10,14 @@
 	- Calculo de horas extras (FEITO)
 4. Adicionar opção de visualização por dia, semana e mes
 5. Adicionar edição de ponto
-6. Adicionar opcão de abono na pagina de adição ou pagina de edição
+6. Adicionar opcão de abono ou marcar como feriado na pagina de adição ou pagina de edição
 7. Deixar pagina de edição iniciando com todos pontos e entrada e saida serem fixos (FEITO)
 8. Mostrar total de extras ou faltantes (FEITO)
 9. Adicionar opção para registrar horas extras anteriores
 
 ## Correções
 1. Caso nenhum ponto seja adicionado para o dia, ele deve ser contado no calculo. (FEITO)
-2. Caso algum horario seja registrado fora da jornada de trabalho, ele deve ser adicionado como hora extra
+2. Caso algum horario seja registrado fora da jornada de trabalho, ele deve ser adicionado como hora extra (FEITO)
 3. Permitir que seja registrado 1 ponto por vez
 4. Dashboard mostrar apenas pontos da ultima semana
 5. Adicionar cofirmação de senha (FEITO)
