@@ -35,3 +35,7 @@ export const dailyScheduleSchema = z.object({
 export const updateUserPreferencesSchema = z.object({
 	schedules: z.array(dailyScheduleSchema),
 })
+
+export const balanceTimeSchema = z.object({
+	time: timeStringSchema
+})
