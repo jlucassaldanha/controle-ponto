@@ -40,3 +40,35 @@ export async function validateCredentials(email: string, password: string): Prom
 
   return null
 }
+
+export async function addInitialBalance(userId: string, initialBalance: number) {
+  try {
+    const user = await prisma.user.update({ 
+      where: { 
+        id: userId 
+      },
+      data: {
+        initialBalanceMinutes: initialBalance
+      }
+    })
+
+    return user
+  } catch (error) {
+    console.error('Erro ao atualizar o usuário:', error);
+  }
+  
+}
+
+export async function getInitialBalance(userId: string) {
+  try {
+    const user = await prisma.user.findUnique({ 
+      where: { 
+        id: userId 
+      }
+    })
+
+    return user?.initialBalanceMinutes
+  } catch (error) {
+    console.error('Erro ao atualizar o usuário:', error);
+  }
+}
