@@ -65,19 +65,22 @@ export default function AddPunchForm() {
 				/>
 			</div>
 			<div className="flex flex-col items-center justify-center gap-5">
-				<Button 
-					variant='contained' 
-					onClick={handleAdd} 
-					startIcon={<AddBoxIcon />} 
-					disabled={punchFields.length >= 4}
-				>
-					Adicionar
-				</Button>
-				<SubmitButton 
-					variant='contained' 
-					text='Salvar' 
-					pendingText='Salvando'
-				/>
+				<div className="flex justify-center items-center gap-5">
+					<Button 
+						variant='contained' 
+						onClick={handleAdd} 
+						startIcon={<AddBoxIcon />} 
+						disabled={punchFields.length >= 4}
+					>
+						Adicionar
+					</Button>
+					<SubmitButton 
+						variant='contained' 
+						text='Salvar' 
+						pendingText='Salvando'
+					/>
+				</div>
+				
 				{state.message && (
 					<Alert severity={state.success ? "success" : "error"}>
 						{state.message}

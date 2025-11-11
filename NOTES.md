@@ -15,13 +15,12 @@
 8. Mostrar total de extras ou faltantes (FEITO)
 9. Adicionar opção para registrar horas extras anteriores
 
-
 ## Correções
 1. Caso nenhum ponto seja adicionado para o dia, ele deve ser contado no calculo. (FEITO)
 2. Caso algum horario seja registrado fora da jornada de trabalho, ele deve ser adicionado como hora extra
 3. Permitir que seja registrado 1 ponto por vez
 4. Dashboard mostrar apenas pontos da ultima semana
-5. Adicionar cofirmação de senha
-6. Adicionar mensagem de feedback para o botão de bater ponto
-7. Melhorar interface para visualização de mensagens
+5. Adicionar cofirmação de senha (FEITO)
+6. Adicionar mensagem de feedback para o botão de bater ponto (FEITO)
+7. Melhorar interface para visualização de mensagens (EM PROGRESSO)
 8. Arrumar erros não mostrados nos formularios de login e signin (FEITO)
