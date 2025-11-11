@@ -2,6 +2,7 @@
 import { logInAction, LogInFormState } from "@/actions/auth.action";
 import SubmitButton from "@/components/ui/SubmitButton";
 import { Alert, TextField, Typography } from "@mui/material";
+import Link from "next/link";
 import { useActionState } from "react";
 
 export default function LogIn() {
@@ -16,8 +17,13 @@ export default function LogIn() {
       >
         Log In
       </Typography>
+      {state.message && (
+        <Alert severity={state.success ? "success" : "error"}>
+          {state.message}
+        </Alert>
+      )}
       <form action={formAction}>
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-5 min-w-[300px]">
           <TextField
             variant="outlined"
             label="E-mail"
@@ -34,16 +40,14 @@ export default function LogIn() {
             id="password"
             type="password"
             error={!!state.errors?.password}
-            helperText={state.errors?.email?.[0]}
+            helperText={state.errors?.password?.[0]}
           />
           <SubmitButton text="Entrar" pendingText="Carregando..." variant="contained" />
         </div>
       </form>
-      {state.message && (
-        <Alert severity={state.success ? "success" : "error"}>
-          {state.message}
-        </Alert>
-      )}
+      <Link href='/signin' className="underline text-blue-600">
+        Não possuo uma conta
+      </Link>
     </section>
   );
 }

@@ -3,6 +3,7 @@ import { signUpAction, SignUpFormState } from "@/actions/auth.action";
 import SubmitButton from "@/components/ui/SubmitButton";
 import { Alert, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useActionState } from "react";
 
@@ -10,7 +11,8 @@ export default function SignUp() {
   const initialState: SignUpFormState = { success: false };
   const [state, formAction] = useActionState(signUpAction, initialState);
 
-  state.success && redirect('/login')
+  if (state.success) redirect('/login')
+    
   return (
     <section className="flex flex-col justify-center items-center w-full h-screen">
       <Typography 
@@ -19,8 +21,13 @@ export default function SignUp() {
       >
         Criar conta
       </Typography>
+      {state.message && (
+        <Alert severity={state.success ? "success" : "error"}>
+          {state.message}
+        </Alert>
+      )}
       <form action={formAction}>
-        <div className="flex flex-col gap-5 m-9">
+        <div className="flex flex-col gap-5 m-9 min-w-[300px]">
           <TextField
             variant="outlined"
             label="Nome"
@@ -28,7 +35,7 @@ export default function SignUp() {
             id="username"
             type="text"
             error={!!state.errors?.username}
-            helperText={state.errors?.email?.[0]}
+            helperText={state.errors?.username?.[0]}
           />
           <TextField
             variant="outlined"
@@ -46,7 +53,7 @@ export default function SignUp() {
             id="password"
             type="password"
             error={!!state.errors?.password}
-            helperText={state.errors?.email?.[0]}
+            helperText={state.errors?.password?.[0]}
           />
           <TextField
             variant="outlined"
@@ -55,16 +62,14 @@ export default function SignUp() {
             id="confirm_password"
             type="password"
             error={!!state.errors?.confirm_password}
-            helperText={state.errors?.email?.[0]}
+            helperText={state.errors?.confirm_password?.[0]}
           />
           <SubmitButton text="Cadastrar" pendingText="Cadastrando..." variant="contained" />
         </div>
       </form>
-      {state.message && (
-        <Alert severity={state.success ? "success" : "error"}>
-          {state.message}
-        </Alert>
-      )}
+      <Link href='/login' className="underline text-blue-600">
+        Já possuo uma conta
+      </Link>
     </section>
   );
 }

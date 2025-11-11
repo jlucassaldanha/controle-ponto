@@ -24,3 +24,4 @@
 5. Adicionar cofirmação de senha
 6. Adicionar mensagem de feedback para o botão de bater ponto
 7. Melhorar interface para visualização de mensagens
+8. Arrumar erros não mostrados nos formularios de login e signin (FEITO)
