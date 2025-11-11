@@ -75,3 +75,7 @@ export async function updatePreferencesAction(previousState: PreferencesFormStat
 		return { success: false, message: "Falha ao salvar as configurações."}
 	}
 }
+
+export async function updateInitialBalance() {
+	
+}

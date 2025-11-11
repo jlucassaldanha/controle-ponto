@@ -41,7 +41,7 @@ export async function validateCredentials(email: string, password: string): Prom
   return null
 }
 
-export async function addInitialBalance(userId: string, initialBalance: number) {
+export async function updateInitialBalance(userId: string, initialBalance: number) {
   try {
     const user = await prisma.user.update({ 
       where: { 
@@ -69,6 +69,6 @@ export async function getInitialBalance(userId: string) {
 
     return user?.initialBalanceMinutes
   } catch (error) {
-    console.error('Erro ao atualizar o usuário:', error);
+    console.error('Erro ler o banco de dados:', error);
   }
 }
