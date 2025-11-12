@@ -104,11 +104,8 @@ export async function updateInitialBalanceAction(previousState: BalanceTimeFormS
 		}
 	}
 
-	console.log(parsedData)
-
 	const validateFormData = balanceTimeSchema.safeParse(parsedData)
 
-	console.log(validateFormData)
 	if (!validateFormData.success) {
 		return { success: false, errors: z.flattenError(validateFormData.error).fieldErrors }
 	}

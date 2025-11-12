@@ -13,7 +13,7 @@
 6. Adicionar opcão de abono ou marcar como feriado na pagina de adição e pagina de edição
 7. Deixar pagina de edição iniciando com todos pontos e entrada e saida serem fixos (FEITO)
 8. Mostrar total de extras ou faltantes (FEITO)
-9. Adicionar opção para registrar horas extras anteriores
+9. Adicionar opção para registrar horas extras anteriores (FEITO)
 
 ## Correções
 1. Caso nenhum ponto seja adicionado para o dia, ele deve ser contado no calculo. (FEITO)
@@ -24,3 +24,4 @@
 6. Adicionar mensagem de feedback para o botão de bater ponto (FEITO)
 7. Melhorar interface para visualização de mensagens (EM PROGRESSO)
 8. Arrumar erros não mostrados nos formularios de login e signin (FEITO)
+9. Incluir horas extras anteriores na contagem
