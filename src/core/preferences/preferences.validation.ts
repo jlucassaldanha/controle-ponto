@@ -37,5 +37,6 @@ export const updateUserPreferencesSchema = z.object({
 })
 
 export const balanceTimeSchema = z.object({
-	time: timeStringSchema
+	time: timeStringSchema,
+	isNegative: z.boolean()
 })

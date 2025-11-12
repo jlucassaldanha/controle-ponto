@@ -92,16 +92,34 @@ export async function updateInitialBalanceAction(previousState: BalanceTimeFormS
 		return { success: false, message: "Acesso negado." }
 	} 
 
-	const rawData = Object.fromEntries(formData)
+	const initialBalancePayload = formData.get('initialBalancePayload')
 
-	const validateFormData = balanceTimeSchema.safeParse(rawData)
+	let parsedData = []
+	if (typeof initialBalancePayload === 'string') {
+		try {
+			parsedData = JSON.parse(initialBalancePayload)
+		} catch (error) {
+			console.log(error)
+			return { success: false, message: "erro ao processar os dados do formulario."}
+		}
+	}
 
+	console.log(parsedData)
+
+	const validateFormData = balanceTimeSchema.safeParse(parsedData)
+
+	console.log(validateFormData)
 	if (!validateFormData.success) {
 		return { success: false, errors: z.flattenError(validateFormData.error).fieldErrors }
 	}
 
 	try {
-		await updateInitialBalance(session.user.id, validateFormData.data.time)
+		let time = validateFormData.data.time
+		if (validateFormData.data.isNegative) {
+			time = time * -1
+		}
+
+		await updateInitialBalance(session.user.id, time)
 
 		return { success: true, message: "Configurações salvas com sucesso!" }
 	} catch (error) {

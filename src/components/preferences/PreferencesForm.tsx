@@ -58,7 +58,6 @@ export default function PreferencesForm({ initialSchedules }: PreferencesFormPro
 					/>
 				</form>
 			</div>
-			
 		</div>
 	)
 }

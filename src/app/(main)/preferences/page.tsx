@@ -1,8 +1,10 @@
-import InitialBalnceTimeCard from "@/components/preferences/InitialBalanceTimeCard"
+import InitialBalanceTimeCard from "@/components/preferences/InitialBalanceTimeCard"
 import PreferencesForm from "@/components/preferences/PreferencesForm"
 import { getUserPreferences } from "@/core/preferences/preferences.services"
 import { groupSchedulesIntoRules } from "@/core/preferences/preferences.utils"
+import { getInitialBalance } from "@/core/user/user.services"
 import { requireUserSession } from "@/lib/session"
+import { minutesToTimeString } from "@/lib/timeFormater"
 
 export const dynamic = 'force-dynamic'
 
@@ -11,10 +13,31 @@ export default async function Preferences() {
 	const userPreferences = await getUserPreferences(user.id)
 	const dailySchedulesFromDb = userPreferences?.dailySchedules || []
 	const initialSchedulesForForm = groupSchedulesIntoRules(dailySchedulesFromDb)
+	
+	const getInitialBalanceData = async (userId: string) => {
+		const initialBalance = await getInitialBalance(userId)
+
+		if (initialBalance && initialBalance < 0) {
+			return {
+				isNegative: true,
+				balanceString: minutesToTimeString(initialBalance * -1)
+			}
+		} else if (initialBalance && initialBalance > 0) {
+			return {
+				isNegative: false,
+				balanceString: minutesToTimeString(initialBalance)
+			}
+		}
+	}
+
+	const initialBalance = await getInitialBalanceData(user.id) || {isNegative: false, balanceString: "00:00"}
+	
 
 	return (
 		<div className="flex flex-col items-center justify-center w-full gap-2 m-5">
-			<InitialBalnceTimeCard />
+			<div className='w-full p-6'>
+				<InitialBalanceTimeCard initialBalance={initialBalance.balanceString} isNegative={initialBalance.isNegative}/>
+			</div>
 			<PreferencesForm initialSchedules={initialSchedulesForForm} />			
 		</div>
 	)
