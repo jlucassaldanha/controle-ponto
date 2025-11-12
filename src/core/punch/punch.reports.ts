@@ -55,8 +55,8 @@ type PunchesPerDayType = {
     }[];
 }
 
-export function getTotalOvertime(punches: PunchesPerDayType[], schedules: {dayOfWeek: number; workTime: number;}[]) {
-	const total = punches.reduce((accumulator, day) => {
+export function getTotalOvertime(punches: PunchesPerDayType[], schedules: {dayOfWeek: number; workTime: number;}[], initialBalance: number) {
+	const punchesSum = punches.reduce((accumulator, day) => {
 		const daySchedule = schedules.find((schedule) => schedule.dayOfWeek === day.dayOfWeek.day)
 
 		const workTime = daySchedule ? daySchedule.workTime : 0
@@ -64,7 +64,7 @@ export function getTotalOvertime(punches: PunchesPerDayType[], schedules: {dayOf
 		
 		return accumulator + overUnder.time
 	}, 0)
-
+	const total = punchesSum + initialBalance
 	const timeStr = minutesToTimeString(Math.abs(total))
 
 	const underOver = isUnderOver(total)

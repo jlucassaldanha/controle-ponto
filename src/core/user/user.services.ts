@@ -61,5 +61,9 @@ export async function getInitialBalance(userId: string) {
     }
   })
 
-  return user?.initialBalanceMinutes
+  if (!user) {
+    return 0
+  }
+  
+  return user.initialBalanceMinutes
 }

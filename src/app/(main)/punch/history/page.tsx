@@ -6,6 +6,7 @@ import { Typography } from "@mui/material";
 import PunchTable from "@/components/punch/punchTable/PunchTable";
 import { getWorkdayBalanceReport, getTotalOvertime } from "@/core/punch/punch.reports";
 import OvertimeCard from "@/components/punch/OvertimeCard/OvertimeCard";
+import { getInitialBalance } from "@/core/user/user.services";
 
 export const dynamic = 'force-dynamic'
 
@@ -20,8 +21,9 @@ export default async function PunchHistory() {
 	const dailySchedulesTime = getDailySchedulesTime(userPreferences?.dailySchedules)
 	
 	const punchesPerDay = await getWorkdayBalanceReport(session.id, initialDate, todayDate, dailySchedulesTime)
-
-	const totalOvertimeData = getTotalOvertime(punchesPerDay, dailySchedulesTime)
+	
+	const initialBalance = await getInitialBalance(session.id)
+	const totalOvertimeData = getTotalOvertime(punchesPerDay, dailySchedulesTime, initialBalance)
 
 	return (
 		<div className="flex flex-col items-center justify-center w-full gap-5 m-5">
