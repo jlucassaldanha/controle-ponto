@@ -22,7 +22,7 @@ export default function PreferencesForm({ initialSchedules }: PreferencesFormPro
 	const [state, formAction] = useActionState(updatePreferencesAction, initialState);
 
 	return (
-		<div className="flex flex-col items-center m-3">
+		<div className="flex flex-col items-center">
 			{state.message && (
 				<Alert severity={state.success ? "success" : "error"}>
 					{state.message}

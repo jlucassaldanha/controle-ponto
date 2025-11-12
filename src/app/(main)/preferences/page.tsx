@@ -1,3 +1,4 @@
+import InitialBalnceTimeCard from "@/components/preferences/InitialBalanceTimeCard"
 import PreferencesForm from "@/components/preferences/PreferencesForm"
 import { getUserPreferences } from "@/core/preferences/preferences.services"
 import { groupSchedulesIntoRules } from "@/core/preferences/preferences.utils"
@@ -12,7 +13,8 @@ export default async function Preferences() {
 	const initialSchedulesForForm = groupSchedulesIntoRules(dailySchedulesFromDb)
 
 	return (
-		<div className="flex flex-col items-center justify-center w-full gap-2">
+		<div className="flex flex-col items-center justify-center w-full gap-2 m-5">
+			<InitialBalnceTimeCard />
 			<PreferencesForm initialSchedules={initialSchedulesForForm} />			
 		</div>
 	)

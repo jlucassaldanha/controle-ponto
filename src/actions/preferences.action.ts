@@ -101,7 +101,7 @@ export async function updateInitialBalanceAction(previousState: BalanceTimeFormS
 	}
 
 	try {
-		updateInitialBalance(session.user.id, validateFormData.data.time)
+		await updateInitialBalance(session.user.id, validateFormData.data.time)
 
 		return { success: true, message: "Configurações salvas com sucesso!" }
 	} catch (error) {
