@@ -3,6 +3,7 @@ import { Settings } from "@mui/icons-material"
 import LogoutIcon from '@mui/icons-material/Logout';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import AddAlarmIcon from '@mui/icons-material/AddAlarm';
+import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth';
 import { Avatar, Divider, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Tooltip } from "@mui/material"
 import { logOutAction } from "@/actions/auth.action";
 import { useState } from "react"
@@ -54,6 +55,14 @@ export default function Profile({ username }: {username: string}) {
 					</ListItemIcon>
 					<ListItemText>
 						Adicionar pontos
+					</ListItemText>
+				</MenuItem>
+				<MenuItem onClick={() => handleRedirect('/punch/history')}>
+					<ListItemIcon>
+						<CalendarViewMonthIcon />
+					</ListItemIcon>
+					<ListItemText>
+						Visualizar pontos
 					</ListItemText>
 				</MenuItem>
 				<Divider />

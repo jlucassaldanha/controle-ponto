@@ -42,6 +42,7 @@ type PunchesPerDayType = {
         timeString: string;
         time: number;
     };
+	timestamp: Date;
     date: string;
     dayOfWeek: {
         dayString: string;
@@ -55,8 +56,8 @@ type PunchesPerDayType = {
     }[];
 }
 
-export function getTotalOvertime(punches: PunchesPerDayType[], schedules: {dayOfWeek: number; workTime: number;}[]) {
-	const total = punches.reduce((accumulator, day) => {
+export function getTotalOvertime(punches: PunchesPerDayType[], schedules: {dayOfWeek: number; workTime: number;}[], initialBalance: number) {
+	const punchesSum = punches.reduce((accumulator, day) => {
 		const daySchedule = schedules.find((schedule) => schedule.dayOfWeek === day.dayOfWeek.day)
 
 		const workTime = daySchedule ? daySchedule.workTime : 0
@@ -64,7 +65,7 @@ export function getTotalOvertime(punches: PunchesPerDayType[], schedules: {dayOf
 		
 		return accumulator + overUnder.time
 	}, 0)
-
+	const total = punchesSum + initialBalance
 	const timeStr = minutesToTimeString(Math.abs(total))
 
 	const underOver = isUnderOver(total)
@@ -90,32 +91,31 @@ export async function getWorkdayBalanceReport(userId: string, initialDate: Date,
 	const currentDate = initialDate
 	const finalReportList = []
 	while (currentDate <= finalDate) {
+		const currentDateString = formatDate(currentDate)
 		const currentDay = currentDate.getDay()
-		if (dailySchedulesTimeMap.has(currentDay)) {
-			const currentDateString = formatDate(currentDate)
+		const currentPunch = punchesPerDayMap.get(currentDateString)
+		
+		if (currentPunch) {
+			finalReportList.push(currentPunch)
+		} else if (punchesPerDay.length > 0 && dailySchedulesTimeMap.has(currentDay)){
 			const currentDayString = getDayOfWeek(currentDate)
 
-			const dayPunch = punchesPerDayMap.get(currentDateString)
-
-			if (dayPunch) {
-				finalReportList.push(dayPunch)
-			} else if (punchesPerDay.length > 0){
-				finalReportList.push({
-					workedTime: {
-						timeString: "00:00",
-						time: 0,
-					},
-					date: currentDateString,
-					dayOfWeek: {
-						dayString: currentDayString,
-						day: currentDay,
-					},
-					punches: []
-				})
-			}
+			finalReportList.push({
+				workedTime: {
+					timeString: "00:00",
+					time: 0,
+				},
+				timestamp: currentDate,
+				date: currentDateString,
+				dayOfWeek: {
+					dayString: currentDayString,
+					day: currentDay,
+				},
+				punches: []
+			})
 		}
 		currentDate.setDate(currentDate.getDate() + 1)
 	}
-
+	
 	return finalReportList
 }

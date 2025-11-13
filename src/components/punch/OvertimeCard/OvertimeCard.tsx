@@ -1,6 +1,8 @@
+import { getTotalOvertime } from "@/core/punch/punch.reports";
 import { Card, CardContent, CardHeader, Divider } from "@mui/material";
 
-export default function OvertimeCard({time, color}: {time: string, color: string}) {
+export default function OvertimeCard({totalOvertime}: {totalOvertime: ReturnType<typeof getTotalOvertime>}) {
+
 	return (		
 		<Card>
 			<CardHeader
@@ -8,8 +10,8 @@ export default function OvertimeCard({time, color}: {time: string, color: string
 			/>
 			<Divider />
 			<CardContent>
-				<p className={"text-" + color + "-500 flex items-center justify-center p-2"}>
-					{time}	
+				<p className={`${totalOvertime.overtime ? "text-green-500" : "text-red-500"} " flex items-center justify-center p-2`}>
+					{totalOvertime.timeStr}	
 				</p>
 			</CardContent>
 		</Card>

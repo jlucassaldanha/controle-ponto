@@ -40,3 +40,30 @@ export async function validateCredentials(email: string, password: string): Prom
 
   return null
 }
+
+export async function updateInitialBalance(userId: string, initialBalance: number) {
+  const user = await prisma.user.update({ 
+    where: { 
+      id: userId 
+    },
+    data: {
+      initialBalanceMinutes: initialBalance
+    }
+  })
+
+  return user
+}
+
+export async function getInitialBalance(userId: string) {
+  const user = await prisma.user.findUnique({ 
+    where: { 
+      id: userId 
+    }
+  })
+
+  if (!user) {
+    return 0
+  }
+  
+  return user.initialBalanceMinutes
+}

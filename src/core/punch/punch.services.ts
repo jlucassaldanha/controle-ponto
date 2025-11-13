@@ -10,6 +10,7 @@ type AddPunchDataType = z.infer<typeof addPunchesSchema>;
 
 export type GroupedPunchesType = {
 		date: string,
+		timestamp: Date,
 		dayOfWeek: {
 			dayString: string,
 			day: number
@@ -164,6 +165,7 @@ export async function groupPunchesByDay(userId: string) {
 					dayString: dayOfWeek,
 					day: punch.timestamp.getDay()
 				},
+				timestamp: punch.timestamp,
 				date,
 				punches: []
 			}
