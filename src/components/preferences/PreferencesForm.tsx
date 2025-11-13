@@ -1,7 +1,7 @@
 'use client'
 import { PreferencesFormState, updatePreferencesAction } from '@/actions/preferences.action';
 import SubmitButton from '@/components/ui/SubmitButton';
-import { Alert, Button } from '@mui/material';
+import { Alert, Button, Card, CardContent, CardHeader, Divider, Typography } from '@mui/material';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import SaveIcon from '@mui/icons-material/Save';
 import { useActionState } from "react"
@@ -29,6 +29,29 @@ export default function PreferencesForm({ initialSchedules }: PreferencesFormPro
 				</Alert>
 			)}
 			<div className='flex flex-wrap items-center justify-center'>
+				{schedulesRules.length <= 0 && (
+					<div className='m-5'>
+						<Card variant='outlined'>
+							<CardHeader 
+								title='Você ainda não possuí nenhuma regra de horário' 
+								slotProps={{
+									title: {
+										color: 'primary',
+										variant: 'h6',
+										align: 'center'
+									}
+								}}
+							/>
+							<Divider />
+							<CardContent>
+								<Typography variant='body1' align='center'>
+									Clique no botão <strong>Adicionar Regra</strong> e após isso em <strong>Salvar</strong> para adicionar uma regra de horário
+								</Typography>
+							</CardContent>
+						</Card>
+					</div>
+				)}
+				
 				{schedulesRules.map((rule, i) => (
 					<ScheduleRuleItem
 						key={rule.id} 
