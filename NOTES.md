@@ -24,4 +24,4 @@
 6. Adicionar mensagem de feedback para o botão de bater ponto (FEITO)
 7. Melhorar interface para visualização de mensagens (EM PROGRESSO)
 8. Arrumar erros não mostrados nos formularios de login e signin (FEITO)
-9. Incluir horas extras anteriores na contagem
+9. Incluir horas extras anteriores na contagem (FEITO)
