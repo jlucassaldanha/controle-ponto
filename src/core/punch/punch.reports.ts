@@ -42,6 +42,7 @@ type PunchesPerDayType = {
         timeString: string;
         time: number;
     };
+	timestamp: Date;
     date: string;
     dayOfWeek: {
         dayString: string;
@@ -104,6 +105,7 @@ export async function getWorkdayBalanceReport(userId: string, initialDate: Date,
 					timeString: "00:00",
 					time: 0,
 				},
+				timestamp: currentDate,
 				date: currentDateString,
 				dayOfWeek: {
 					dayString: currentDayString,
