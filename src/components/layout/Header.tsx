@@ -23,8 +23,6 @@ export default async function Header() {
                 <HomeIcon color="primary"/>
               </Link>
             </Tooltip>
-            {/*<Notifications />*/}
-            {/*<NotificationMenu />*/}
             <Profile username={user.username}/>
           </div>
         ) : (
