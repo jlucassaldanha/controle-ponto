@@ -10,12 +10,6 @@ import AddPunchHiddenInputs from "@/components/punch/AddPunchHiddenInputs";
 import { useAddPunch } from "@/hooks/useAddPunch";
 import { addPunchesActionForm } from "@/actions/actions.types";
 
-export type PunchFieldType = {
-	id: string,
-	time: string,
-	type: string,
-}
-
 export default function AddPunchForm() {
 	const {
 		checkToday,

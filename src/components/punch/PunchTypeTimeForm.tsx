@@ -1,15 +1,7 @@
-import { FormControl, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
+import { FormControl, IconButton, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete'
 import { PunchType } from "@prisma/client";
-import { PunchFieldType } from "./AddPunchForm";
-
-type PunchTypeTimeFormProps = {
-	field: PunchFieldType
-	usedPunchType: string[]
-	handleRemove: (id: string) => void
-	handleTimeChange: (fieldId: string, time: string) => void
-	handleSelectChange: (event: SelectChangeEvent, fieldId: string) => void 
-}
+import { PunchTypeTimeFormProps } from "./types";
 
 export default function PunchTypeTimeForm({ field, usedPunchType,  handleRemove, handleSelectChange, handleTimeChange}: PunchTypeTimeFormProps) {
 	return (

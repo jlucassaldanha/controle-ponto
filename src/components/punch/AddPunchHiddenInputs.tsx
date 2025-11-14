@@ -1,4 +1,6 @@
-export default function AddPunchHiddenInputs({ date, stringPunchFields }: { date: string, stringPunchFields: string}) {
+import { AddPunchHiddenInputsProps } from "./types";
+
+export default function AddPunchHiddenInputs({ date, stringPunchFields }: AddPunchHiddenInputsProps) {
 	return (
 		<div>
 			<input 

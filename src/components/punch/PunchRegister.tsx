@@ -1,13 +1,9 @@
 import PunchButton from "@/components/punch/PunchButton/PunchButton";
 import { getADayPunches } from "@/core/punch/punch.services";
+import { PunchRegisterProps } from "./types";
 
-type sessionType = {
-    id: string;
-    username: string;
-    email: string;
-}
 
-export default async function PunchRegister({session}:{session: sessionType}) {
+export default async function PunchRegister({session}: PunchRegisterProps) {
 	const aDayPunches = await getADayPunches(session.id, new Date())
 	const isFull = aDayPunches.length === 4 
 

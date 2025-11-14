@@ -8,8 +8,9 @@ import { Avatar, Divider, IconButton, ListItemIcon, ListItemText, Menu, MenuItem
 import { logOutAction } from "@/actions/auth.action";
 import { useState } from "react"
 import { redirect } from "next/navigation";
+import { ProfileProps } from "./types";
 
-export default function Profile({ username }: {username: string}) {
+export default function Profile({ username }: ProfileProps) {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 	const open = Boolean(anchorEl)
 	

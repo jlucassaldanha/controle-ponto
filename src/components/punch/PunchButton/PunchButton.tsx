@@ -1,12 +1,12 @@
 "use client"
+
 import { Alert, Button } from "@mui/material";
 import { useState, useTransition } from "react";
 import { addPunchAction } from "@/actions/punch.action";
 import PunchClockIcon from '@mui/icons-material/PunchClock';
+import { feedbackMessageType, PunchButtonProps } from "./types";
 
-type feedbackMessageType = {message: string | null, type: "error" | "success"}
-
-export default function PunchButton({disabled}: {disabled: boolean}) {
+export default function PunchButton({disabled}: PunchButtonProps) {
 	const [isPending, startTransition] = useTransition()
 	const [feedbackMessage, setFeedbackMessage] = useState<feedbackMessageType>({message: null, type: "error"});
 
