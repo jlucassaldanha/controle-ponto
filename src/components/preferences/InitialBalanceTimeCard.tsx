@@ -4,7 +4,8 @@ import { Alert, Card, CardHeader, Divider, FormControlLabel, Switch, TextField }
 import { useActionState, useState } from "react"
 import SubmitButton from "../ui/SubmitButton"
 import SaveIcon from '@mui/icons-material/Save';
-import { BalanceTimeFormState, updateInitialBalanceAction } from "@/actions/preferences.action";
+import { updateInitialBalanceAction } from "@/actions/preferences.action";
+import { BalanceTimeFormState } from "@/actions/actions.types";
 
 export default function InitialBalanceTimeCard({ initialBalance, isNegative }: {initialBalance: string, isNegative: boolean}) {
 	const [timeValue, setTimeValue] = useState(initialBalance)

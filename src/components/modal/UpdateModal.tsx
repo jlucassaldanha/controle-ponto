@@ -1,6 +1,6 @@
 'use client'
 import Modal from '@mui/material/Modal';
-import React, { useState } from 'react';
+import React from 'react';
 import {  Button, Card, CardActions } from '@mui/material';
 
 const style = {

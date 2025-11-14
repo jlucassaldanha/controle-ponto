@@ -3,11 +3,12 @@ import SubmitButton from "@/components/ui/SubmitButton";
 import { Alert, Button } from "@mui/material";
 import { useActionState } from "react";
 import AddBoxIcon from '@mui/icons-material/AddBox';
-import { addPunchesAction, type addPunchesActionForm } from "@/actions/punch.action";
+import { addPunchesAction } from "@/actions/punch.action";
 import DateInput from "@/components/punch/DateInput";
 import PunchTypeTimeForm from "@/components/punch/PunchTypeTimeForm";
 import AddPunchHiddenInputs from "@/components/punch/AddPunchHiddenInputs";
 import { useAddPunch } from "@/hooks/useAddPunch";
+import { addPunchesActionForm } from "@/actions/actions.types";
 
 export type PunchFieldType = {
 	id: string,

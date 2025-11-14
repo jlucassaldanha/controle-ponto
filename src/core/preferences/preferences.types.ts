@@ -1,3 +1,6 @@
+import z from "zod"
+import { updateUserPreferencesSchema } from "./preferences.validation"
+
 export type ConfigDataType = {
 	entryTime: number,
 	exitTime: number,
@@ -45,4 +48,16 @@ export type JourneyCardProps = {
 		exitField: TimeFieldKey,
 	} 
 	handleTimeChange: (ruleId: string, field: TimeFieldKey, value: string) => void 
+}
+
+export type UpdateConfigDataType = z.infer<typeof updateUserPreferencesSchema>;
+
+export type dailySchedulesType = {
+	id: string;
+	dayOfWeek: number;
+	entryTime: number;
+	exitTime: number;
+	lunchStartTime: number;
+	lunchEndTime: number;
+	configId: string;
 }

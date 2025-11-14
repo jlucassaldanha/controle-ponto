@@ -1,4 +1,4 @@
-import { addPunchesActionForm } from "@/actions/punch.action"
+import { addPunchesActionForm } from "@/actions/actions.types"
 import { Checkbox, FormControlLabel, TextField } from "@mui/material"
 import { Dispatch, SetStateAction } from "react"
 

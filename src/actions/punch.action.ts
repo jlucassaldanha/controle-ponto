@@ -4,15 +4,7 @@ import { addPunchesSchema } from "@/core/punch/punch.validation"
 import { getCurrentUser } from "@/lib/session"
 import { revalidatePath } from "next/cache"
 import z from "zod"
-
-export type addPunchesActionForm = {
-	success: boolean
-    errors?: {
-		date?: string[] | undefined;
-    	punches?: string[] | undefined;
-	}
-    message?: string
-}
+import { addPunchesActionForm } from "./actions.types"
 
 export async function addPunchAction() {
 	const session = await getCurrentUser()

@@ -2,21 +2,9 @@
 import { signIn, signOut } from "@/app/api/auth/[...nextauth]/route"
 import { findUserByEmail, createUser } from "@/core/user/user.services"
 import { createUserSchema, logInSchema } from "@/core/user/user.validation"
-import { User } from "@prisma/client"
 import { AuthError } from "next-auth"
 import { z } from "zod"
-
-export type SignUpFormState = {
-  success: boolean;
-  message?: string;
-  errors?: {
-    username?: string[] | undefined;
-    email?: string[] | undefined;
-    password?: string[] | undefined;
-    confirm_password?: string[] | undefined;
-  };
-  user?: Omit<User, 'passwordHash'>; 
-}
+import { LogInFormState, SignUpFormState } from "./actions.types"
 
 export async function signUpAction(previousState: SignUpFormState, formData: FormData) {   
     const rawData = Object.fromEntries(formData)
@@ -40,15 +28,6 @@ export async function signUpAction(previousState: SignUpFormState, formData: For
     } catch (error) {
         console.log(error)
         return { success: false, message: `Ocorreu um erro no servidor.` }
-    }
-}
-
-export type LogInFormState = {
-    success: boolean
-    message?: string
-    errors?: {
-        email?: string[] | undefined
-        password?: string[] | undefined
     }
 }
 

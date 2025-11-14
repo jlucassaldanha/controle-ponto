@@ -6,6 +6,7 @@ type sessionType = {
     username: string;
     email: string;
 }
+
 export default async function PunchRegister({session}:{session: sessionType}) {
 	const aDayPunches = await getADayPunches(session.id, new Date())
 	const isFull = aDayPunches.length === 4 

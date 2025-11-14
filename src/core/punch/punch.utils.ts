@@ -1,6 +1,6 @@
 import { PunchType, type Punch } from "@prisma/client";
-import { GroupedPunchesType } from "./punch.services";
 import { formatTime } from "@/lib/dateUtils";
+import { GroupedPunchesType } from "./punch.types";
 
 const dayNumberToKeyMap: { [key: number]: string } = {
   0: 'Dom', 

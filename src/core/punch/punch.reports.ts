@@ -1,8 +1,7 @@
-import { $Enums } from "@prisma/client";
-import {  groupPunchesByDay } from "./punch.services";
+import { groupPunchesByDay } from "./punch.services";
 import { minutesToTimeString } from "@/lib/timeFormater"
-import { getDailySchedulesTime } from "../preferences/preferences.utils";
 import { formatDate, getDayOfWeek } from "@/lib/dateUtils";
+import { dailySchedulesTimeType, PunchesPerDayType } from "./punch.types";
 
 export function overtimeUndertime(workTime: number, workedTime: number) {
 	const overtime = workedTime - workTime
@@ -37,25 +36,6 @@ export function isUnderOver(time: number) {
 	}
 }
 
-type PunchesPerDayType = {
-    workedTime: {
-        timeString: string;
-        time: number;
-    };
-	timestamp: Date;
-    date: string;
-    dayOfWeek: {
-        dayString: string;
-        day: number;
-    };
-    punches: {
-        id: string;
-        userId: string;
-        timestamp: Date;
-        type: $Enums.PunchType;
-    }[];
-}
-
 export function getTotalOvertime(punches: PunchesPerDayType[], schedules: {dayOfWeek: number; workTime: number;}[], initialBalance: number) {
 	const punchesSum = punches.reduce((accumulator, day) => {
 		const daySchedule = schedules.find((schedule) => schedule.dayOfWeek === day.dayOfWeek.day)
@@ -75,8 +55,6 @@ export function getTotalOvertime(punches: PunchesPerDayType[], schedules: {dayOf
 		timeStr,
 	}
 }
-
-type dailySchedulesTimeType = ReturnType<typeof getDailySchedulesTime>[number]
 
 export async function getWorkdayBalanceReport(userId: string, initialDate: Date, finalDate: Date, dailySchedulesTime: dailySchedulesTimeType[]) {
 	const punchesPerDay = await groupPunchesByDay(userId)
