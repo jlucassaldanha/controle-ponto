@@ -13,7 +13,6 @@ export async function getUserPreferences(userId: string) {
 	return userPreferences
 }
 
-
 export async function updateUserPreferences(userId: string, data: UpdateConfigDataType) {
   const config = await prisma.config.upsert({
     where: { userId: userId },

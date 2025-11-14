@@ -46,3 +46,25 @@ export function getPunchTime(punches: Punch[], type: PunchType) {
 		return formatTime(punch.timestamp)
 	}
 }
+
+export function isUnderOver(time: number) {
+	if (time < 0) { 
+		return {
+			overtime: false,
+			undertime: true,
+			time: time,
+		}
+	} else if (time > 0) {
+		return {
+			overtime: true,
+			undertime: false,
+			time: time,
+		}
+	} else {
+		return {
+			overtime: false,
+			undertime: false,
+			time: time,
+		}
+	}
+}
