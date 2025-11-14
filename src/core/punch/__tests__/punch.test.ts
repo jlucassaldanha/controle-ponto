@@ -1,7 +1,7 @@
 import { getADayInterval } from "@/lib/dateUtils"
-import prismaMock from "../../../test/setup"
+import prismaMock from "../../../../test/setup"
 import { PunchType } from "@prisma/client"
-import { getADayPunches } from "./punch.services"
+import { getADayPunches } from "../punch.services"
 
 vi.mock("@/lib/dateUtils")
 

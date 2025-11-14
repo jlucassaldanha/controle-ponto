@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from "vitest";
 import { z } from 'zod'
 import { createUser, findUserByEmail } from "@/core/user/user.services";
 import { createUserSchema, logInSchema } from "@/core/user/user.validation";
-import { signUpAction, logInAction, logOutAction } from "./auth.action";
+import { signUpAction, logInAction, logOutAction } from "../auth.action";
 import { signIn } from "@/app/api/auth/[...nextauth]/route";
 import { AuthError } from "next-auth";
 import { signOut } from "@/app/api/auth/[...nextauth]/route";
