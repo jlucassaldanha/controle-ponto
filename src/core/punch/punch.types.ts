@@ -1,6 +1,6 @@
 import z from "zod";
 import { addPunchesSchema } from "./punch.validation";
-import { $Enums, Punch } from "@prisma/client";
+import { Punch } from "@prisma/client";
 import { getDailySchedulesTime } from "../preferences/preferences.utils";
 
 export type AddPunchDataType = z.infer<typeof addPunchesSchema>;
@@ -20,18 +20,6 @@ export type PunchesPerDayType = {
 		timeString: string;
 		time: number;
 	};
-	timestamp: Date;
-	date: string;
-	dayOfWeek: {
-		dayString: string;
-		day: number;
-	};
-	punches: {
-		id: string;
-		userId: string;
-		timestamp: Date;
-		type: $Enums.PunchType;
-	}[];
-}
+} & GroupedPunchesType
 
 export type dailySchedulesTimeType = ReturnType<typeof getDailySchedulesTime>[number]

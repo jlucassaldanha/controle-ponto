@@ -8,6 +8,12 @@ export type ConfigDataType = {
 	lunchEndTime: number,
 }
 
+export type dailySchedulesType = {
+	id: string;
+	dayOfWeek: number;
+	configId: string;
+} & ConfigDataType
+
 export type SchedulesRulesType = {
 	id: string
 	entryTime: string
@@ -33,10 +39,12 @@ export type PreferencesFormProps = {
   initialSchedules: SchedulesRulesType[];
 }
 
+export type handleTimeChangeType = (ruleId: string, field: TimeFieldKey, value: string) => void
+
 export type ScheduleRuleItemProps = {
   rule: SchedulesRulesType
   handleDayChange: (ruleId: string, dayKey: DayKey, isChecked: boolean) => void
-  handleTimeChange: (ruleId: string, field: TimeFieldKey, value: string) => void
+  handleTimeChange: handleTimeChangeType
   handleRemove: (id: string) => void
 }
 
@@ -47,17 +55,8 @@ export type JourneyCardProps = {
 		entryField: TimeFieldKey,
 		exitField: TimeFieldKey,
 	} 
-	handleTimeChange: (ruleId: string, field: TimeFieldKey, value: string) => void 
+	handleTimeChange: handleTimeChangeType 
 }
 
 export type UpdateConfigDataType = z.infer<typeof updateUserPreferencesSchema>;
 
-export type dailySchedulesType = {
-	id: string;
-	dayOfWeek: number;
-	entryTime: number;
-	exitTime: number;
-	lunchStartTime: number;
-	lunchEndTime: number;
-	configId: string;
-}

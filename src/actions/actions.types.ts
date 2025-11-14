@@ -1,8 +1,11 @@
 import { User } from "@prisma/client";
 
+export type BaseFormState = {
+	success: boolean;
+  	message?: string;
+}
+
 export type SignUpFormState = {
-  success: boolean;
-  message?: string;
   errors?: {
 	username?: string[] | undefined;
 	email?: string[] | undefined;
@@ -10,38 +13,30 @@ export type SignUpFormState = {
 	confirm_password?: string[] | undefined;
   };
   user?: Omit<User, 'passwordHash'>; 
-}
+} & BaseFormState
 
 export type LogInFormState = {
-	success: boolean
-	message?: string
 	errors?: {
 		email?: string[] | undefined
 		password?: string[] | undefined
 	}
-}
+} & BaseFormState
 
 export type PreferencesFormState = {
-	success: boolean;
-	message?: string;
 	errors?: {
 		schedules?: string[] | undefined;
 	};
-}
+} & BaseFormState
 
 export type BalanceTimeFormState = {
-	success: boolean;
-	message?: string;
 	errors?: {
 		time?: string[] | undefined;
 	};
-}
+} & BaseFormState
 
 export type addPunchesActionForm = {
-	success: boolean
 	errors?: {
 		date?: string[] | undefined;
 		punches?: string[] | undefined;
 	}
-	message?: string
-}
+} & BaseFormState
