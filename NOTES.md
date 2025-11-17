@@ -8,9 +8,6 @@
 	- Verificação: Esta dentro do horario, esta devendo hora (FEITO)
 		- Necessario: Ler preferencias -> Calcular hora trabalhada por dia prestando atenção na exceção -> verificar o dia trabalhado -> o tempo trabalhdo -> verificar se esta fora ou dentro do  (FEITO)
 	- Calculo de horas extras (FEITO)
-4. Adicionar opção de visualização por dia, semana e mes
-5. Adicionar edição de ponto
-6. Adicionar opcão de abono ou marcar como feriado na pagina de adição e pagina de edição
 7. Deixar pagina de edição iniciando com todos pontos e entrada e saida serem fixos (FEITO)
 8. Mostrar total de extras ou faltantes (FEITO)
 9. Adicionar opção para registrar horas extras anteriores (FEITO)
@@ -18,10 +15,17 @@
 ## Correções
 1. Caso nenhum ponto seja adicionado para o dia, ele deve ser contado no calculo. (FEITO)
 2. Caso algum horario seja registrado fora da jornada de trabalho, ele deve ser adicionado como hora extra (FEITO)
-3. Permitir que seja registrado 1 ponto por vez
-4. Dashboard mostrar apenas pontos da ultima semana
-5. Adicionar cofirmação de senha (FEITO)
-6. Adicionar mensagem de feedback para o botão de bater ponto (FEITO)
-7. Melhorar interface para visualização de mensagens (EM PROGRESSO)
-8. Arrumar erros não mostrados nos formularios de login e signin (FEITO)
-9. Incluir horas extras anteriores na contagem (FEITO)
+3. Adicionar cofirmação de senha (FEITO)
+4. Adicionar mensagem de feedback para o botão de bater ponto (FEITO)
+5. Arrumar erros não mostrados nos formularios de login e signin (FEITO)
+6. Incluir horas extras anteriores na contagem (FEITO)
+
+## Adicionar
+1. Adicionar opção de visualização por dia, semana e mes
+2. Adicionar edição de ponto
+3. Adicionar opcão de abono ou marcar como feriado na pagina de adição e pagina de edição
+
+## Corrigir
+1. Permitir que seja registrado 1 ponto por vez
+2. Dashboard mostrar apenas pontos da ultima semana
+3. Melhorar interface para visualização de mensagens (EM PROGRESSO)
