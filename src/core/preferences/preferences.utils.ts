@@ -1,5 +1,5 @@
 import { dailySchedulesType, DayKey, SchedulesRulesType } from "@/core/preferences/preferences.types";
-import { minutesToTimeString } from "@/lib/timeFormater";
+import { minutesToTimeString } from "@/lib/dateUtils";
 import { DailySchedule } from "@prisma/client";
 import { dayNumberToKeyMap } from "./preferences.constants";
 

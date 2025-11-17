@@ -1,4 +1,5 @@
 'use client'
+
 import { updatePreferencesAction } from '@/actions/preferences.action';
 import SubmitButton from '@/components/ui/SubmitButton';
 import { Alert, Button, Card, CardContent, CardHeader, Divider, Typography } from '@mui/material';

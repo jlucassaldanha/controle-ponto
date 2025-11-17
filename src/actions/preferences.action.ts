@@ -1,4 +1,5 @@
 'use server'
+
 import { auth } from "@/app/api/auth/[...nextauth]/route";
 import { updateUserPreferences } from "@/core/preferences/preferences.services";
 import { balanceTimeSchema, updateUserPreferencesSchema } from "@/core/preferences/preferences.validation";

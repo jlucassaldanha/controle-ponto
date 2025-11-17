@@ -1,4 +1,5 @@
 "use client";
+
 import { LogInFormState } from "@/actions/actions.types";
 import { logInAction } from "@/actions/auth.action";
 import SubmitButton from "@/components/ui/SubmitButton";

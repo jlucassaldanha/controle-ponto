@@ -1,4 +1,5 @@
 "use client";
+
 import { SignUpFormState } from "@/actions/actions.types";
 import { signUpAction } from "@/actions/auth.action";
 import SubmitButton from "@/components/ui/SubmitButton";

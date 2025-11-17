@@ -3,8 +3,6 @@ import { TableCell, TableRow } from "@mui/material";
 import { PunchType } from "@prisma/client";
 import { TableBodyRowProps } from "./types";
 
-
-
 export default function TableBodyRowDesktop({ day, overUnder, color}: TableBodyRowProps) {
 	return (
 		<TableRow

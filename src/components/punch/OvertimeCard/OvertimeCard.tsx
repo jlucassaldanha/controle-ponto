@@ -2,7 +2,6 @@ import { Card, CardContent, CardHeader, Divider } from "@mui/material";
 import { OverTimeCardProps } from "./types";
 
 export default function OvertimeCard({totalOvertime}: OverTimeCardProps) {
-
 	return (		
 		<Card>
 			<CardHeader

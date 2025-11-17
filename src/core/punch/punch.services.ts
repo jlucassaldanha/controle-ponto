@@ -1,7 +1,6 @@
 import { prisma } from '@/lib/prisma'
-import { formatDate, getADayInterval, getDayOfWeek } from "@/lib/dateUtils";
+import { formatDate, getADayInterval, getDayOfWeek, minutesToTimeString } from "@/lib/dateUtils";
 import { PunchType } from "@prisma/client";
-import { minutesToTimeString } from "@/lib/timeFormater";
 import { getPunchTimestampMinutes } from "./punch.utils";
 import { AddPunchDataType, GroupedPunchesType } from "./punch.types";
 

@@ -2,6 +2,12 @@ import { addPunchesActionForm } from "@/actions/actions.types"
 import { SelectChangeEvent } from "@mui/material"
 import { Dispatch, SetStateAction } from "react"
 
+export type PunchFieldType = {
+    id: string;
+    time: string;
+    type: string;
+}
+
 export type AddPunchHiddenInputsProps = { 
 	date: string, 
 	stringPunchFields: string
@@ -24,11 +30,7 @@ export type PunchRegisterProps = {
 }
 
 export type PunchTypeTimeFormProps = {
-	field: {
-		id: string,
-		time: string,
-		type: string,
-	}
+	field: PunchFieldType
 	usedPunchType: string[]
 	handleRemove: (id: string) => void
 	handleTimeChange: (fieldId: string, time: string) => void

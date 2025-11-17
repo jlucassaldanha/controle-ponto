@@ -1,5 +1,5 @@
 import { groupPunchesByDay } from "./punch.services";
-import { minutesToTimeString } from "@/lib/timeFormater"
+import { minutesToTimeString } from "@/lib/dateUtils"
 import { formatDate, getDayOfWeek } from "@/lib/dateUtils";
 import { dailySchedulesTimeType, PunchesPerDayType } from "./punch.types";
 import { isUnderOver } from "./punch.utils";

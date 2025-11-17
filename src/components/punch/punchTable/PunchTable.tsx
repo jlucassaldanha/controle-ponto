@@ -9,8 +9,6 @@ import TableBodyRowMobile from "./TableBodyRowMobile";
 import { overtimeUndertime } from "@/core/punch/punch.reports";
 import { PunchTableProps } from "./types";
 
-
-
 export default function PunchTable({ punchesPerDay, dailySchedulesTime }: PunchTableProps) {
 	const theme = useTheme()
 
