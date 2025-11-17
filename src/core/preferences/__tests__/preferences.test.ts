@@ -1,6 +1,6 @@
-import prismaMock from "../../../test/setup";
-import { getUserPreferences, updateUserPreferences } from "./preferences.services";
-import { dailyScheduleSchema, timeStringSchema } from "./preferences.validation";
+import prismaMock from "../../../../test/setup";
+import { getUserPreferences, updateUserPreferences } from "../preferences.services";
+import { dailyScheduleSchema, timeStringSchema } from "../preferences.validation";
 
 beforeEach(() => {
   vi.clearAllMocks();

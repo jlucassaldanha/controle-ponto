@@ -1,4 +1,5 @@
 'use client'
+
 import { Card, CardContent, CardHeader, Checkbox, Divider, FormControlLabel, IconButton } from "@mui/material"
 import DeleteIcon from '@mui/icons-material/Delete'
 import { ScheduleRuleItemProps } from "@/core/preferences/preferences.types"

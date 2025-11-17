@@ -1,35 +1,12 @@
 'use server'
+
 import { auth } from "@/app/api/auth/[...nextauth]/route";
 import { updateUserPreferences } from "@/core/preferences/preferences.services";
 import { balanceTimeSchema, updateUserPreferencesSchema } from "@/core/preferences/preferences.validation";
 import { updateInitialBalance } from "@/core/user/user.services";
 import z from "zod";
-
-export type PreferencesFormState = {
-	success: boolean;
-	message?: string;
-	errors?: {
-		schedules?: string[] | undefined;
-	};
-}
-
-export type BalanceTimeFormState = {
-	success: boolean;
-	message?: string;
-	errors?: {
-		time?: string[] | undefined;
-	};
-}
-
-const dayKeyToNumberMap: { [key: string]: number } = {
-  sunday: 0,
-  monday: 1,
-  tuesday: 2,
-  wednesday: 3,
-  thursday: 4,
-  friday: 5,
-  saturday: 6,
-};
+import { BalanceTimeFormState, PreferencesFormState } from "./actions.types";
+import { dayKeyToNumberMap } from "./actions.constants";
 
 export async function updatePreferencesAction(previousState: PreferencesFormState, formData: FormData) {
 	const session = await auth()

@@ -1,22 +1,8 @@
-import z from "zod";
-import { addPunchesSchema } from "./punch.validation";
 import { prisma } from '@/lib/prisma'
-import { formatDate, getADayInterval, getDayOfWeek } from "@/lib/dateUtils";
-import { Punch, PunchType } from "@prisma/client";
-import { minutesToTimeString } from "@/lib/timeFormater";
+import { formatDate, getADayInterval, getDayOfWeek, minutesToTimeString } from "@/lib/dateUtils";
+import { PunchType } from "@prisma/client";
 import { getPunchTimestampMinutes } from "./punch.utils";
-
-type AddPunchDataType = z.infer<typeof addPunchesSchema>;
-
-export type GroupedPunchesType = {
-		date: string,
-		timestamp: Date,
-		dayOfWeek: {
-			dayString: string,
-			day: number
-		},
-		punches: Punch[],
-	}
+import { AddPunchDataType, GroupedPunchesType } from "./punch.types";
 
 export async function addPunch(userId: string) {
 	const todayDate = new Date()

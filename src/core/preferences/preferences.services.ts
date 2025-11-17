@@ -1,6 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import z from "zod";
-import { updateUserPreferencesSchema } from "./preferences.validation";
+import { UpdateConfigDataType } from './preferences.types';
 
 export async function getUserPreferences(userId: string) {
 	const userPreferences = prisma.config.findUnique({ 
@@ -13,8 +12,6 @@ export async function getUserPreferences(userId: string) {
 	})
 	return userPreferences
 }
-
-type UpdateConfigDataType = z.infer<typeof updateUserPreferencesSchema>;
 
 export async function updateUserPreferences(userId: string, data: UpdateConfigDataType) {
   const config = await prisma.config.upsert({

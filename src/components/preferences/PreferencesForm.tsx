@@ -1,5 +1,6 @@
 'use client'
-import { PreferencesFormState, updatePreferencesAction } from '@/actions/preferences.action';
+
+import { updatePreferencesAction } from '@/actions/preferences.action';
 import SubmitButton from '@/components/ui/SubmitButton';
 import { Alert, Button, Card, CardContent, CardHeader, Divider, Typography } from '@mui/material';
 import AddBoxIcon from '@mui/icons-material/AddBox';
@@ -8,6 +9,7 @@ import { useActionState } from "react"
 import { PreferencesFormProps } from '@/core/preferences/preferences.types';
 import ScheduleRuleItem from './ScheduleRuleItem';
 import { useScheduleRules } from '@/hooks/useScheduleRules';
+import { PreferencesFormState } from '@/actions/actions.types';
 
 export default function PreferencesForm({ initialSchedules }: PreferencesFormProps) {
 	const {

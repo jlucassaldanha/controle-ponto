@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { minutesToTimeString } from './timeFormater'
+import { minutesToTimeString } from '../timeFormater'
 
 describe('minutesToTimeString', () => {
     it('deve retornar uma string vazia para valores nulos, indefinidos ou negativos', () => {

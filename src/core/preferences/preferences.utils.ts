@@ -1,26 +1,7 @@
-import { DayKey, SchedulesRulesType } from "@/core/preferences/preferences.types";
-import { minutesToTimeString } from "@/lib/timeFormater";
+import { dailySchedulesType, DayKey, SchedulesRulesType } from "@/core/preferences/preferences.types";
+import { minutesToTimeString } from "@/lib/dateUtils";
 import { DailySchedule } from "@prisma/client";
-
-type dailySchedulesType = {
-	id: string;
-	dayOfWeek: number;
-	entryTime: number;
-	exitTime: number;
-	lunchStartTime: number;
-	lunchEndTime: number;
-	configId: string;
-}
-
-const dayNumberToKeyMap: { [key: number]: string } = {
-  0: 'sunday', 
-  1: 'monday', 
-  2: 'tuesday', 
-  3: 'wednesday',
-  4: 'thursday', 
-  5: 'friday', 
-  6: 'saturday',
-}
+import { dayNumberToKeyMap } from "./preferences.constants";
 
 export function groupSchedulesIntoRules(dailySchedulesFromDb: dailySchedulesType[]) {
 	const scheduleRulesMap = new Map<string, SchedulesRulesType>();

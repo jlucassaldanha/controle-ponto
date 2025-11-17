@@ -1,14 +1,5 @@
-import { addPunchesActionForm } from "@/actions/punch.action"
 import { Checkbox, FormControlLabel, TextField } from "@mui/material"
-import { Dispatch, SetStateAction } from "react"
-
-type DateInputProps = {
-	date: string
-	checkToday: boolean
-	state: addPunchesActionForm
-	setDate: Dispatch<SetStateAction<string>>
-	setCheckToday: Dispatch<SetStateAction<boolean>>
-}
+import { DateInputProps } from "./types"
 
 export default function DateInput({ date, checkToday, state, setDate, setCheckToday}: DateInputProps) {
 	return (

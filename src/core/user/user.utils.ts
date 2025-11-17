@@ -1,4 +1,4 @@
-import { minutesToTimeString } from "@/lib/timeFormater"
+import { minutesToTimeString } from "@/lib/dateUtils"
 import { getInitialBalance } from "./user.services"
 
 export async function getInitialBalanceData(userId: string) {

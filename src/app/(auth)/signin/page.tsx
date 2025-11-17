@@ -1,5 +1,7 @@
 "use client";
-import { signUpAction, SignUpFormState } from "@/actions/auth.action";
+
+import { SignUpFormState } from "@/actions/actions.types";
+import { signUpAction } from "@/actions/auth.action";
 import SubmitButton from "@/components/ui/SubmitButton";
 import { Alert, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";

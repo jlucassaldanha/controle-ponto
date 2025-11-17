@@ -1,4 +1,4 @@
-import { getADayInterval } from "./dateUtils"
+import { getADayInterval } from "../dateUtils"
 
 describe('getADayInterval', () => {
     it('Should return a interval from day 00:00:00 to next day 00:00:00', () => {

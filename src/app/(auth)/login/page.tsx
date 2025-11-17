@@ -1,5 +1,7 @@
 "use client";
-import { logInAction, LogInFormState } from "@/actions/auth.action";
+
+import { LogInFormState } from "@/actions/actions.types";
+import { logInAction } from "@/actions/auth.action";
 import SubmitButton from "@/components/ui/SubmitButton";
 import { Alert, TextField, Typography } from "@mui/material";
 import Link from "next/link";

@@ -1,6 +1,6 @@
 import { PunchType, type Punch } from "@prisma/client";
-import { GroupedPunchesType } from "./punch.services";
 import { formatTime } from "@/lib/dateUtils";
+import { GroupedPunchesType } from "./punch.types";
 
 const dayNumberToKeyMap: { [key: number]: string } = {
   0: 'Dom', 
@@ -44,5 +44,27 @@ export function getPunchTime(punches: Punch[], type: PunchType) {
 	const punch = punches.find((punch) => ( punch.type === type ))
 	if (punch) {
 		return formatTime(punch.timestamp)
+	}
+}
+
+export function isUnderOver(time: number) {
+	if (time < 0) { 
+		return {
+			overtime: false,
+			undertime: true,
+			time: time,
+		}
+	} else if (time > 0) {
+		return {
+			overtime: true,
+			undertime: false,
+			time: time,
+		}
+	} else {
+		return {
+			overtime: false,
+			undertime: false,
+			time: time,
+		}
 	}
 }

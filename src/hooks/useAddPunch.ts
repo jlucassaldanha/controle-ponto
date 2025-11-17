@@ -1,4 +1,5 @@
-import { PunchFieldType } from "@/components/punch/AddPunchForm"
+
+import { PunchFieldType } from "@/components/punch/types"
 import { SelectChangeEvent } from "@mui/material"
 import { PunchType } from "@prisma/client"
 import { useState } from "react"

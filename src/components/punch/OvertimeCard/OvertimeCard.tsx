@@ -1,8 +1,7 @@
-import { getTotalOvertime } from "@/core/punch/punch.reports";
 import { Card, CardContent, CardHeader, Divider } from "@mui/material";
+import { OverTimeCardProps } from "./types";
 
-export default function OvertimeCard({totalOvertime}: {totalOvertime: ReturnType<typeof getTotalOvertime>}) {
-
+export default function OvertimeCard({totalOvertime}: OverTimeCardProps) {
 	return (		
 		<Card>
 			<CardHeader

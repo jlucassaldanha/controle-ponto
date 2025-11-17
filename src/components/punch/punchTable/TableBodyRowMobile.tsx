@@ -1,7 +1,7 @@
 import { getPunchTime } from "@/core/punch/punch.utils";
 import { TableCell, TableRow } from "@mui/material";
 import { PunchType } from "@prisma/client";
-import { TableBodyRowProps } from "./TableBodyRowDesktop";
+import { TableBodyRowProps } from "./types";
 
 export default function TableBodyRowMobile({day, overUnder, color}: TableBodyRowProps) {
 	return (

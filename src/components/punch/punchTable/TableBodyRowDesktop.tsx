@@ -1,14 +1,7 @@
-import { overtimeUndertime } from "@/core/punch/punch.reports";
-import { groupPunchesByDay } from "@/core/punch/punch.services";
 import { getPunchTime } from "@/core/punch/punch.utils";
 import { TableCell, TableRow } from "@mui/material";
 import { PunchType } from "@prisma/client";
-
-export type TableBodyRowProps = {
-	day: Awaited<ReturnType<typeof groupPunchesByDay>>[number]
-	overUnder: ReturnType<typeof overtimeUndertime>
-	color: string
-}
+import { TableBodyRowProps } from "./types";
 
 export default function TableBodyRowDesktop({ day, overUnder, color}: TableBodyRowProps) {
 	return (
