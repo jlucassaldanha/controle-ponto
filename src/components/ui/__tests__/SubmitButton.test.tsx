@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useFormStatus } from "react-dom";
-import SubmitButton from "./SubmitButton";
+import SubmitButton from "../SubmitButton";
 
 vi.mock("react-dom", async (importOriginal) => {
   const originalModule = await importOriginal<typeof import("react-dom")>();

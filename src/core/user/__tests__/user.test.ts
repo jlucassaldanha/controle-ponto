@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, type Mock } from "vitest";
+import { describe, it, expect, vi, type Mock, beforeEach } from "vitest";
 import bcrypt from "bcryptjs";
 import prismaMock from "../../../../test/setup";
 import { createUser, findUserByEmail, validateCredentials } from "../user.services";
@@ -32,6 +32,7 @@ describe('findUserByEmail', () => {
       email: email,
       username: "um nome",
       passwordHash: "hash-existente",
+      initialBalanceMinutes: 0
     };
 
     prismaMock.user.findUnique.mockResolvedValue(existingUser);
@@ -45,10 +46,11 @@ describe('findUserByEmail', () => {
   });
 })
 
-const userData: UserDataType = {
+const userData: UserDataType & {confirm_password: string} = {
   email: "email@exemplo.com",
   username: "user name",
   password: "senha-123",
+  confirm_password: "senha-123"
 };
 
 describe("createUser", () => {
@@ -60,6 +62,7 @@ describe("createUser", () => {
       email: userData.email,
       username: userData.username,
       passwordHash: mockPasswordHash,
+      initialBalanceMinutes: 0
     };
     
     (bcrypt.hash as Mock).mockResolvedValue(mockPasswordHash);
@@ -85,6 +88,7 @@ describe('validateCredentials', () => {
     email: userData.email,
     username: userData.username,
     passwordHash: "hash-existente",
+    initialBalanceMinutes: 0
   };
 
   it('should return user if exist and have correct credentials', async () => {
@@ -96,7 +100,8 @@ describe('validateCredentials', () => {
     expect(result).toStrictEqual({
       id: existingUser.id, 
       email: existingUser.email, 
-      username: existingUser.username
+      username: existingUser.username,
+      initialBalanceMinutes: 0
     })
     expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
       where: { email: userData.email },
