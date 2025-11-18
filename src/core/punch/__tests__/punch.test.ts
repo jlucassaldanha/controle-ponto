@@ -5,6 +5,14 @@ import { getADayPunches } from "../punch.services"
 
 vi.mock("@/lib/dateUtils")
 
+describe("addPunch", () => {
+    it('', async () => {})
+})
+
+describe('addPunches', () => {
+    it('should add the punches into db', async () => {})
+})
+
 describe('getADayPunches', () => {
     it('should return a list of punches for that day', async () => {
         const userId = "user-uuid"
@@ -64,4 +72,8 @@ describe('getADayPunches', () => {
             },
         })
     })
+})
+
+describe('getPunches', () => {
+    it('', async () => {})
 })
