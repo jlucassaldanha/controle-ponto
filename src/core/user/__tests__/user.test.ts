@@ -1,11 +1,14 @@
 import { describe, it, expect, vi, type Mock, beforeEach } from "vitest";
 import bcrypt from "bcryptjs";
 import prismaMock from "../../../../test/setup";
-import { createUser, findUserByEmail, validateCredentials } from "../user.services";
+import { createUser, findUserByEmail, getInitialBalance, updateInitialBalance, validateCredentials } from "../user.services";
 import { createUserSchema, logInSchema } from "../user.validation";
 import { UserDataType } from "../user.types";
+import { minutesToTimeString } from "@/lib/dateUtils";
+import { initialBalanceData } from "../user.utils";
 
 vi.mock("bcryptjs");
+vi.mock("@/lib/dateUtils")
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -233,5 +236,110 @@ describe('logInSchema', () => {
       const passwordError = result.error.issues.find((issue) => issue.path[0] === 'password')
       expect(passwordError?.message).toBe("A senha deve ter pelo menos 8 caracteres.")
     }
+  })
+})
+
+describe('updateInitialBalance', () => {
+  it('should update the initial balance', async () => {
+    const initialBalance = 120
+    const userId = "uuid-existente-123"
+
+    const existingUser = {
+      id: userId,
+      email: 'email@email.com',
+      username: "um nome",
+      passwordHash: "hash-existente",
+      initialBalanceMinutes: initialBalance
+    }
+
+    prismaMock.user.update.mockResolvedValue(existingUser)
+
+    const result = await updateInitialBalance(userId, initialBalance)
+
+    expect(result).toStrictEqual(existingUser)
+    expect(prismaMock.user.update).toHaveBeenCalledWith({ 
+      where: { 
+        id: userId 
+      },
+      data: {
+        initialBalanceMinutes: initialBalance
+      }
+    });
+
+  })
+})
+
+describe('getInitialBalance', () => {
+  it('should return user balance', async () => {
+    const initialBalance = 120
+    const userId = "uuid-existente-123"
+
+    const existingUser = {
+      id: userId,
+      email: 'email@email.com',
+      username: "um nome",
+      passwordHash: "hash-existente",
+      initialBalanceMinutes: initialBalance
+    }
+
+    prismaMock.user.findUnique.mockResolvedValue(existingUser)
+
+    const result = await getInitialBalance(userId)
+
+    expect(result).toBe(120)
+    expect(prismaMock.user.findUnique).toHaveBeenCalledWith({ 
+      where: { 
+        id: userId 
+      }
+    });
+  })
+})
+
+describe('initialBalanceData', () => {
+  it('should should return isNegative false and balance string if balance is greater than 0', async () => {
+    const balance = 60
+
+    const balanceData = {
+			isNegative: false,
+			balanceString: "01:00"
+		}
+
+    vi.mocked(minutesToTimeString).mockReturnValue("01:00")
+
+    const result = initialBalanceData(balance)
+
+    expect(result).toStrictEqual(balanceData)
+    expect(minutesToTimeString).toHaveBeenCalledWith(balance)
+  })
+
+  it('should should return isNegative true and balance string if balance is 0', async () => {
+    const balance = 0
+
+    const balanceData = {
+			isNegative: false,
+			balanceString: "00:00"
+		}
+
+    vi.mocked(minutesToTimeString).mockReturnValue("00:00")
+
+    const result = initialBalanceData(balance)
+
+    expect(result).toStrictEqual(balanceData)
+  })
+
+  it('should should return isNegative false and balance string if balance is lower than 0', async () => {
+    const balance = -60
+
+    const balanceData = {
+			isNegative: true,
+			balanceString: "01:00"
+		}
+
+    vi.mocked(minutesToTimeString).mockReturnValue("01:00")
+
+    const result = initialBalanceData(balance)
+
+    expect(result).toStrictEqual(balanceData)
+    expect(minutesToTimeString).toHaveBeenCalledWith(balance * -1)
   })
 })

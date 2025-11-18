@@ -2,7 +2,8 @@ import InitialBalanceTimeCard from "@/components/preferences/InitialBalanceTimeC
 import PreferencesForm from "@/components/preferences/PreferencesForm"
 import { getUserPreferences } from "@/core/preferences/preferences.services"
 import { groupSchedulesIntoRules } from "@/core/preferences/preferences.utils"
-import { getInitialBalanceData } from "@/core/user/user.utils"
+import { getInitialBalance } from "@/core/user/user.services"
+import { initialBalanceData } from "@/core/user/user.utils"
 import { requireUserSession } from "@/lib/session"
 
 export const dynamic = 'force-dynamic'
@@ -13,7 +14,8 @@ export default async function Preferences() {
 	const dailySchedulesFromDb = userPreferences?.dailySchedules || []
 	const initialSchedulesForForm = groupSchedulesIntoRules(dailySchedulesFromDb)
 
-	const initialBalance = await getInitialBalanceData(user.id)
+	const initialBalanceNumber = await getInitialBalance(user.id)
+	const initialBalance = initialBalanceData(initialBalanceNumber)
 	
 	return (
 		<div className="flex flex-col items-center justify-center w-full gap-2 m-5">
