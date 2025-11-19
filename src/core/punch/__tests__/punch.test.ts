@@ -6,7 +6,10 @@ import { getADayPunches } from "../punch.services"
 vi.mock("@/lib/dateUtils")
 
 describe("addPunch", () => {
-    it('', async () => {})
+    it('should add start punch if punches is empty', async () => {})
+    it('should add end punch if has start punch', async () => {})
+    it('should add start lunch punch if has end punch', async () => {})
+    it('should add end lunch punch if has start lunch punch', async () => {})
 })
 
 describe('addPunches', () => {
@@ -75,5 +78,14 @@ describe('getADayPunches', () => {
 })
 
 describe('getPunches', () => {
-    it('', async () => {})
+    it('should return all punches', async () => {})
+})
+
+describe('groupPunchesByDay', () => {
+    it('should return punches formated by day', async () => {})
+})
+
+describe('getFirstPunch', () => {
+    it('should return only first punch', async () => {})
+    it('should return null if dont have any punch', async () => {})
 })
