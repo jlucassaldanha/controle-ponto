@@ -5,8 +5,15 @@ import { getADayPunches } from "../punch.services"
 
 vi.mock("@/lib/dateUtils")
 
+beforeEach(() => {
+  vi.clearAllMocks();
+});
+
 describe("addPunch", () => {
-    it('should add start punch if punches is empty', async () => {})
+    
+    it('should add start punch if punches is empty', async () => {
+        
+    })
     it('should add end punch if has start punch', async () => {})
     it('should add start lunch punch if has end punch', async () => {})
     it('should add end lunch punch if has start lunch punch', async () => {})
