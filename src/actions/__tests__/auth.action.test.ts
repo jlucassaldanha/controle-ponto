@@ -45,7 +45,8 @@ describe('signUpAction', () => {
   const inputData = {
     username: "usuario teste",
     email: 'teste@email.com',
-    password: 'senhateste'
+    password: 'senhateste',
+    confirm_password: 'senhateste'
   }
 
   const formData = new FormData()
@@ -53,6 +54,7 @@ describe('signUpAction', () => {
   formData.append("username", inputData.username)
   formData.append("email", inputData.email)
   formData.append("password", inputData.password)
+  formData.append("corfirm_password", inputData.password)
 
   it('should success and return a object with success true and the new user', async () => {
     vi.mocked(createUserSchema.safeParse).mockReturnValue({ success: true, data: inputData })
@@ -61,7 +63,8 @@ describe('signUpAction', () => {
       id: "id-la", 
       username: inputData.username, 
       email: inputData.email, 
-      passwordHash: "senha-hash" 
+      passwordHash: "senha-hash",
+      initialBalanceMinutes: 0, 
     })
 
     const result = await signUpAction({ success: false },formData)
@@ -100,7 +103,8 @@ describe('signUpAction', () => {
       id: "id-la", 
       username: inputData.username, 
       email: inputData.email, 
-      passwordHash: "senha-hash" 
+      passwordHash: "senha-hash",
+      initialBalanceMinutes: 0,  
     })
 
     const result = await signUpAction({ success: false },formData)
@@ -115,7 +119,8 @@ describe('signUpAction', () => {
     const inputData = {
       username: "usuario teste",
       email: 'testeemail.com',
-      password: 'senhateste'
+      password: 'senhateste',
+      confirm_password: 'senahteste'
     }
 
     const formData = new FormData()
@@ -123,6 +128,7 @@ describe('signUpAction', () => {
     formData.append("username", inputData.username)
     formData.append("email", inputData.email)
     formData.append("password", inputData.password)
+    formData.append("confirm_password", inputData.password)
 
     vi.mocked(createUserSchema.safeParse).mockReturnValue({ success: true, data: inputData })
     vi.mocked(findUserByEmail).mockResolvedValue(null)
