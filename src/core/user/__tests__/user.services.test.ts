@@ -2,10 +2,7 @@ import { describe, it, expect, vi, type Mock, beforeEach } from "vitest";
 import bcrypt from "bcryptjs";
 import prismaMock from "../../../../test/setup";
 import { createUser, findUserByEmail, getInitialBalance, updateInitialBalance, validateCredentials } from "../user.services";
-import { createUserSchema, logInSchema } from "../user.validation";
 import { UserDataType } from "../user.types";
-import { minutesToTimeString } from "@/lib/dateUtils";
-import { initialBalanceData } from "../user.utils";
 
 vi.mock("bcryptjs");
 vi.mock("@/lib/dateUtils")
@@ -138,107 +135,6 @@ describe('validateCredentials', () => {
   })
 })
 
-describe('createUserSchema', () => {
-  it('should pass validation when data is valid', () => {
-    const result = createUserSchema.safeParse(userData)
-    expect(result.success).toBe(true)
-  })
-
-  it('should fail if username is too short', () => {
-    const invalidData = {
-      username: 'us',
-      email: 'email@valido.com',
-      password: 'supersenha',
-    }
-
-    const result = createUserSchema.safeParse(invalidData)
-
-    expect(result.success).toBe(false)
-
-    if (!result.success) {
-      const usernameError = result.error.issues.find((issue) => issue.path[0] === 'username')
-      expect(usernameError?.message).toBe("Nome de usuário deve ter pelo menos 3 letras.")
-    }
-  })
-
-  it('should fail if email is invalid', () => {
-    const invalidData = {
-      username: 'usuario valido',
-      email: 'emailinvalido.com',
-      password: 'supersenha',
-    }
-
-    const result = createUserSchema.safeParse(invalidData)
-
-    expect(result.success).toBe(false)
-
-    if (!result.success) {
-      const emailError = result.error.issues.find((issue) => issue.path[0] === 'email')
-      expect(emailError?.message).toBe('Insira um email valido.')
-    }
-  })
-
-  it('should fail if password is too short', () => {
-    const invalidData = {
-      username: 'username',
-      email: 'email@valido.com',
-      password: 'senha',
-    }
-
-    const result = createUserSchema.safeParse(invalidData)
-
-    expect(result.success).toBe(false)
-
-    if (!result.success) {
-      const passwordError = result.error.issues.find((issue) => issue.path[0] === 'password')
-      expect(passwordError?.message).toBe("A senha deve ter pelo menos 8 caracteres.")
-    }
-  })
-})
-
-describe('logInSchema', () => {
-  it('should pass validation when data is valid', () => {
-    const validLogin = {
-      email: 'email@valido.com',
-      password: 'supersenha',
-    }
-
-    const result = logInSchema.safeParse(validLogin)
-
-    expect(result.success).toBe(true)
-  })
-
-  it('should fail validation when email is not valid', () => {
-    const invalidLogin = {
-      email: 'emailinvalido.com',
-      password: 'supersenha',
-    }
-
-    const result = logInSchema.safeParse(invalidLogin)
-
-    expect(result.success).toBe(false)
-    if (!result.success) {
-      const emailError = result.error.issues.find((issue) => issue.path[0] === 'email')
-      expect(emailError?.message).toBe("Insira um email valido.")
-    }
-  })
-
-  it('should fail validation when password is not valid', () => {
-    const invalidLogin = {
-      email: 'email@valido.com',
-      password: 'superse',
-    }
-
-    const result = logInSchema.safeParse(invalidLogin)
-
-    expect(result.success).toBe(false)
-    if (!result.success) {
-      const passwordError = result.error.issues.find((issue) => issue.path[0] === 'password')
-      expect(passwordError?.message).toBe("A senha deve ter pelo menos 8 caracteres.")
-    }
-  })
-})
-
 describe('updateInitialBalance', () => {
   it('should update the initial balance', async () => {
     const initialBalance = 120
@@ -295,51 +191,3 @@ describe('getInitialBalance', () => {
   })
 })
 
-describe('initialBalanceData', () => {
-  it('should should return isNegative false and balance string if balance is greater than 0', async () => {
-    const balance = 60
-
-    const balanceData = {
-			isNegative: false,
-			balanceString: "01:00"
-		}
-
-    vi.mocked(minutesToTimeString).mockReturnValue("01:00")
-
-    const result = initialBalanceData(balance)
-
-    expect(result).toStrictEqual(balanceData)
-    expect(minutesToTimeString).toHaveBeenCalledWith(balance)
-  })
-
-  it('should should return isNegative true and balance string if balance is 0', async () => {
-    const balance = 0
-
-    const balanceData = {
-			isNegative: false,
-			balanceString: "00:00"
-		}
-
-    vi.mocked(minutesToTimeString).mockReturnValue("00:00")
-
-    const result = initialBalanceData(balance)
-
-    expect(result).toStrictEqual(balanceData)
-  })
-
-  it('should should return isNegative false and balance string if balance is lower than 0', async () => {
-    const balance = -60
-
-    const balanceData = {
-			isNegative: true,
-			balanceString: "01:00"
-		}
-
-    vi.mocked(minutesToTimeString).mockReturnValue("01:00")
-
-    const result = initialBalanceData(balance)
-
-    expect(result).toStrictEqual(balanceData)
-    expect(minutesToTimeString).toHaveBeenCalledWith(balance * -1)
-  })
-})

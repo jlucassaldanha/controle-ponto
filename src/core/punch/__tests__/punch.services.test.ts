@@ -10,10 +10,7 @@ beforeEach(() => {
 });
 
 describe("addPunch", () => {
-    
-    it('should add start punch if punches is empty', async () => {
-        
-    })
+    it('should add start punch if punches is empty', async () => {})
     it('should add end punch if has start punch', async () => {})
     it('should add start lunch punch if has end punch', async () => {})
     it('should add end lunch punch if has start lunch punch', async () => {})
@@ -86,10 +83,6 @@ describe('getADayPunches', () => {
 
 describe('getPunches', () => {
     it('should return all punches', async () => {})
-})
-
-describe('groupPunchesByDay', () => {
-    it('should return punches formated by day', async () => {})
 })
 
 describe('getFirstPunch', () => {
