@@ -5,6 +5,21 @@ import { getADayPunches } from "../punch.services"
 
 vi.mock("@/lib/dateUtils")
 
+beforeEach(() => {
+  vi.clearAllMocks();
+});
+
+describe("addPunch", () => {
+    it('should add start punch if punches is empty', async () => {})
+    it('should add end punch if has start punch', async () => {})
+    it('should add start lunch punch if has end punch', async () => {})
+    it('should add end lunch punch if has start lunch punch', async () => {})
+})
+
+describe('addPunches', () => {
+    it('should add the punches into db', async () => {})
+})
+
 describe('getADayPunches', () => {
     it('should return a list of punches for that day', async () => {
         const userId = "user-uuid"
@@ -64,4 +79,13 @@ describe('getADayPunches', () => {
             },
         })
     })
+})
+
+describe('getPunches', () => {
+    it('should return all punches', async () => {})
+})
+
+describe('getFirstPunch', () => {
+    it('should return only first punch', async () => {})
+    it('should return null if dont have any punch', async () => {})
 })

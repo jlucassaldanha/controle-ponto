@@ -20,12 +20,18 @@
 5. Arrumar erros não mostrados nos formularios de login e signin (FEITO)
 6. Incluir horas extras anteriores na contagem (FEITO)
 
-## Adicionar
+## Tarefas
+1. Arrumar testes já existentes
+2. criar restante dos testes
+
+### Adicionar
 1. Adicionar opção de visualização por dia, semana e mes
 2. Adicionar edição de ponto
 3. Adicionar opcão de abono ou marcar como feriado na pagina de adição e pagina de edição
+4. Adicionar adição e edição de ponto inline
 
-## Corrigir
+### Corrigir
 1. Permitir que seja registrado 1 ponto por vez
 2. Dashboard mostrar apenas pontos da ultima semana
 3. Melhorar interface para visualização de mensagens (EM PROGRESSO)
+

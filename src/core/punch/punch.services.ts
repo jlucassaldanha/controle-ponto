@@ -1,8 +1,7 @@
 import { prisma } from '@/lib/prisma'
-import { formatDate, getADayInterval, getDayOfWeek, minutesToTimeString } from "@/lib/dateUtils";
+import { getADayInterval } from "@/lib/dateUtils";
 import { PunchType } from "@prisma/client";
-import { getPunchTimestampMinutes } from "./punch.utils";
-import { AddPunchDataType, GroupedPunchesType } from "./punch.types";
+import { AddPunchDataType } from "./punch.types";
 
 export async function addPunch(userId: string) {
 	const todayDate = new Date()
@@ -130,64 +129,6 @@ export async function getPunches(userId: string) {
 			timestamp: 'desc',
 		},
 	})
-}
-
-export async function groupPunchesByDay(userId: string) {
-	const allPunches = await getPunches(userId)
-
-	if (allPunches.length === 0) {
-        return [] 
-    }
-
-	const groupedPunches = allPunches.reduce((accumulator, punch) => {
-		const date = formatDate(punch.timestamp)
-		
-
-		if (!accumulator[date]) {
-			const dayOfWeek = getDayOfWeek(punch.timestamp)
-
-			accumulator[date] = {
-				dayOfWeek: {
-					dayString: dayOfWeek,
-					day: punch.timestamp.getDay()
-				},
-				timestamp: punch.timestamp,
-				date,
-				punches: []
-			}
-		}
-
-		accumulator[date].punches.push(punch)
-
-		return accumulator
-
-	}, {} as Record<string, GroupedPunchesType>) 
-	
-	const punchesArray = Object.values(groupedPunches).reverse()
-
-	const result = punchesArray.map((punchesObj) => {
-		const clockIn = getPunchTimestampMinutes(punchesObj, PunchType.CLOCK_IN)
-		const clockOut = getPunchTimestampMinutes(punchesObj, PunchType.CLOCK_OUT)
-		const journeyTime = clockOut - clockIn
-		
-		const lunchIn = getPunchTimestampMinutes(punchesObj, PunchType.START_LUNCH)
-		const lunchOut = getPunchTimestampMinutes(punchesObj, PunchType.END_LUNCH)
-		const lunchTime = lunchOut - lunchIn
-
-		const workedTime = journeyTime - lunchTime
-
-		const workedTimeString = minutesToTimeString(workedTime)
-
-		return {
-			...punchesObj,
-			workedTime: {
-				timeString: workedTimeString,
-				time: workedTime,
-			}
-		}
-	})
-	
-	return result
 }
 
 export async function getFirstPunch(userId: string) {

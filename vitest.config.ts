@@ -12,6 +12,9 @@ export default defineConfig({
 		deps: {
           inline: ['next-auth'],
         },
+		include: [
+			'**/__tests__/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'
+		],
 	},
 	resolve: {
 		alias: { '@': path.resolve(__dirname, './src') },

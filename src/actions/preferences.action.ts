@@ -7,6 +7,7 @@ import { updateInitialBalance } from "@/core/user/user.services";
 import z from "zod";
 import { BalanceTimeFormState, PreferencesFormState } from "./actions.types";
 import { dayKeyToNumberMap } from "./actions.constants";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 export async function updatePreferencesAction(previousState: PreferencesFormState, formData: FormData) {
 	const session = await auth()
@@ -98,6 +99,11 @@ export async function updateInitialBalanceAction(previousState: BalanceTimeFormS
 		return { success: true, message: "Configurações salvas com sucesso!" }
 	} catch (error) {
 		console.log(error)
+		if (error instanceof PrismaClientKnownRequestError) {
+			if (error.code === 'P2025') {
+				return { success: false, message: "Usuário não encontrado."}
+			}
+		}
 		return { success: false, message: "Falha ao salvar as configurações."}
 	}
 }

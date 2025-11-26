@@ -1,9 +1,6 @@
 import { minutesToTimeString } from "@/lib/dateUtils"
-import { getInitialBalance } from "./user.services"
 
-export async function getInitialBalanceData(userId: string) {
-	const initialBalance = await getInitialBalance(userId)
-
+export function initialBalanceData(initialBalance: number) {
 	if (initialBalance && initialBalance < 0) {
 		return {
 			isNegative: true,
