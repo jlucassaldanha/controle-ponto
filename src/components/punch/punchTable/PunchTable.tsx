@@ -16,7 +16,7 @@ export default function PunchTable({ punchesPerDay, dailySchedulesTime }: PunchT
 	const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
 	return (
-		<TableContainer component={Paper} sx={{ maxHeight: 600, maxWidth: (isMobile ? 400 : 800) }} >
+		<TableContainer component={Paper} sx={{ maxHeight: 400, maxWidth: (isMobile ? 400 : 1000) }} >
 			<Table stickyHeader sx={{minWidth: (isMobile ? 200 : 400)}} arial-label="tabela simples">
 				{isDesktop && <TableHeadDesktop/>}
 				{isMobile && <TableHeadMobile />}
