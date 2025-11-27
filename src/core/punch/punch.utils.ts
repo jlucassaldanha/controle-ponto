@@ -47,6 +47,21 @@ export function getPunchTime(punches: Punch[], type: PunchType) {
 	}
 }
 
+export function getPunchIdTime(punches: Punch[], type: PunchType) {
+	const punch = punches.find((punch) => ( punch.type === type ))
+	if (punch) {
+		return {
+			time: formatTime(punch.timestamp),
+			id: punch.id,
+		}
+	} else {
+		return {
+			time: "00:00",
+			id: ""
+		}
+	}
+}
+
 export function isUnderOver(time: number) {
 	if (time < 0) { 
 		return {

@@ -1,11 +1,12 @@
 'use server'
 
-import { addPunch, addPunches } from "@/core/punch/punch.services"
+import { addPunch, addPunches, editPunchTime } from "@/core/punch/punch.services"
 import { addPunchesSchema } from "@/core/punch/punch.validation"
 import { getCurrentUser } from "@/lib/session"
 import { revalidatePath } from "next/cache"
 import z from "zod"
 import { addPunchesActionForm } from "./actions.types"
+import { PunchType } from "@prisma/client"
 
 export async function addPunchAction() {
 	const session = await getCurrentUser()
@@ -30,6 +31,20 @@ export async function addPunchAction() {
 
 		return { success: false, error: "Não foi possivel registrar o ponto por algum erro no servidor."}
 	}
+}
+
+export async function updatePunchAction(punchId: string,  timestamp: Date) {
+	try{
+		await editPunchTime(punchId, timestamp)
+
+		return { success: true, message: "Ponto atualizado"}
+	} catch (error) {
+		console.log(error)
+
+		return { success: false, error: "Não foi possivel atualizar o ponto por algum erro no servidor."}
+	}
+		
+	
 }
 
 export async function addPunchesAction(previousState: addPunchesActionForm, formData: FormData) {

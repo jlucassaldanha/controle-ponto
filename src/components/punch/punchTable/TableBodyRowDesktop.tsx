@@ -1,6 +1,6 @@
 'use client'
 
-import { getPunchTime } from "@/core/punch/punch.utils";
+import { getPunchIdTime, getPunchTime } from "@/core/punch/punch.utils";
 import { Button, ButtonGroup, TableCell, TableRow } from "@mui/material";
 import { PunchType } from "@prisma/client";
 import { TableBodyRowProps } from "./types";
@@ -10,8 +10,20 @@ import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PunchCell from "./PunchCell";
 
+
 export default function TableBodyRowDesktop({ day, overUnder, color}: TableBodyRowProps) {
 	const [isEditing, setIsEditing] = useState(false)
+	const [editedValues, setEditedValues] = useState<{id: string, newTime: Date}>()
+
+	const clockIn = getPunchTime(day.punches, PunchType.CLOCK_IN);
+    const startLunch = getPunchTime(day.punches, PunchType.START_LUNCH);
+    const endLunch = getPunchTime(day.punches, PunchType.END_LUNCH);
+    const clockOut = getPunchTime(day.punches, PunchType.CLOCK_OUT);
+
+	const handlePunchChange = (id: string, newTime: string) => {
+		const date = day.date.replace('/', '-')
+		const newTimestamp = new Date()
+	}
 
 	return (
 		<TableRow
@@ -21,19 +33,19 @@ export default function TableBodyRowDesktop({ day, overUnder, color}: TableBodyR
 				{day.dayOfWeek.dayString} <br/> {day.date.slice(0, 5)} 
 			</TableCell>
 			<PunchCell 
-				initialValue={getPunchTime(day.punches, PunchType.CLOCK_IN) || "00:00"}
+				punchTime={clockIn || "00:00"}
 				isEditing={isEditing}
 			/>
 			<PunchCell 
-				initialValue={getPunchTime(day.punches, PunchType.START_LUNCH) || "00:00"}
+				punchTime={startLunch || "00:00"}
 				isEditing={isEditing}
 			/>
 			<PunchCell 
-				initialValue={getPunchTime(day.punches, PunchType.END_LUNCH) || "00:00"}
+				punchTime={endLunch || "00:00"}
 				isEditing={isEditing}
 			/>
 			<PunchCell 
-				initialValue={getPunchTime(day.punches, PunchType.CLOCK_OUT) || "00:00"}
+				punchTime={clockOut || "00:00"}
 				isEditing={isEditing}
 			/>
 			<TableCell align="center">
@@ -45,10 +57,10 @@ export default function TableBodyRowDesktop({ day, overUnder, color}: TableBodyR
 			{isEditing ? (
 				<TableCell align="center">
 					<ButtonGroup variant="outlined" aria-label="save-cancel">
-						<Button aria-label="save" onClick={() => setIsEditing(false)}>
+						<Button aria-label="save" onClick={() => setIsEditing(false) }>
 							<SaveIcon />
 						</Button>
-						<Button aria-label="cancel" onClick={() => setIsEditing(false)}>
+						<Button aria-label="cancel" onClick={() => setIsEditing(false) }>
 							<DeleteIcon />
 						</Button>
 					</ButtonGroup>

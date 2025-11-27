@@ -144,12 +144,14 @@ export async function getFirstPunch(userId: string) {
 	return firstPunch
 }
 
-export async function editADayPunches(punchId: string, data: { timestamp: Date, type: PunchType }) {
+export async function editPunchTime(punchId: string,  timestamp: Date) {
 	const updatedPunch = await prisma.punch.update({
 		where: {
 			id: punchId,
 		},
-		data
+		data: {
+			timestamp
+		}
 	})
 
 	return updatedPunch
