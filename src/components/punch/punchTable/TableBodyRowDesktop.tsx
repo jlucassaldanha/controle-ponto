@@ -1,17 +1,17 @@
 'use client'
 
 import { getPunchTime } from "@/core/punch/punch.utils";
-import { Button, ButtonGroup, TableCell, TableRow, TextField, Typography } from "@mui/material";
+import { Button, ButtonGroup, TableCell, TableRow } from "@mui/material";
 import { PunchType } from "@prisma/client";
 import { TableBodyRowProps } from "./types";
 import { useState } from "react";
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
+import PunchCell from "./PunchCell";
 
 export default function TableBodyRowDesktop({ day, overUnder, color}: TableBodyRowProps) {
 	const [isEditing, setIsEditing] = useState(false)
-	const [value, setValue] = useState(getPunchTime(day.punches, PunchType.CLOCK_IN))
 
 	return (
 		<TableRow
@@ -20,30 +20,22 @@ export default function TableBodyRowDesktop({ day, overUnder, color}: TableBodyR
 			<TableCell component="th" scope="row">
 				{day.dayOfWeek.dayString} <br/> {day.date.slice(0, 5)} 
 			</TableCell>
-			<TableCell align="center">
-				{isEditing ? (
-					<TextField 
-						size="small"
-						variant="outlined"
-						type="time"
-						value={value}
-						onChange={(e) => setValue(e.target.value)}
-					/>
-				) : (
-					<Typography>
-						{getPunchTime(day.punches, PunchType.CLOCK_IN)}
-					</Typography>
-				)}
-			</TableCell>
-			<TableCell align="center">
-				{getPunchTime(day.punches, PunchType.START_LUNCH)}
-			</TableCell>
-			<TableCell align="center">
-				{getPunchTime(day.punches, PunchType.END_LUNCH)}
-			</TableCell>
-			<TableCell align="center">
-				{getPunchTime(day.punches, PunchType.CLOCK_OUT)}
-			</TableCell>
+			<PunchCell 
+				initialValue={getPunchTime(day.punches, PunchType.CLOCK_IN) || "00:00"}
+				isEditing={isEditing}
+			/>
+			<PunchCell 
+				initialValue={getPunchTime(day.punches, PunchType.START_LUNCH) || "00:00"}
+				isEditing={isEditing}
+			/>
+			<PunchCell 
+				initialValue={getPunchTime(day.punches, PunchType.END_LUNCH) || "00:00"}
+				isEditing={isEditing}
+			/>
+			<PunchCell 
+				initialValue={getPunchTime(day.punches, PunchType.CLOCK_OUT) || "00:00"}
+				isEditing={isEditing}
+			/>
 			<TableCell align="center">
 				{day.workedTime.timeString}
 			</TableCell>
@@ -70,7 +62,6 @@ export default function TableBodyRowDesktop({ day, overUnder, color}: TableBodyR
 				</TableCell>
 				
 			)}
-			
 		</TableRow>
 	)
 } 
