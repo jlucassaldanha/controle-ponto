@@ -16,10 +16,19 @@ export default function TableBodyRowDesktop({ day, overUnder, color}: TableBodyR
 	const [isEditing, setIsEditing] = useState(false)
 	const [editedValues, setEditedValues] = useState<Record<string, Date>>({})
 
-	const clockIn = getPunchIdTime(day.punches, PunchType.CLOCK_IN);
-    const startLunch = getPunchIdTime(day.punches, PunchType.START_LUNCH);
-    const endLunch = getPunchIdTime(day.punches, PunchType.END_LUNCH);
-    const clockOut = getPunchIdTime(day.punches, PunchType.CLOCK_OUT);
+	const getPunchData = (type: PunchType) => {
+		const punchData = getPunchIdTime(day.punches, type);
+
+		const safeId = punchData.id || `TEMP::${type}`
+		const safeTime = punchData.time || "00:00"
+
+		return { id: safeId, time: safeTime, type }
+	}
+
+	const clockIn = getPunchData(PunchType.CLOCK_IN);
+    const startLunch = getPunchData(PunchType.START_LUNCH);
+    const endLunch = getPunchData(PunchType.END_LUNCH);
+    const clockOut = getPunchData(PunchType.CLOCK_OUT);
 
 	const handlePunchChange = (id: string, newTime: string) => {
 		const newTimestamp = new Date(day.timestamp)
@@ -33,6 +42,14 @@ export default function TableBodyRowDesktop({ day, overUnder, color}: TableBodyR
 		}))
 	}
 
+	const getDisplayTime = (id: string ) => {
+		const editedTime = editedValues[id]
+		if (editedTime) {
+			return formatTime(editedTime)
+		}
+		return undefined;	
+	}
+
 	const onCancel = () => {
 		setIsEditing(false)
 		setEditedValues({})
@@ -40,18 +57,12 @@ export default function TableBodyRowDesktop({ day, overUnder, color}: TableBodyR
 
 	const onSave = async () => {
 		console.log("salvando")
+
+		
 		await updatePunchesAction(editedValues)
 		
 		setIsEditing(false)
 		setEditedValues({})
-	}
-
-	const getDisplayTime = (id: string ) => {
-		const editedTime = editedValues[id]
-		if (editedTime) {
-			return formatTime(editedTime)
-		}
-		return undefined;	
 	}
 
 	return (
@@ -62,25 +73,25 @@ export default function TableBodyRowDesktop({ day, overUnder, color}: TableBodyR
 				{day.dayOfWeek.dayString} <br/> {day.date.slice(0, 5)} 
 			</TableCell>
 			<PunchCell 
-				punchTime={clockIn.time || "00:00"}
+				punchTime={clockIn.time}
 				isEditing={isEditing}
 				currentValue={getDisplayTime(clockIn.id)}
 				onChange={(val) => handlePunchChange(clockIn.id, val)}
 			/>
 			<PunchCell 
-				punchTime={startLunch.time || "00:00"}
+				punchTime={startLunch.time}
 				isEditing={isEditing}
 				currentValue={getDisplayTime(startLunch.id)}
 				onChange={(val) => handlePunchChange(startLunch.id, val)}
 			/>
 			<PunchCell 
-				punchTime={endLunch.time || "00:00"}
+				punchTime={endLunch.time}
 				isEditing={isEditing}
 				currentValue={getDisplayTime(endLunch.id)}
 				onChange={(val) => handlePunchChange(endLunch.id, val)}
 			/>
 			<PunchCell 
-				punchTime={clockOut.time || "00:00"}
+				punchTime={clockOut.time}
 				isEditing={isEditing}
 				currentValue={getDisplayTime(clockOut.id)}
 				onChange={(val) => handlePunchChange(clockOut.id, val)}

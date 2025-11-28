@@ -34,7 +34,27 @@ export async function addPunchAction() {
 }
 
 export async function updatePunchesAction(punchesObj: Record<string, Date>) {
+	const newPunches = Object.entries(punchesObj).map(([key, value]) => {
+		return {
+			id: key,
+			timestamp: value
+		}
+	}) 
 
+	try{
+		await editPunchesTime(newPunches)
+
+		revalidatePath("/punch/history");
+
+		return { success: true, message: "Ponto atualizado"}
+	} catch (error) {
+		console.log(error)
+
+		return { success: false, error: "Não foi possivel atualizar o ponto por algum erro no servidor."}
+	}
+}
+
+export async function upsertPunchesAction(punchesObj: Record<string, Date>) {
 	const newPunches = Object.entries(punchesObj).map(([key, value]) => {
 		return {
 			id: key,
