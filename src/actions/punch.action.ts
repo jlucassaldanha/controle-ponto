@@ -1,6 +1,6 @@
 'use server'
 
-import { addPunch, addPunches, editPunchTime } from "@/core/punch/punch.services"
+import { addPunch, addPunches, editPunchesTime, editPunchTime } from "@/core/punch/punch.services"
 import { addPunchesSchema } from "@/core/punch/punch.validation"
 import { getCurrentUser } from "@/lib/session"
 import { revalidatePath } from "next/cache"
@@ -33,9 +33,19 @@ export async function addPunchAction() {
 	}
 }
 
-export async function updatePunchAction(punchId: string,  timestamp: Date) {
+export async function updatePunchesAction(punchesObj: Record<string, Date>) {
+
+	const newPunches = Object.entries(punchesObj).map(([key, value]) => {
+		return {
+			id: key,
+			timestamp: value
+		}
+	}) 
+
 	try{
-		await editPunchTime(punchId, timestamp)
+		await editPunchesTime(newPunches)
+
+		revalidatePath("/punch/history");
 
 		return { success: true, message: "Ponto atualizado"}
 	} catch (error) {
@@ -43,8 +53,6 @@ export async function updatePunchAction(punchId: string,  timestamp: Date) {
 
 		return { success: false, error: "Não foi possivel atualizar o ponto por algum erro no servidor."}
 	}
-		
-	
 }
 
 export async function addPunchesAction(previousState: addPunchesActionForm, formData: FormData) {

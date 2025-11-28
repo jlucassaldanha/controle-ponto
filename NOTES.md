@@ -36,4 +36,5 @@
 
 ### Ponto inline
 1. Adicionar edição de pontos na tabela de pontos
+2. Salvar dias não trabalhados no banco de dados
 

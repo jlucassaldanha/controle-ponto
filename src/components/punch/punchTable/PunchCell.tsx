@@ -3,12 +3,12 @@ import { TableCell, TextField, Typography } from "@mui/material";
 type PunchCellProps = {
 	punchTime: string, 
 	isEditing: boolean, 
-	currentValue: string, 
+	currentValue: string | undefined, 
 	onChange: (newTime: string) => void
 }
 
 export default function PunchCell({ punchTime, isEditing, currentValue, onChange }: PunchCellProps) {
-	const value = isEditing ? currentValue : punchTime
+	const value = isEditing ? (currentValue ?? punchTime) : punchTime
 	
 	return (
 		<TableCell align="center">
