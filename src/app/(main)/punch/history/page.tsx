@@ -25,13 +25,15 @@ export default async function PunchHistory() {
 	const initialBalance = await getInitialBalance(session.id)
 	const totalOvertimeData = getTotalOvertime(punchesPerDay, dailySchedulesTime, initialBalance)
 
+	const reversedPunchesPerDay = [...punchesPerDay].toReversed()
+
 	return (
 		<div className="flex flex-col items-center justify-center w-full gap-5 m-5">
 			<Typography variant="h4" component="h1" className="mb-6 text-center">
 				Espelho Ponto
 			</Typography>
 			<OvertimeCard totalOvertime={totalOvertimeData}/>
-			<PunchTable punchesPerDay={punchesPerDay} dailySchedulesTime={dailySchedulesTime} />			
+			<PunchTable punchesPerDay={reversedPunchesPerDay} dailySchedulesTime={dailySchedulesTime} />			
 		</div>
 	)
 }

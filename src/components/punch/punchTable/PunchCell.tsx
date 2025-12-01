@@ -14,7 +14,7 @@ export default function PunchCell({ punchTime, isEditing, currentValue, onChange
 		<TableCell align="center">
 		{isEditing ? (
 			<TextField 
-				sx={{ width: 130 }}
+				sx={{ maxWidth: 130 }}
 				size="small"
 				variant="outlined"
 				type="time"
