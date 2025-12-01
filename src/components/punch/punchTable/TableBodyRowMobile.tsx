@@ -135,7 +135,6 @@ export default function TableBodyRowMobile({day, overUnder, color}: TableBodyRow
 						<EditIcon />
 					</Button>
 				</TableCell>
-				
 			)}
 		</TableRow>
 	)

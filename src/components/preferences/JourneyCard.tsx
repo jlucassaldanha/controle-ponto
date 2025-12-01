@@ -11,7 +11,7 @@ export default function JourneyCard({ rule, variant, handleTimeChange }: Journey
 					label="Entrada"
 					type='time'
 					name={`entryTime-${rule.id}`} 
-					value={rule.entryTime} 
+					value={rule[variant.entryField]} 
 					onChange={(e) => handleTimeChange(rule.id, variant.entryField, e.target.value)}
 				/>
 				<TextField
@@ -19,7 +19,7 @@ export default function JourneyCard({ rule, variant, handleTimeChange }: Journey
 					label="Saída"
 					type='time'
 					name={`exitTime-${rule.id}`} 
-					value={rule.exitTime} 
+					value={rule[variant.exitField]} 
 					onChange={(e) => handleTimeChange(rule.id, variant.exitField, e.target.value)}
 				/>
 			</div>

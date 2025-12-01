@@ -30,7 +30,7 @@
 3. Adicionar adição e edição de ponto inline
 
 ### Corrigir
-1. Permitir que seja registrado 1 ponto por vez
+1. Corrigir entradas de preferencias bugadas
 2. Dashboard mostrar apenas pontos da ultima semana
 3. Melhorar interface para visualização de mensagens (EM PROGRESSO)
 
