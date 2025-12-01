@@ -10,7 +10,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
 import PunchCell from "./PunchCell";
 import { formatTime } from "@/lib/dateUtils";
-import { updatePunchesAction } from "@/actions/punch.action";
+import { upsertPunchesAction } from "@/actions/punch.action";
 
 export default function TableBodyRowDesktop({ day, overUnder, color}: TableBodyRowProps) {
 	const [isEditing, setIsEditing] = useState(false)
@@ -36,6 +36,10 @@ export default function TableBodyRowDesktop({ day, overUnder, color}: TableBodyR
 		newTimestamp.setHours(Number(newTime.slice(0, 2)))
 		newTimestamp.setMinutes(Number(newTime.slice(3)))
 
+		console.log(newTimestamp)
+		console.log(day.timestamp)
+		console.log(day.date)
+
 		setEditedValues(prev => ({
 			...prev,
 			[id]: newTimestamp
@@ -56,13 +60,17 @@ export default function TableBodyRowDesktop({ day, overUnder, color}: TableBodyR
 	}
 
 	const onSave = async () => {
-		console.log("salvando")
-
-		
-		await updatePunchesAction(editedValues)
-		
-		setIsEditing(false)
-		setEditedValues({})
+		try {
+			const result = await upsertPunchesAction(editedValues)
+			if (result.success) {
+				setIsEditing(false)
+				setEditedValues({})
+			} else {
+				console.log(result.error, result.message)
+			}
+		} catch (error) {
+			console.log(error)
+		}
 	}
 
 	return (
