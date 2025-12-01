@@ -5,12 +5,11 @@ export default function TableHeadMobile() {
 		<TableHead>
 			<TableRow>
 				<TableCell>Data</TableCell>
-				<TableCell sx={{display: "flex", justifyContent: "space-between", gap: "10px"}} >
-					<span>Entrada</span>
-					<span>Saída</span>
-				</TableCell>
+				<TableCell align="center">Entrada</TableCell>
+				<TableCell align="center">Saída</TableCell>
 				<TableCell align="center">Total</TableCell>
 				<TableCell align="center">Extras</TableCell>
+				<TableCell align="center"></TableCell>
 			</TableRow>
 		</TableHead>
 	)
