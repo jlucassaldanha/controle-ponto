@@ -44,15 +44,19 @@ export default function TableAddRow({ onClose }: { onClose: () => void }) {
   const handleDateChange = (value: string) => {
     setDateValue(value);
   };
+  
   const handleClockInChange = (value: string) => {
     setClockInValue(value);
   };
+  
   const handleClockOutChange = (value: string) => {
     setClockOutValue(value);
   };
+  
   const handleStartLunchChange = (value: string) => {
     setStartLunchValue(value);
   };
+
   const handleEndLunchChange = (value: string) => {
     setEndLunchValue(value);
   };
