@@ -84,7 +84,9 @@ export default function TableAddRow({ onClose }: { onClose: () => void }) {
         currentValue={clockOutValue}
         onChange={handleClockOutChange}
       />
-      <TableCell align="center">00:00</TableCell>
+      <TableCell align="center">
+        00:00
+      </TableCell>
       <TableCell align="center" sx={{ color: "red" }}>
         00:00
       </TableCell>
