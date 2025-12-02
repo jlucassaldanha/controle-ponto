@@ -7,7 +7,7 @@ type PunchCellProps = {
 	onChange: (newTime: string) => void
 }
 
-export default function PunchCell({ punchTime, isEditing, currentValue, onChange }: PunchCellProps) {
+export default function PunchCellDesktop({ punchTime, isEditing, currentValue, onChange }: PunchCellProps) {
 	const value = isEditing ? (currentValue ?? punchTime) : punchTime
 	
 	return (
