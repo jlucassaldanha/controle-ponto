@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, ButtonGroup, TableCell, TableRow } from "@mui/material";
-import { PunchType } from "@prisma/client";
+//import { PunchType } from "@prisma/client";
 import { useState } from "react";
 import SaveIcon from "@mui/icons-material/Save";
 import CloseIcon from "@mui/icons-material/Close";
@@ -16,12 +16,12 @@ export default function TableModalRow({ onClose }: { onClose: () => void }) {
   const [startLunchValue, setStartLunchValue] = useState("");
   const [endLunchValue, setEndLunchValue] = useState("");
 
-  const punchData = (type: PunchType) => {
+  /*const punchData = (type: PunchType) => {
     const safeId = `TEMP::${type}`;
     const safeTime = "00:00";
 
     return { id: safeId, time: safeTime, type };
-  };
+  };*/
 
   const onCancel = () => {
     onClose();
