@@ -104,7 +104,7 @@ export async function getWorkdayBalanceReport(userId: string, initialDate: Date,
 		dailySchedulesTime.map(day => [day.dayOfWeek, day])
 	)
 
-	const currentDate = initialDate
+	const currentDate = new Date(initialDate)
 	const finalReportList = []
 	while (currentDate <= finalDate) {
 		const currentDateString = formatDate(currentDate)
@@ -121,7 +121,7 @@ export async function getWorkdayBalanceReport(userId: string, initialDate: Date,
 					timeString: "00:00",
 					time: 0,
 				},
-				timestamp: currentDate,
+				timestamp: new Date(currentDate),
 				date: currentDateString,
 				dayOfWeek: {
 					dayString: currentDayString,

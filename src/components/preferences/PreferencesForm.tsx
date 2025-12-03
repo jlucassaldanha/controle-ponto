@@ -53,7 +53,6 @@ export default function PreferencesForm({ initialSchedules }: PreferencesFormPro
 						</Card>
 					</div>
 				)}
-				
 				{schedulesRules.map((rule, i) => (
 					<ScheduleRuleItem
 						key={rule.id} 

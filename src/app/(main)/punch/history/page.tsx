@@ -2,11 +2,11 @@ import { getFirstPunch } from "@/core/punch/punch.services"
 import { requireUserSession } from "@/lib/session"
 import { getUserPreferences } from "@/core/preferences/preferences.services";
 import { getDailySchedulesTime } from "@/core/preferences/preferences.utils";
-import { Typography } from "@mui/material";
 import PunchTable from "@/components/punch/punchTable/PunchTable";
 import { getWorkdayBalanceReport, getTotalOvertime } from "@/core/punch/punch.reports";
 import OvertimeCard from "@/components/punch/OvertimeCard/OvertimeCard";
 import { getInitialBalance } from "@/core/user/user.services";
+import { Typography } from "@mui/material";
 
 export const dynamic = 'force-dynamic'
 
@@ -25,13 +25,15 @@ export default async function PunchHistory() {
 	const initialBalance = await getInitialBalance(session.id)
 	const totalOvertimeData = getTotalOvertime(punchesPerDay, dailySchedulesTime, initialBalance)
 
+	const reversedPunchesPerDay = [...punchesPerDay].toReversed()
+
 	return (
-		<div className="flex flex-col items-center justify-center w-full gap-5 m-5">
+		<div className="flex flex-col items-center justify-center w-full gap-5 m-5">	
 			<Typography variant="h4" component="h1" className="mb-6 text-center">
 				Espelho Ponto
 			</Typography>
 			<OvertimeCard totalOvertime={totalOvertimeData}/>
-			<PunchTable punchesPerDay={punchesPerDay} dailySchedulesTime={dailySchedulesTime} />			
+			<PunchTable punchesPerDay={reversedPunchesPerDay} dailySchedulesTime={dailySchedulesTime} />			
 		</div>
 	)
 }

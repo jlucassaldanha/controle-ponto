@@ -143,3 +143,44 @@ export async function getFirstPunch(userId: string) {
 
 	return firstPunch
 }
+
+export async function upsertPunches(updates: {id: string, timestamp: Date}[], inserts: {type: PunchType, timestamp: Date, userId: string}[]) {
+	const updatesOperations = updates.map((punch) => {
+		return prisma.punch.update({
+			where: {
+				id: punch.id,
+			},
+			data: {
+				timestamp: punch.timestamp
+			}
+		})
+	})
+
+	const insertsOperations = inserts.map((punch) => {
+		return prisma.punch.create({
+			data: {
+				type: punch.type,
+				timestamp: punch.timestamp,
+				userId: punch.userId
+			}
+		})
+	})
+
+	await prisma.$transaction([
+		...updatesOperations,
+		...insertsOperations,
+	])
+}
+
+export async function editPunchTime(punchId: string,  timestamp: Date) {
+	const updatedPunch = await prisma.punch.update({
+		where: {
+			id: punchId,
+		},
+		data: {
+			timestamp
+		}
+	})
+
+	return updatedPunch
+}
