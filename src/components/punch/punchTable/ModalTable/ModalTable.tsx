@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import TableHeadDesktop from "../Desktop/TableHeadDesktop";
 import TableHeadMobile from "../Mobile/TableHeadMobile";
-import TableAddRow from "../Desktop/TableAddRow";
+import TableModalRow from "../Desktop/TableModalRow";
 
 export default function ModalTable({
   open,
@@ -54,7 +54,7 @@ export default function ModalTable({
           {isDesktop && <TableHeadDesktop isModal={true} />}
           {isMobile && <TableHeadMobile />}
           <TableBody>
-            <TableAddRow onClose={onClose} />
+            <TableModalRow onClose={onClose} />
           </TableBody>
         </Table>
       </TableContainer>

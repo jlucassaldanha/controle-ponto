@@ -136,7 +136,7 @@ export default function TableBodyRowMobile({
       ) : (
         <TableCell align="center">
           <Button
-            variant="outlined"
+            variant="text"
             aria-label="edit"
             onClick={() => setIsEditing(true)}
           >

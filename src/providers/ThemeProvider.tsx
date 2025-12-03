@@ -45,7 +45,6 @@ export function CustomThemeProvider({ children }: { children: ReactNode }) {
     }), [mode]
   );
   
-
   return (
     <ThemeContext.Provider value={colorMode}>
       <MUIThemeProvider theme={theme}>

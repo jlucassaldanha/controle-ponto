@@ -8,7 +8,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { upsertPunchesAction } from "@/actions/punch.action";
 import AddPunchCell from "./AddPunchCell";
 
-export default function TableAddRow({ onClose }: { onClose: () => void }) {
+export default function TableModalRow({ onClose }: { onClose: () => void }) {
   const [editedValues, setEditedValues] = useState<Record<string, Date>>({});
   const [dateValue, setDateValue] = useState("");
   const [clockInValue, setClockInValue] = useState("");
@@ -89,10 +89,10 @@ export default function TableAddRow({ onClose }: { onClose: () => void }) {
         onChange={handleClockOutChange}
       />
       <TableCell align="center">
-        00:00
+        --:--
       </TableCell>
       <TableCell align="center" sx={{ color: "red" }}>
-        00:00
+        --:--
       </TableCell>
       <TableCell align="center">
         <ButtonGroup variant="outlined" aria-label="save-cancel">
