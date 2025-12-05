@@ -3,16 +3,16 @@
 import { getPunchIdTime } from "@/core/punch/punch.utils";
 import { Button, ButtonGroup, TableCell, TableRow } from "@mui/material";
 import { PunchType } from "@prisma/client";
-import { TableBodyRowProps } from "../types";
+import { TableBodyRowProps } from "../../types";
 import { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import CloseIcon from "@mui/icons-material/Close";
-import PunchCell from "./PunchCellDesktop";
+import ShowEditPunchCellDesktop from "../ShowEditPunchCellDesktop/ShowEditPunchCellDesktop";
 import { formatTime } from "@/lib/dateUtils";
 import { upsertPunchesAction } from "@/actions/punch.action";
 
-export default function TableBodyRowDesktop({
+export default function TableRowDesktop({
   day,
   overUnder,
   color,
@@ -82,25 +82,25 @@ export default function TableBodyRowDesktop({
       <TableCell component="th" scope="row">
         {day.dayOfWeek.dayString} <br /> {day.date.slice(0, 5)}
       </TableCell>
-      <PunchCell
+      <ShowEditPunchCellDesktop
         punchTime={clockIn.time}
         isEditing={isEditing}
         currentValue={getDisplayTime(clockIn.id)}
         onChange={(val) => handlePunchChange(clockIn.id, val)}
       />
-      <PunchCell
+      <ShowEditPunchCellDesktop
         punchTime={startLunch.time}
         isEditing={isEditing}
         currentValue={getDisplayTime(startLunch.id)}
         onChange={(val) => handlePunchChange(startLunch.id, val)}
       />
-      <PunchCell
+      <ShowEditPunchCellDesktop
         punchTime={endLunch.time}
         isEditing={isEditing}
         currentValue={getDisplayTime(endLunch.id)}
         onChange={(val) => handlePunchChange(endLunch.id, val)}
       />
-      <PunchCell
+      <ShowEditPunchCellDesktop
         punchTime={clockOut.time}
         isEditing={isEditing}
         currentValue={getDisplayTime(clockOut.id)}
