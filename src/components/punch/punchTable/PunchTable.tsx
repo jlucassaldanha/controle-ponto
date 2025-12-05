@@ -8,9 +8,9 @@ import {
   useTheme,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
-import TableHeadDesktop from "./Desktop/TableHeadDesktop";
+import TableHeadDesktop from "./Desktop/TableHeadDesktop/TableHeadDesktop";
 import TableHeadMobile from "./Mobile/TableHeadMobile";
-import TableBodyRowDesktop from "./Desktop/TableBodyRowDesktop";
+import TableRowDesktop from "./Desktop/TableRowDesktop/TableRowDesktop";
 import TableBodyRowMobile from "./Mobile/TableBodyRowMobile";
 import { overtimeUndertime } from "@/core/punch/punch.reports";
 import { PunchTableProps } from "./types";
@@ -64,7 +64,7 @@ export default function PunchTable({
                 color={color}
               />
             ) : (
-              <TableBodyRowDesktop
+              <TableRowDesktop
                 key={day.date}
                 day={day}
                 overUnder={overUnder}

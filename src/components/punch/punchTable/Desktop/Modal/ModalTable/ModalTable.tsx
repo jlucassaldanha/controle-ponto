@@ -10,9 +10,9 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import TableHeadDesktop from "../Desktop/TableHeadDesktop";
-import TableHeadMobile from "../Mobile/TableHeadMobile";
-import TableModalRow from "../Desktop/TableModalRow";
+import TableHeadDesktop from "../../TableHeadDesktop/TableHeadDesktop";
+import TableHeadMobile from "../../../Mobile/TableHeadMobile";
+import TableModalRow from "../TableModalRow";
 
 export default function ModalTable({
   open,
