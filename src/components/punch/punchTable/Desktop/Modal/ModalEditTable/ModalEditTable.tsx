@@ -15,15 +15,19 @@ import TableHeadMobile from "../../../Mobile/TableHeadMobile";
 import TableModalEditRow from "../TableModalEditRow";
 import { groupPunchesByDay } from "@/core/punch/punch.reports";
 
+type ModalEditTableProps = {
+  open: boolean;
+  onClose: () => void;
+  day: Awaited<ReturnType<typeof groupPunchesByDay>>[number]
+  workTime: number
+}
+
 export default function ModalEditTable({
   open,
   onClose,
   day,
-}: {
-  open: boolean;
-  onClose: () => void;
-  day: Awaited<ReturnType<typeof groupPunchesByDay>>[number]
-}) {
+  workTime
+}: ModalEditTableProps) {
   const theme = useTheme();
 
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
@@ -57,7 +61,7 @@ export default function ModalEditTable({
           {isDesktop && <TableHeadDesktop isModal={true} />}
           {isMobile && <TableHeadMobile />}
           <TableBody>
-            <TableModalEditRow day={day} onClose={onClose} />
+            <TableModalEditRow day={day} workTime={workTime} onClose={onClose} />
           </TableBody>
         </Table>
       </TableContainer>

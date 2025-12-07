@@ -10,7 +10,8 @@ export default function TableRowDesktop({
   day,
   overUnder,
   color,
-}: TableBodyRowProps) {
+  workTime
+}: TableBodyRowProps & {workTime: number}) {
 
   const clockIn = getPunchIdTime(day.punches, PunchType.CLOCK_IN);
   const startLunch = getPunchIdTime(day.punches, PunchType.START_LUNCH);
@@ -41,7 +42,7 @@ export default function TableRowDesktop({
         {overUnder.timeStr}
       </TableCell>
       <TableCell align="center">
-        <TableModalControler day={day}/>
+        <TableModalControler day={day} workTime={workTime} />
       </TableCell>
     </TableRow>
   );
