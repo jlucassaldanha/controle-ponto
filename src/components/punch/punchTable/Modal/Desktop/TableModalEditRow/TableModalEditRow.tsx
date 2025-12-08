@@ -8,25 +8,29 @@ import { groupPunchesByDay } from "@/core/punch/punch.reports";
 import { useEditRow } from "@/hooks/useEditRow";
 
 type TableModalEditRowProps = {
-  day: Awaited<ReturnType<typeof groupPunchesByDay>>[number]
-  workTime: number
-  onClose: () => void
-}
+  day: Awaited<ReturnType<typeof groupPunchesByDay>>[number];
+  workTime: number;
+  onClose: () => void;
+};
 
-export default function TableModalEditRow({ day, workTime, onClose }: TableModalEditRowProps) {
+export default function TableModalEditRow({
+  day,
+  workTime,
+  onClose,
+}: TableModalEditRowProps) {
   const {
-		workedTime,
-		overUnder,
-		color,
-		clockIn,
-		clockOut,
-		startLunch,
-		endLunch,
-		getDisplayTime,
-		onCancel,
-		onSave,
-		handlePunchChange,
-	} = useEditRow(day, workTime, onClose)
+    workedTime,
+    overUnder,
+    color,
+    clockIn,
+    clockOut,
+    startLunch,
+    endLunch,
+    getDisplayTime,
+    onCancel,
+    onSave,
+    handlePunchChange,
+  } = useEditRow(day, workTime, onClose);
 
   return (
     <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
@@ -53,9 +57,7 @@ export default function TableModalEditRow({ day, workTime, onClose }: TableModal
         currentValue={getDisplayTime(clockOut.id) || clockOut.time}
         onChange={(val) => handlePunchChange(clockOut.id, val)}
       />
-      <TableCell align="center">
-        {workedTime}
-      </TableCell>
+      <TableCell align="center">{workedTime}</TableCell>
       <TableCell align="center" sx={{ color: color }}>
         {overUnder}
       </TableCell>

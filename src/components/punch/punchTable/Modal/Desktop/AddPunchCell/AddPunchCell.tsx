@@ -17,6 +17,6 @@ export default function AddPunchCell({ dateOrTime, currentValue, onChange }: Pun
 				value={currentValue}
 				onChange={(e) => onChange(e.target.value)}
 			/>
-	</TableCell>
+		</TableCell>
 	)
 }

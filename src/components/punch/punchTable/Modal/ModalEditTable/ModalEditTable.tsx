@@ -10,23 +10,24 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import TableHeadDesktop from "../../TableHeadDesktop/TableHeadDesktop";
-import TableHeadMobile from "../../../Mobile/TableHeadMobile";
-import TableModalEditRow from "../TableModalEditRow";
+import TableHeadDesktop from "../../Desktop/TableHeadDesktop/TableHeadDesktop";
+import TableHeadMobile from "../../Mobile/TableHeadMobile";
+import TableModalEditRow from "../Desktop/TableModalEditRow/TableModalEditRow";
 import { groupPunchesByDay } from "@/core/punch/punch.reports";
+import TableModalEditRowMobile from "../Mobile/TableModalEditRowMobile/TableModalEditRowMobile";
 
 type ModalEditTableProps = {
   open: boolean;
   onClose: () => void;
-  day: Awaited<ReturnType<typeof groupPunchesByDay>>[number]
-  workTime: number
-}
+  day: Awaited<ReturnType<typeof groupPunchesByDay>>[number];
+  workTime: number;
+};
 
 export default function ModalEditTable({
   open,
   onClose,
   day,
-  workTime
+  workTime,
 }: ModalEditTableProps) {
   const theme = useTheme();
 
@@ -61,7 +62,20 @@ export default function ModalEditTable({
           {isDesktop && <TableHeadDesktop isModal={true} />}
           {isMobile && <TableHeadMobile />}
           <TableBody>
-            <TableModalEditRow day={day} workTime={workTime} onClose={onClose} />
+            {isMobile ? (
+              <TableModalEditRowMobile 
+                day={day}
+                workTime={workTime}
+                onClose={onClose}
+              />
+            ) : (
+              <TableModalEditRow
+                day={day}
+                workTime={workTime}
+                onClose={onClose}
+              />
+            )}
+            
           </TableBody>
         </Table>
       </TableContainer>
