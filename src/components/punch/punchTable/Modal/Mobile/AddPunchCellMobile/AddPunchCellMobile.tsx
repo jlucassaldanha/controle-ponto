@@ -9,9 +9,17 @@ type PunchCellProps = {
 export default function AddPunchCellMobile({ dateOrTime, currentValue, onChange }: PunchCellProps) {
 	return (
 		<TextField 
-			sx={{ maxWidth: 130 }}
+			fullWidth
+			sx={{ 
+				margin: 0,
+				"& .MuiInputBase-input": {
+					fontSize: "0.8rem",
+					padding: "2px 0",
+					textAlign: "center"
+				} 
+			}}
 			size="small"
-			variant="outlined"
+			variant="standard"
 			type={dateOrTime}
 			value={currentValue}
 			onChange={(e) => onChange(e.target.value)}

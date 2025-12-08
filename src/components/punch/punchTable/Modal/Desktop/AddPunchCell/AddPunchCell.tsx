@@ -12,7 +12,7 @@ export default function AddPunchCell({ dateOrTime, currentValue, onChange }: Pun
 			<TextField 
 				sx={{ maxWidth: 130 }}
 				size="small"
-				variant="outlined"
+				variant="standard"
 				type={dateOrTime}
 				value={currentValue}
 				onChange={(e) => onChange(e.target.value)}
