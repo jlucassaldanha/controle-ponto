@@ -28,7 +28,7 @@ export default async function PunchHistory() {
 	const reversedPunchesPerDay = [...punchesPerDay].toReversed()
 
 	return (
-		<div className="flex flex-col items-center justify-center w-full gap-5 m-5">	
+		<div className="flex flex-col items-center justify-center w-full gap-5">	
 			<Typography variant="h4" component="h1" className="mb-6 text-center">
 				Espelho Ponto
 			</Typography>

@@ -28,9 +28,12 @@ export default function PunchTable({
     <TableContainer
       component={Paper}
       sx={{
-        position: "relative",
+        position: 'relative',
         maxHeight: 400,
-        maxWidth: isMobile ? 380 : 800,
+        width: "100%",
+        margin: "0 auto",
+        display: "block",
+        maxWidth: isMobile ? '95%' : 800
       }}
     >
       <Table

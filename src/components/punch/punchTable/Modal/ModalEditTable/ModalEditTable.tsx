@@ -36,6 +36,7 @@ export default function ModalEditTable({
 
   return (
     <Modal
+      sx={{margin: '7px'}}
       open={open}
       onClose={onClose}
       aria-labelledby="modal-modal-title"
