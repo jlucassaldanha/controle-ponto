@@ -1,10 +1,10 @@
 "use client";
 
 import * as React from "react";
-import Button from "@mui/material/Button";
 import ModalEditTable from "../ModalEditTable/ModalEditTable";
 import EditIcon from "@mui/icons-material/Edit";
 import { groupPunchesByDay } from "@/core/punch/punch.reports";
+import { IconButton } from "@mui/material";
 
 type TableModalControlerProps = {
   day: Awaited<ReturnType<typeof groupPunchesByDay>>[number]
@@ -19,9 +19,9 @@ export default function TableModalControler({day, workTime}: TableModalControler
 
   return (
     <div>
-      <Button aria-label="add" onClick={handleOpen}>
-        <EditIcon />
-      </Button>
+      <IconButton aria-label="add" size="small" onClick={handleOpen}>
+        <EditIcon fontSize="small"/>
+      </IconButton>
       <ModalEditTable open={open} onClose={handleClose} day={day} workTime={workTime}/>
     </div>
   );

@@ -45,7 +45,7 @@ export default function ModalEditTable({
         component={Paper}
         sx={{
           maxHeight: 400,
-          maxWidth: isMobile ? 600 : 1000,
+          maxWidth: isMobile ? 380 : 1000,
           position: "absolute",
           top: "50%",
           left: "50%",
@@ -56,6 +56,7 @@ export default function ModalEditTable({
       >
         <Table
           stickyHeader
+          size="small"
           sx={{ minWidth: isMobile ? 200 : 400 }}
           arial-label="tabela simples"
         >
