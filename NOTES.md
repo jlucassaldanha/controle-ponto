@@ -11,6 +11,7 @@
 7. Deixar pagina de edição iniciando com todos pontos e entrada e saida serem fixos (FEITO)
 8. Mostrar total de extras ou faltantes (FEITO)
 9. Adicionar opção para registrar horas extras anteriores (FEITO)
+10. Adicionar edição de pontos na tabela de pontos (FEITO)
 
 ## Correções
 1. Caso nenhum ponto seja adicionado para o dia, ele deve ser contado no calculo. (FEITO)
@@ -19,22 +20,16 @@
 4. Adicionar mensagem de feedback para o botão de bater ponto (FEITO)
 5. Arrumar erros não mostrados nos formularios de login e signin (FEITO)
 6. Incluir horas extras anteriores na contagem (FEITO)
+7. Mudar edição inline para modal (FEITO)
+8. Arrumar testes já existentes (FEITO)
+9. Corrigir entradas de preferencias bugadas (FEITO)
+10. Melhorar interface para visualização de mensagens (FEITO)
 
 ## Tarefas
-1. Arrumar testes já existentes
-2. criar restante dos testes
+1. criar restante dos testes (EM PROGRESSO)
+2. Adicionar adição de ponto com modal
 
 ### Adicionar
 1. Adicionar opção de visualização por dia, semana e mes
 2. Adicionar opcão de abono ou marcar como feriado na pagina de adição e pagina de edição
-3. Adicionar adição e edição de ponto inline
-
-### Corrigir
-1. Corrigir entradas de preferencias bugadas (FEITO)
-2. Dashboard mostrar apenas pontos da ultima semana
-3. Melhorar interface para visualização de mensagens (EM PROGRESSO)
-
-### Ponto inline
-1. Adicionar edição de pontos na tabela de pontos
-2. Mudar edição inline para modal
 
