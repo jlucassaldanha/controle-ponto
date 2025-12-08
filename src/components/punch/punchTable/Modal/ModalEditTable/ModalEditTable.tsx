@@ -45,7 +45,7 @@ export default function ModalEditTable({
         component={Paper}
         sx={{
           maxHeight: 400,
-          maxWidth: isMobile ? 380 : 1000,
+          maxWidth: isMobile ? 380 : 800,
           position: "absolute",
           top: "50%",
           left: "50%",

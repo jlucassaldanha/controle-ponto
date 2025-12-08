@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, ButtonGroup, TableCell, TableRow } from "@mui/material";
+import { Button, ButtonGroup, IconButton, TableCell, TableRow } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import CloseIcon from "@mui/icons-material/Close";
 import AddPunchCell from "../AddPunchCell/AddPunchCell";
@@ -63,12 +63,12 @@ export default function TableModalEditRow({
       </TableCell>
       <TableCell align="center">
         <ButtonGroup variant="outlined" aria-label="save-cancel">
-          <Button aria-label="save" onClick={onSave}>
+          <IconButton aria-label="save" onClick={onSave}>
             <SaveIcon fontSize="small" />
-          </Button>
-          <Button aria-label="cancel" color="error" onClick={onCancel}>
+          </IconButton>
+          <IconButton aria-label="cancel" color="error" onClick={onCancel}>
             <CloseIcon fontSize="small" />
-          </Button>
+          </IconButton>
         </ButtonGroup>
       </TableCell>
     </TableRow>

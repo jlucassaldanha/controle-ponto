@@ -30,7 +30,7 @@ export default function PunchTable({
       sx={{
         position: "relative",
         maxHeight: 400,
-        maxWidth: isMobile ? 380 : 1000,
+        maxWidth: isMobile ? 380 : 800,
       }}
     >
       <Table
