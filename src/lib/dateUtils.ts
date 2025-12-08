@@ -53,3 +53,13 @@ export function minutesToTimeString(totalMinutes: number | null | undefined): st
 
 	return `${formattedHours}:${formattedMinutes}`
 }
+
+export function getTimeMinutes(time: string) {
+    const [hours, minutes] = time.split(':').map(Number)
+
+    if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
+        return -1
+    }
+    
+    return hours * 60 + minutes
+}

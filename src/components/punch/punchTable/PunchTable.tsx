@@ -69,6 +69,7 @@ export default function PunchTable({
                 day={day}
                 overUnder={overUnder}
                 color={color}
+                workTime={workTime}
               />
             );
           })}

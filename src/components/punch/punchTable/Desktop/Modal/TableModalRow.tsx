@@ -6,7 +6,7 @@ import { useState } from "react";
 import SaveIcon from "@mui/icons-material/Save";
 import CloseIcon from "@mui/icons-material/Close";
 import { upsertPunchesAction } from "@/actions/punch.action";
-import AddPunchCell from "../AddPunchCell/AddPunchCell";
+import AddPunchCell from "../AddPunchCell/AddPunchCell"; 
 
 export default function TableModalRow({ onClose }: { onClose: () => void }) {
   const [editedValues, setEditedValues] = useState<Record<string, Date>>({});
