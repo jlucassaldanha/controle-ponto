@@ -23,6 +23,6 @@ export default function TableModalControler({day, workTime}: TableModalControler
         <EditIcon fontSize="small"/>
       </IconButton>
       <ModalEditTable open={open} onClose={handleClose} day={day} workTime={workTime}/>
-    </div>
+      </div>
   );
 }
