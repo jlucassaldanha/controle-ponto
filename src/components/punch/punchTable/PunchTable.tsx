@@ -11,7 +11,7 @@ import Paper from "@mui/material/Paper";
 import TableHeadDesktop from "./Desktop/TableHeadDesktop/TableHeadDesktop";
 import TableHeadMobile from "./Mobile/TableHeadMobile";
 import TableRowDesktop from "./Desktop/TableRowDesktop/TableRowDesktop";
-import TableBodyRowMobile from "./Mobile/TableBodyRowMobile";
+import TableBodyRowMobile from "./Mobile/TableRowMobile/TableRowMobile";
 import { overtimeUndertime } from "@/core/punch/punch.reports";
 import { PunchTableProps } from "./types";
 
