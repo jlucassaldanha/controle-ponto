@@ -13,6 +13,7 @@ type TableModalControlerProps = {
 
 export default function TableModalControler({day, workTime}: TableModalControlerProps) {
   const [open, setOpen] = React.useState(false);
+  
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
