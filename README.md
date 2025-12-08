@@ -25,6 +25,7 @@ Um sistema de controle de ponto moderno e funcional, criado para simplificar o r
 - ✅ **Autenticação:** Sistema completo de login e cadastro de usuários.
 - ✅ **Botão registrar ponto:** Botão de registro de ponto com um clique.
 - ✅ **Registro de Horas:** Interface para registrar manualmente entradas e saídas.
+- ✅ **Edição de registro:** Possibilidade de editar os registros de horas.
 - ✅ **Insights:** Visualização dos registros do dia, total de horas trabalhadas e cálculo de horas extras.
 - ✅ **Jornada de trabalho:** Definição da jornada de trabalho para cálculos precisos.
 - ✅ **Saldo anterior:** Definição de saldo de horas anterior ao uso da aplicação para cálculos atualizados.
