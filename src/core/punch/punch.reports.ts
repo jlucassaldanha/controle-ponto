@@ -1,9 +1,10 @@
 import { getPunches } from "./punch.services";
 import { minutesToTimeString } from "@/lib/dateUtils"
 import { formatDate, getDayOfWeek } from "@/lib/dateUtils";
-import { dailySchedulesTimeType, GroupedPunchesType, PunchesPerDayType } from "./punch.types";
+import { dailySchedulesTimeType, GroupedJustificationsType, GroupedPunchesType, PunchesPerDayType } from "./punch.types";
 import { getPunchTimestampMinutes, isUnderOver } from "./punch.utils";
 import { PunchType } from "@prisma/client";
+import { getJustifications } from "../justification/justification.services";
 
 export async function groupPunchesByDay(userId: string) {
 	const allPunches = await getPunches(userId)
@@ -26,7 +27,8 @@ export async function groupPunchesByDay(userId: string) {
 				},
 				timestamp: punch.timestamp,
 				date,
-				punches: []
+				punches: [],
+				justifications: []
 			}
 		}
 
@@ -63,8 +65,8 @@ export async function groupPunchesByDay(userId: string) {
 	return result
 }
 
-export function overtimeUndertime(workTime: number, workedTime: number) {
-	const overtime = workedTime - workTime
+export function overtimeUndertime(workTime: number, workedTime: number, justification: number) {
+	const overtime = (workedTime + justification) - workTime
 	const timeStr = minutesToTimeString(Math.abs(overtime))
 
 	const underOver = isUnderOver(overtime)
@@ -79,7 +81,7 @@ export function getTotalOvertime(punches: PunchesPerDayType[], schedules: {dayOf
 		const daySchedule = schedules.find((schedule) => schedule.dayOfWeek === day.dayOfWeek.day)
 
 		const workTime = daySchedule ? daySchedule.workTime : 0
-		const overUnder = overtimeUndertime(workTime, day.workedTime.time)
+		const overUnder = overtimeUndertime(workTime, day.workedTime.time, day.justification)
 		
 		return accumulator + overUnder.time
 	}, 0)
@@ -94,12 +96,56 @@ export function getTotalOvertime(punches: PunchesPerDayType[], schedules: {dayOf
 	}
 }
 
+export async function groupJustificationsByday(userId: string) {
+	const allJustifications = await getJustifications(userId)
+	
+	if (allJustifications.length === 0) {
+        return [] 
+    }
+
+	const groupedJustifications = allJustifications.reduce((accumulator, justification) => {
+		const date = formatDate(justification.date)
+		
+
+		if (!accumulator[date]) {
+			const dayOfWeek = getDayOfWeek(justification.date)
+
+			accumulator[date] = {
+				dayOfWeek: {
+					dayString: dayOfWeek,
+					day: justification.date.getDay()
+				},
+				timestamp: justification.date,
+				date,
+				justifications: []
+			}
+		}
+
+		accumulator[date].justifications.push(justification)
+
+		return accumulator
+
+	}, {} as Record<string, GroupedJustificationsType>) 
+	
+	const justificationsArray = Object.values(groupedJustifications).reverse()
+
+	const result = justificationsArray
+	
+	return result
+}
+
 export async function getWorkdayBalanceReport(userId: string, initialDate: Date, finalDate: Date, dailySchedulesTime: dailySchedulesTimeType[]) {
 	const punchesPerDay = await groupPunchesByDay(userId)
+	const justificationsPerDay = await groupJustificationsByday(userId)
 	
 	const punchesPerDayMap = new Map<string, PunchesPerDayType>(
 		punchesPerDay.map(day => [day.date, day])
 	)
+
+	const justificationsPerDayMap = new Map<string, GroupedJustificationsType>(
+		justificationsPerDay.map(day => [day.date, day])
+	)
+	
 	const dailySchedulesTimeMap = new Map<number, dailySchedulesTimeType>(
 		dailySchedulesTime.map(day => [day.dayOfWeek, day])
 	)
@@ -110,9 +156,13 @@ export async function getWorkdayBalanceReport(userId: string, initialDate: Date,
 		const currentDateString = formatDate(currentDate)
 		const currentDay = currentDate.getDay()
 		const currentPunch = punchesPerDayMap.get(currentDateString)
+		const currentJustification = justificationsPerDayMap.get(currentDateString)
 		
 		if (currentPunch) {
-			finalReportList.push(currentPunch)
+			finalReportList.push({
+				punchesPerDay: currentPunch,
+				justificationsPerDay:
+			})
 		} else if (punchesPerDay.length > 0 && dailySchedulesTimeMap.has(currentDay)){
 			const currentDayString = getDayOfWeek(currentDate)
 

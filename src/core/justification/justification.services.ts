@@ -41,3 +41,17 @@ export async function findJustification(userId: string, date: Date) {
 		throw new Error("Try to find justification: " + error)
 	}
 }
+
+export async function getJustifications(userId: string) {
+	try {
+		const justifications = await prisma.justification.findMany({
+			where: { 
+				id: userId
+			}
+		})
+
+		return justifications
+	} catch (error) {
+		throw new Error("Try to find justifications: " + error)
+	}
+}
