@@ -68,7 +68,7 @@ export async function addPunch(userId: string) {
 
 	} catch (error) {
 		console.error(error);
-    	throw new Error("Err2: Could not save punch.");
+    	throw new Error("Err2: Could not save punch." + error);
 	}
 }
 
