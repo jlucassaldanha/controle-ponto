@@ -1,8 +1,8 @@
 import { getPunches } from "./punch.services";
 import { minutesToTimeString } from "@/lib/dateUtils"
 import { formatDate, getDayOfWeek } from "@/lib/dateUtils";
-import { dailySchedulesTimeType, GroupedPunchesType, PunchesPerDayType } from "./punch.types";
-import { getPunchTimestampMinutes, isUnderOver } from "./punch.utils";
+import { dailySchedulesTimeType, GroupedPunchesType, GroupedPunchesType2, PunchesPerDayType, PunchesPerDayType2 } from "./punch.types";
+import { getPunchTimestampMinutes, getPunchTimestampMinutes2, isUnderOver } from "./punch.utils";
 import { PunchType } from "@prisma/client";
 
 export async function groupPunchesByDay(userId: string) {
@@ -57,6 +57,51 @@ export async function groupPunchesByDay(userId: string) {
 				timeString: workedTimeString,
 				time: workedTime,
 			}
+		}
+	})
+	
+	return result
+}
+
+export async function groupPunchesByDay2(userId: string) {
+	const allPunches = await getPunches(userId)
+	
+	if (allPunches.length === 0) {
+        return [] 
+    }
+
+	const groupedPunches = allPunches.reduce((accumulator, punch) => {
+		const date = formatDate(punch.timestamp)
+
+		if (!accumulator[date]) {
+			accumulator[date] = {
+				dayOfWeek: punch.timestamp.getDay(),
+				timestamp: punch.timestamp,
+				date,
+				punches: []
+			}
+		}
+
+		accumulator[date].punches.push(punch)
+		return accumulator
+	}, {} as Record<string, GroupedPunchesType2>) 
+	
+	const punchesArray = Object.values(groupedPunches).reverse()
+
+	const result = punchesArray.map((punchesObj) => {
+		const clockIn = getPunchTimestampMinutes2(punchesObj, PunchType.CLOCK_IN)
+		const clockOut = getPunchTimestampMinutes2(punchesObj, PunchType.CLOCK_OUT)
+		const journeyTime = clockOut - clockIn
+		
+		const lunchIn = getPunchTimestampMinutes2(punchesObj, PunchType.START_LUNCH)
+		const lunchOut = getPunchTimestampMinutes2(punchesObj, PunchType.END_LUNCH)
+		const lunchTime = lunchOut - lunchIn
+
+		const workedTime = journeyTime - lunchTime
+
+		return {
+			...punchesObj,
+			workedTime,
 		}
 	})
 	
@@ -127,6 +172,40 @@ export async function getWorkdayBalanceReport(userId: string, initialDate: Date,
 					dayString: currentDayString,
 					day: currentDay,
 				},
+				punches: []
+			})
+		}
+		currentDate.setDate(currentDate.getDate() + 1)
+	}
+	
+	return finalReportList
+}
+
+export async function getWorkdayBalanceReport2(userId: string, initialDate: Date, finalDate: Date, dailySchedulesTime: dailySchedulesTimeType[]) {
+	const punchesPerDay = await groupPunchesByDay2(userId)
+	
+	const punchesPerDayMap = new Map<string, PunchesPerDayType2>(
+		punchesPerDay.map(day => [day.date, day])
+	)
+	const dailySchedulesTimeMap = new Map<number, dailySchedulesTimeType>(
+		dailySchedulesTime.map(day => [day.dayOfWeek, day])
+	)
+
+	const currentDate = new Date(initialDate)
+	const finalReportList = []
+	while (currentDate <= finalDate) {
+		const currentDateString = formatDate(currentDate)
+		const currentDay = currentDate.getDay()
+		const currentPunch = punchesPerDayMap.get(currentDateString)
+		
+		if (currentPunch) {
+			finalReportList.push(currentPunch)
+		} else if (punchesPerDay.length > 0 && dailySchedulesTimeMap.has(currentDay)){
+			finalReportList.push({
+				workedTime: 0,
+				timestamp: new Date(currentDate),
+				date: currentDateString,
+				dayOfWeek: currentDay,
 				punches: []
 			})
 		}

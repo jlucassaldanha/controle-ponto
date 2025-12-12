@@ -13,7 +13,7 @@ import {
 import TableHeadDesktop from "../../Desktop/TableHeadDesktop/TableHeadDesktop";
 import TableHeadMobile from "../../Mobile/TableHeadMobile";
 import TableModalEditRow from "../Desktop/TableModalEditRow/TableModalEditRow";
-import { groupPunchesByDay } from "@/core/punch/punch.reports";
+import { groupPunchesByDay, groupPunchesByDay2 } from "@/core/punch/punch.reports";
 import TableModalEditRowMobile from "../Mobile/TableModalEditRowMobile/TableModalEditRowMobile";
 
 type ModalEditTableProps = {

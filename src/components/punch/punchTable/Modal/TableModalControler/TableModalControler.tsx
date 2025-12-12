@@ -3,7 +3,7 @@
 import * as React from "react";
 import ModalEditTable from "../ModalEditTable/ModalEditTable";
 import EditIcon from "@mui/icons-material/Edit";
-import { groupPunchesByDay } from "@/core/punch/punch.reports";
+import { groupPunchesByDay, groupPunchesByDay2 } from "@/core/punch/punch.reports";
 import { IconButton } from "@mui/material";
 
 type TableModalControlerProps = {

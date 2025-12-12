@@ -3,7 +3,7 @@ import { requireUserSession } from "@/lib/session"
 import { getUserPreferences } from "@/core/preferences/preferences.services";
 import { getDailySchedulesTime } from "@/core/preferences/preferences.utils";
 import PunchTable from "@/components/punch/punchTable/PunchTable";
-import { getWorkdayBalanceReport, getTotalOvertime } from "@/core/punch/punch.reports";
+import { getWorkdayBalanceReport, getTotalOvertime, getWorkdayBalanceReport2 } from "@/core/punch/punch.reports";
 import OvertimeCard from "@/components/punch/OvertimeCard/OvertimeCard";
 import { getInitialBalance } from "@/core/user/user.services";
 import { Typography } from "@mui/material";
