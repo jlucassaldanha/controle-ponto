@@ -3,17 +3,18 @@
 import { ButtonGroup, IconButton, TableCell, TableRow } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import CloseIcon from "@mui/icons-material/Close";
-import { groupPunchesByDay } from "@/core/punch/punch.reports";
-import { useEditRow } from "@/hooks/useEditRow";
+import { groupPunchesByDay2 } from "@/core/punch/punch.reports";
+import { useEditRow2 } from "@/hooks/useEditRow2";
 import AddPunchCellMobile from "../AddPunchCellMobile/AddPunchCellMobile";
+import { getDayOfWeek } from "@/lib/dateUtils";
 
 type TableModalEditRowProps = {
-  day: Awaited<ReturnType<typeof groupPunchesByDay>>[number];
+  day: Awaited<ReturnType<typeof groupPunchesByDay2>>[number];
   workTime: number;
   onClose: () => void;
 };
 
-export default function TableModalEditRowMobile({
+export default function TableModalEditRowMobile2({
   day,
   workTime,
   onClose,
@@ -30,17 +31,23 @@ export default function TableModalEditRowMobile({
     onCancel,
     onSave,
     handlePunchChange,
-  } = useEditRow(day, workTime, onClose);
+  } = useEditRow2(day, workTime, onClose);
 
-  const compactCellStyle = { 
-    padding: "8px", 
+  const compactCellStyle = {
+    padding: "8px",
     fontSize: "0.75rem",
   };
 
+  const dayOfWeek = getDayOfWeek(day.timestamp);
+
   return (
     <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-      <TableCell component="th" scope="row" sx={{ ...compactCellStyle, whiteSpace: "nowrap" }}>
-        {day.dayOfWeek.dayString} <br /> {day.date.slice(0, 5)}
+      <TableCell
+        component="th"
+        scope="row"
+        sx={{ ...compactCellStyle, whiteSpace: "nowrap" }}
+      >
+        {dayOfWeek} <br /> {day.date.slice(0, 5)}
       </TableCell>
       <TableCell align="center" sx={compactCellStyle}>
         <div className="flex flex-col gap-1">
@@ -72,22 +79,31 @@ export default function TableModalEditRowMobile({
       </TableCell>
       <TableCell align="center" sx={compactCellStyle}>
         {workedTime}
-        </TableCell>
+      </TableCell>
       <TableCell align="center" sx={{ ...compactCellStyle, color: color }}>
         {overUnder}
       </TableCell>
       <TableCell align="center" sx={{ padding: "8px" }}>
-        <ButtonGroup 
-          variant="text" 
-          orientation="vertical" 
-          size="small" 
+        <ButtonGroup
+          variant="text"
+          orientation="vertical"
+          size="small"
           aria-label="save-cancel"
         >
-          <IconButton aria-label="save" onClick={onSave} sx={{ minWidth: "20px", padding: "2px" }}>
-            <SaveIcon fontSize="small" sx={{ fontSize: 15 }}/>
+          <IconButton
+            aria-label="save"
+            onClick={onSave}
+            sx={{ minWidth: "20px", padding: "2px" }}
+          >
+            <SaveIcon fontSize="small" sx={{ fontSize: 15 }} />
           </IconButton>
-          <IconButton aria-label="cancel" color="error" onClick={onCancel} sx={{ minWidth: "20px", padding: "2px" }}>
-            <CloseIcon fontSize="small" sx={{ fontSize: 15 }}/>
+          <IconButton
+            aria-label="cancel"
+            color="error"
+            onClick={onCancel}
+            sx={{ minWidth: "20px", padding: "2px" }}
+          >
+            <CloseIcon fontSize="small" sx={{ fontSize: 15 }} />
           </IconButton>
         </ButtonGroup>
       </TableCell>

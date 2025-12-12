@@ -1,39 +1,56 @@
-import { getFirstPunch } from "@/core/punch/punch.services"
-import { requireUserSession } from "@/lib/session"
+import { getFirstPunch } from "@/core/punch/punch.services";
+import { requireUserSession } from "@/lib/session";
 import { getUserPreferences } from "@/core/preferences/preferences.services";
 import { getDailySchedulesTime } from "@/core/preferences/preferences.utils";
-import PunchTable from "@/components/punch/punchTable/PunchTable";
-import { getWorkdayBalanceReport, getTotalOvertime, getWorkdayBalanceReport2 } from "@/core/punch/punch.reports";
+import PunchTable2 from "@/components/punch/punchTable/PunchTable2";
+import {
+  getWorkdayBalanceReport2,
+  getTotalOvertime2,
+} from "@/core/punch/punch.reports";
 import OvertimeCard from "@/components/punch/OvertimeCard/OvertimeCard";
 import { getInitialBalance } from "@/core/user/user.services";
 import { Typography } from "@mui/material";
 
-export const dynamic = 'force-dynamic'
+export const dynamic = "force-dynamic";
 
 export default async function PunchHistory() {
-	const session = await requireUserSession()
-	
-	const firstPunch = await getFirstPunch(session.id)	
-	const initialDate = firstPunch?.timestamp || new Date()
-	const todayDate = new Date()
+  const session = await requireUserSession();
 
-	const userPreferences = await getUserPreferences(session.id)
-	const dailySchedulesTime = getDailySchedulesTime(userPreferences?.dailySchedules)
-	
-	const punchesPerDay = await getWorkdayBalanceReport(session.id, initialDate, todayDate, dailySchedulesTime)
-	
-	const initialBalance = await getInitialBalance(session.id)
-	const totalOvertimeData = getTotalOvertime(punchesPerDay, dailySchedulesTime, initialBalance)
+  const firstPunch = await getFirstPunch(session.id);
+  const initialDate = firstPunch?.timestamp || new Date();
+  const todayDate = new Date();
 
-	const reversedPunchesPerDay = [...punchesPerDay].toReversed()
+  const userPreferences = await getUserPreferences(session.id);
+  const dailySchedulesTime = getDailySchedulesTime(
+    userPreferences?.dailySchedules
+  );
 
-	return (
-		<div className="flex flex-col items-center justify-center w-full gap-5">	
-			<Typography variant="h4" component="h1" className="mb-6 text-center">
-				Espelho Ponto
-			</Typography>
-			<OvertimeCard totalOvertime={totalOvertimeData}/>
-			<PunchTable punchesPerDay={reversedPunchesPerDay} dailySchedulesTime={dailySchedulesTime} />			
-		</div>
-	)
+  const punchesPerDay = await getWorkdayBalanceReport2(
+    session.id,
+    initialDate,
+    todayDate,
+    dailySchedulesTime
+  );
+
+  const initialBalance = await getInitialBalance(session.id);
+  const totalOvertimeData = getTotalOvertime2(
+    punchesPerDay,
+    dailySchedulesTime,
+    initialBalance
+  );
+
+  const reversedPunchesPerDay = [...punchesPerDay].toReversed();
+
+  return (
+    <div className="flex flex-col items-center justify-center w-full gap-5">
+      <Typography variant="h4" component="h1" className="mb-6 text-center">
+        Espelho Ponto
+      </Typography>
+      <OvertimeCard totalOvertime={totalOvertimeData} />
+      <PunchTable2
+        punchesPerDay={reversedPunchesPerDay}
+        dailySchedulesTime={dailySchedulesTime}
+      />
+    </div>
+  );
 }

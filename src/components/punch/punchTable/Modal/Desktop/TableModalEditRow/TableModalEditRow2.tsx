@@ -4,16 +4,17 @@ import { ButtonGroup, IconButton, TableCell, TableRow } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import CloseIcon from "@mui/icons-material/Close";
 import AddPunchCell from "../AddPunchCell/AddPunchCell";
-import { groupPunchesByDay } from "@/core/punch/punch.reports";
-import { useEditRow } from "@/hooks/useEditRow";
+import { groupPunchesByDay2 } from "@/core/punch/punch.reports";
+import { useEditRow2 } from "@/hooks/useEditRow2";
+import { getDayOfWeek } from "@/lib/dateUtils";
 
 type TableModalEditRowProps = {
-  day: Awaited<ReturnType<typeof groupPunchesByDay>>[number];
+  day: Awaited<ReturnType<typeof groupPunchesByDay2>>[number];
   workTime: number;
   onClose: () => void;
 };
 
-export default function TableModalEditRow({
+export default function TableModalEditRow2({
   day,
   workTime,
   onClose,
@@ -30,12 +31,14 @@ export default function TableModalEditRow({
     onCancel,
     onSave,
     handlePunchChange,
-  } = useEditRow(day, workTime, onClose);
+  } = useEditRow2(day, workTime, onClose);
+
+  const dayOfWeek = getDayOfWeek(day.timestamp);
 
   return (
     <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
       <TableCell component="th" scope="row">
-        {day.dayOfWeek.dayString} <br /> {day.date.slice(0, 5)}
+        {dayOfWeek} <br /> {day.date.slice(0, 5)}
       </TableCell>
       <AddPunchCell
         dateOrTime="time"
