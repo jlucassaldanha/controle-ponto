@@ -14,9 +14,22 @@ model User {
   passwordHash String @map("password_hash")
   config Config?
   punches Punch[]
+  justifications Justification[]
   initialBalanceMinutes Int @default(0)
 
   @@map("users")
+}
+
+model Justification {
+  id String @id @default(uuid())
+  date DateTime @db.Date
+  reason    String   @default("Abono total")
+  
+  minutes Int
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  
+  @@unique([userId, date])
 }
 
 model Config {
