@@ -10,10 +10,10 @@ import {
 import Paper from "@mui/material/Paper";
 import TableHeadDesktop from "./Desktop/TableHeadDesktop/TableHeadDesktop";
 import TableHeadMobile from "./Mobile/TableHeadMobile";
-import TableRowDesktop from "./Desktop/TableRowDesktop/TableRowDesktop";
-import TableBodyRowMobile from "./Mobile/TableRowMobile/TableRowMobile";
 import { overtimeUndertime } from "@/core/punch/punch.reports";
 import { PunchTableProps } from "./types";
+import TableBodyRowMobile from "./Mobile/TableRowMobile/TableRowMobile";
+import TableRowDesktop from "./Desktop/TableRowDesktop/TableRowDesktop";
 
 export default function PunchTable({
   punchesPerDay,
@@ -28,12 +28,12 @@ export default function PunchTable({
     <TableContainer
       component={Paper}
       sx={{
-        position: 'relative',
+        position: "relative",
         maxHeight: 400,
         width: "100%",
         margin: "0 auto",
         display: "block",
-        maxWidth: isMobile ? '95%' : 800
+        maxWidth: isMobile ? "95%" : 800,
       }}
     >
       <Table
@@ -47,11 +47,11 @@ export default function PunchTable({
         <TableBody>
           {punchesPerDay.map((day) => {
             const daySchedule = dailySchedulesTime.find(
-              (schedule) => schedule.dayOfWeek === day.dayOfWeek.day
+              (schedule) => schedule.dayOfWeek === day.dayOfWeek
             );
 
             const workTime = daySchedule ? daySchedule.workTime : 0;
-            const overUnder = overtimeUndertime(workTime, day.workedTime.time);
+            const overUnder = overtimeUndertime(workTime, day.workedTime);
 
             let color = "";
             if (overUnder.overtime && !overUnder.undertime) {

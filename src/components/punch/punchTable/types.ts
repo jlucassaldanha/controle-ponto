@@ -1,6 +1,5 @@
 import { getDailySchedulesTime } from "@/core/preferences/preferences.utils"
-import { overtimeUndertime } from "@/core/punch/punch.reports"
-import { groupPunchesByDay } from "@/core/punch/punch.reports"
+import { groupPunchesByDay, overtimeUndertime } from "@/core/punch/punch.reports"
 
 export type PunchTableProps = {
 	punchesPerDay: Awaited<ReturnType<typeof groupPunchesByDay>>

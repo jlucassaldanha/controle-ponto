@@ -6,6 +6,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import AddPunchCell from "../AddPunchCell/AddPunchCell";
 import { groupPunchesByDay } from "@/core/punch/punch.reports";
 import { useEditRow } from "@/hooks/useEditRow";
+import { getDayOfWeek } from "@/lib/dateUtils";
 
 type TableModalEditRowProps = {
   day: Awaited<ReturnType<typeof groupPunchesByDay>>[number];
@@ -32,10 +33,12 @@ export default function TableModalEditRow({
     handlePunchChange,
   } = useEditRow(day, workTime, onClose);
 
+  const dayOfWeek = getDayOfWeek(day.timestamp);
+
   return (
     <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
       <TableCell component="th" scope="row">
-        {day.dayOfWeek.dayString} <br /> {day.date.slice(0, 5)}
+        {dayOfWeek} <br /> {day.date.slice(0, 5)}
       </TableCell>
       <AddPunchCell
         dateOrTime="time"

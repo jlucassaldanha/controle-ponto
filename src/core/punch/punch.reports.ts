@@ -1,6 +1,6 @@
 import { getPunches } from "./punch.services";
 import { minutesToTimeString } from "@/lib/dateUtils"
-import { formatDate, getDayOfWeek } from "@/lib/dateUtils";
+import { formatDate } from "@/lib/dateUtils";
 import { dailySchedulesTimeType, GroupedPunchesType, PunchesPerDayType } from "./punch.types";
 import { getPunchTimestampMinutes, isUnderOver } from "./punch.utils";
 import { PunchType } from "@prisma/client";
@@ -14,16 +14,10 @@ export async function groupPunchesByDay(userId: string) {
 
 	const groupedPunches = allPunches.reduce((accumulator, punch) => {
 		const date = formatDate(punch.timestamp)
-		
 
 		if (!accumulator[date]) {
-			const dayOfWeek = getDayOfWeek(punch.timestamp)
-
 			accumulator[date] = {
-				dayOfWeek: {
-					dayString: dayOfWeek,
-					day: punch.timestamp.getDay()
-				},
+				dayOfWeek: punch.timestamp.getDay(),
 				timestamp: punch.timestamp,
 				date,
 				punches: []
@@ -31,9 +25,7 @@ export async function groupPunchesByDay(userId: string) {
 		}
 
 		accumulator[date].punches.push(punch)
-
 		return accumulator
-
 	}, {} as Record<string, GroupedPunchesType>) 
 	
 	const punchesArray = Object.values(groupedPunches).reverse()
@@ -49,14 +41,9 @@ export async function groupPunchesByDay(userId: string) {
 
 		const workedTime = journeyTime - lunchTime
 
-		const workedTimeString = minutesToTimeString(workedTime)
-
 		return {
 			...punchesObj,
-			workedTime: {
-				timeString: workedTimeString,
-				time: workedTime,
-			}
+			workedTime,
 		}
 	})
 	
@@ -76,10 +63,10 @@ export function overtimeUndertime(workTime: number, workedTime: number) {
 
 export function getTotalOvertime(punches: PunchesPerDayType[], schedules: {dayOfWeek: number; workTime: number;}[], initialBalance: number) {
 	const punchesSum = punches.reduce((accumulator, day) => {
-		const daySchedule = schedules.find((schedule) => schedule.dayOfWeek === day.dayOfWeek.day)
+		const daySchedule = schedules.find((schedule) => schedule.dayOfWeek === day.dayOfWeek)
 
 		const workTime = daySchedule ? daySchedule.workTime : 0
-		const overUnder = overtimeUndertime(workTime, day.workedTime.time)
+		const overUnder = overtimeUndertime(workTime, day.workedTime)
 		
 		return accumulator + overUnder.time
 	}, 0)
@@ -114,19 +101,11 @@ export async function getWorkdayBalanceReport(userId: string, initialDate: Date,
 		if (currentPunch) {
 			finalReportList.push(currentPunch)
 		} else if (punchesPerDay.length > 0 && dailySchedulesTimeMap.has(currentDay)){
-			const currentDayString = getDayOfWeek(currentDate)
-
 			finalReportList.push({
-				workedTime: {
-					timeString: "00:00",
-					time: 0,
-				},
+				workedTime: 0,
 				timestamp: new Date(currentDate),
 				date: currentDateString,
-				dayOfWeek: {
-					dayString: currentDayString,
-					day: currentDay,
-				},
+				dayOfWeek: currentDay,
 				punches: []
 			})
 		}

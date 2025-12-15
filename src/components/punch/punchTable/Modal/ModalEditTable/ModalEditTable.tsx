@@ -12,9 +12,9 @@ import {
 } from "@mui/material";
 import TableHeadDesktop from "../../Desktop/TableHeadDesktop/TableHeadDesktop";
 import TableHeadMobile from "../../Mobile/TableHeadMobile";
-import TableModalEditRow from "../Desktop/TableModalEditRow/TableModalEditRow";
 import { groupPunchesByDay } from "@/core/punch/punch.reports";
 import TableModalEditRowMobile from "../Mobile/TableModalEditRowMobile/TableModalEditRowMobile";
+import TableModalEditRow from "../Desktop/TableModalEditRow/TableModalEditRow";
 
 type ModalEditTableProps = {
   open: boolean;
@@ -36,7 +36,7 @@ export default function ModalEditTable({
 
   return (
     <Modal
-      sx={{margin: '7px'}}
+      sx={{ margin: "7px" }}
       open={open}
       onClose={onClose}
       aria-labelledby="modal-modal-title"
@@ -65,7 +65,7 @@ export default function ModalEditTable({
           {isMobile && <TableHeadMobile />}
           <TableBody>
             {isMobile ? (
-              <TableModalEditRowMobile 
+              <TableModalEditRowMobile
                 day={day}
                 workTime={workTime}
                 onClose={onClose}
@@ -77,7 +77,6 @@ export default function ModalEditTable({
                 onClose={onClose}
               />
             )}
-            
           </TableBody>
         </Table>
       </TableContainer>

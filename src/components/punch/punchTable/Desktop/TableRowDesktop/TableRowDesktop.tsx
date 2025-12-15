@@ -5,6 +5,7 @@ import { TableCell, TableRow } from "@mui/material";
 import { PunchType } from "@prisma/client";
 import { TableBodyRowProps } from "../../types";
 import TableModalControler from "../../Modal/TableModalControler/TableModalControler";
+import { getDayOfWeek, minutesToTimeString } from "@/lib/dateUtils";
 
 export default function TableRowDesktop({
   day,
@@ -17,16 +18,18 @@ export default function TableRowDesktop({
   const endLunch = getPunchIdTime(day.punches, PunchType.END_LUNCH);
   const clockOut = getPunchIdTime(day.punches, PunchType.CLOCK_OUT);
 
+  const dayOfWeek = getDayOfWeek(day.timestamp);
+  const workedTime = minutesToTimeString(day.workedTime);
   return (
     <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
       <TableCell component="th" scope="row">
-        {day.dayOfWeek.dayString} <br /> {day.date.slice(0, 5)}
+        {dayOfWeek} <br /> {day.date.slice(0, 5)}
       </TableCell>
       <TableCell align="center">{clockIn.time}</TableCell>
       <TableCell align="center">{startLunch.time}</TableCell>
       <TableCell align="center">{endLunch.time}</TableCell>
       <TableCell align="center">{clockOut.time}</TableCell>
-      <TableCell align="center">{day.workedTime.timeString}</TableCell>
+      <TableCell align="center">{workedTime}</TableCell>
       <TableCell align="center" sx={{ color: color }}>
         {overUnder.timeStr}
       </TableCell>
