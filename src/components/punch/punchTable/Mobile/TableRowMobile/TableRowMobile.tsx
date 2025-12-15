@@ -3,16 +3,16 @@
 import { getPunchIdTime } from "@/core/punch/punch.utils";
 import { TableCell, TableRow, Typography } from "@mui/material";
 import { PunchType } from "@prisma/client";
-import { TableBodyRowProps2 } from "../../types";
-import TableModalControler from "../../Modal/TableModalControler/TableModalControler2";
+import { TableBodyRowProps } from "../../types";
+import TableModalControler from "../../Modal/TableModalControler/TableModalControler";
 import { getDayOfWeek, minutesToTimeString } from "@/lib/dateUtils";
 
-export default function TableBodyRowMobile2({
+export default function TableBodyRowMobile({
   day,
   overUnder,
   color,
   workTime,
-}: TableBodyRowProps2 & { workTime: number }) {
+}: TableBodyRowProps & { workTime: number }) {
   const clockIn = getPunchIdTime(day.punches, PunchType.CLOCK_IN);
   const startLunch = getPunchIdTime(day.punches, PunchType.START_LUNCH);
   const endLunch = getPunchIdTime(day.punches, PunchType.END_LUNCH);

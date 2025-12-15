@@ -1,11 +1,11 @@
 import { getPunches } from "./punch.services";
 import { minutesToTimeString } from "@/lib/dateUtils"
 import { formatDate } from "@/lib/dateUtils";
-import { dailySchedulesTimeType, GroupedPunchesType2, PunchesPerDayType2 } from "./punch.types";
-import { getPunchTimestampMinutes2, isUnderOver } from "./punch.utils";
+import { dailySchedulesTimeType, GroupedPunchesType, PunchesPerDayType } from "./punch.types";
+import { getPunchTimestampMinutes, isUnderOver } from "./punch.utils";
 import { PunchType } from "@prisma/client";
 
-export async function groupPunchesByDay2(userId: string) {
+export async function groupPunchesByDay(userId: string) {
 	const allPunches = await getPunches(userId)
 	
 	if (allPunches.length === 0) {
@@ -26,17 +26,17 @@ export async function groupPunchesByDay2(userId: string) {
 
 		accumulator[date].punches.push(punch)
 		return accumulator
-	}, {} as Record<string, GroupedPunchesType2>) 
+	}, {} as Record<string, GroupedPunchesType>) 
 	
 	const punchesArray = Object.values(groupedPunches).reverse()
 
 	const result = punchesArray.map((punchesObj) => {
-		const clockIn = getPunchTimestampMinutes2(punchesObj, PunchType.CLOCK_IN)
-		const clockOut = getPunchTimestampMinutes2(punchesObj, PunchType.CLOCK_OUT)
+		const clockIn = getPunchTimestampMinutes(punchesObj, PunchType.CLOCK_IN)
+		const clockOut = getPunchTimestampMinutes(punchesObj, PunchType.CLOCK_OUT)
 		const journeyTime = clockOut - clockIn
 		
-		const lunchIn = getPunchTimestampMinutes2(punchesObj, PunchType.START_LUNCH)
-		const lunchOut = getPunchTimestampMinutes2(punchesObj, PunchType.END_LUNCH)
+		const lunchIn = getPunchTimestampMinutes(punchesObj, PunchType.START_LUNCH)
+		const lunchOut = getPunchTimestampMinutes(punchesObj, PunchType.END_LUNCH)
 		const lunchTime = lunchOut - lunchIn
 
 		const workedTime = journeyTime - lunchTime
@@ -61,7 +61,7 @@ export function overtimeUndertime(workTime: number, workedTime: number) {
 	}	
 }
 
-export function getTotalOvertime2(punches: PunchesPerDayType2[], schedules: {dayOfWeek: number; workTime: number;}[], initialBalance: number) {
+export function getTotalOvertime(punches: PunchesPerDayType[], schedules: {dayOfWeek: number; workTime: number;}[], initialBalance: number) {
 	const punchesSum = punches.reduce((accumulator, day) => {
 		const daySchedule = schedules.find((schedule) => schedule.dayOfWeek === day.dayOfWeek)
 
@@ -81,10 +81,10 @@ export function getTotalOvertime2(punches: PunchesPerDayType2[], schedules: {day
 	}
 }
 
-export async function getWorkdayBalanceReport2(userId: string, initialDate: Date, finalDate: Date, dailySchedulesTime: dailySchedulesTimeType[]) {
-	const punchesPerDay = await groupPunchesByDay2(userId)
+export async function getWorkdayBalanceReport(userId: string, initialDate: Date, finalDate: Date, dailySchedulesTime: dailySchedulesTimeType[]) {
+	const punchesPerDay = await groupPunchesByDay(userId)
 	
-	const punchesPerDayMap = new Map<string, PunchesPerDayType2>(
+	const punchesPerDayMap = new Map<string, PunchesPerDayType>(
 		punchesPerDay.map(day => [day.date, day])
 	)
 	const dailySchedulesTimeMap = new Map<number, dailySchedulesTimeType>(

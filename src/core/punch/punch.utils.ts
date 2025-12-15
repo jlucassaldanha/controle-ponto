@@ -1,6 +1,6 @@
 import { PunchType, type Punch } from "@prisma/client";
 import { formatTime } from "@/lib/dateUtils";
-import { GroupedPunchesType, GroupedPunchesType2 } from "./punch.types";
+import { GroupedPunchesType } from "./punch.types";
 
 const dayNumberToKeyMap: { [key: number]: string } = {
   0: 'Dom', 
@@ -25,19 +25,6 @@ export function formatPunchDateTime(punch: Punch) {
 	const dayOfWeek = dayNumberToKeyMap[punch.timestamp.getDay()]
 
 	return { date, dayOfWeek, time, }
-}
-
-export function getPunchTimestampMinutes2(punchesObj: GroupedPunchesType2, type: PunchType) {
-	const punch = punchesObj.punches.find((punch) => punch.type === type)
-	
-	if (!punch) {
-		return 0
-	}
-
-	const minutes = punch.timestamp.getMinutes()
-	const hours = punch.timestamp.getHours()
-
-	return hours * 60 + minutes
 }
 
 export function getPunchTimestampMinutes(punchesObj: GroupedPunchesType, type: PunchType) {

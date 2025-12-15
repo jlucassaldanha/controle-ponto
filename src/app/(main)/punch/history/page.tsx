@@ -2,10 +2,10 @@ import { getFirstPunch } from "@/core/punch/punch.services";
 import { requireUserSession } from "@/lib/session";
 import { getUserPreferences } from "@/core/preferences/preferences.services";
 import { getDailySchedulesTime } from "@/core/preferences/preferences.utils";
-import PunchTable2 from "@/components/punch/punchTable/PunchTable2";
+import PunchTable from "@/components/punch/punchTable/PunchTable";
 import {
-  getWorkdayBalanceReport2,
-  getTotalOvertime2,
+  getWorkdayBalanceReport,
+  getTotalOvertime,
 } from "@/core/punch/punch.reports";
 import OvertimeCard from "@/components/punch/OvertimeCard/OvertimeCard";
 import { getInitialBalance } from "@/core/user/user.services";
@@ -25,7 +25,7 @@ export default async function PunchHistory() {
     userPreferences?.dailySchedules
   );
 
-  const punchesPerDay = await getWorkdayBalanceReport2(
+  const punchesPerDay = await getWorkdayBalanceReport(
     session.id,
     initialDate,
     todayDate,
@@ -33,7 +33,7 @@ export default async function PunchHistory() {
   );
 
   const initialBalance = await getInitialBalance(session.id);
-  const totalOvertimeData = getTotalOvertime2(
+  const totalOvertimeData = getTotalOvertime(
     punchesPerDay,
     dailySchedulesTime,
     initialBalance
@@ -47,7 +47,7 @@ export default async function PunchHistory() {
         Espelho Ponto
       </Typography>
       <OvertimeCard totalOvertime={totalOvertimeData} />
-      <PunchTable2
+      <PunchTable
         punchesPerDay={reversedPunchesPerDay}
         dailySchedulesTime={dailySchedulesTime}
       />

@@ -4,17 +4,17 @@ import { ButtonGroup, IconButton, TableCell, TableRow } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import CloseIcon from "@mui/icons-material/Close";
 import AddPunchCell from "../AddPunchCell/AddPunchCell";
-import { groupPunchesByDay2 } from "@/core/punch/punch.reports";
-import { useEditRow2 } from "@/hooks/useEditRow2";
+import { groupPunchesByDay } from "@/core/punch/punch.reports";
+import { useEditRow } from "@/hooks/useEditRow";
 import { getDayOfWeek } from "@/lib/dateUtils";
 
 type TableModalEditRowProps = {
-  day: Awaited<ReturnType<typeof groupPunchesByDay2>>[number];
+  day: Awaited<ReturnType<typeof groupPunchesByDay>>[number];
   workTime: number;
   onClose: () => void;
 };
 
-export default function TableModalEditRow2({
+export default function TableModalEditRow({
   day,
   workTime,
   onClose,
@@ -31,7 +31,7 @@ export default function TableModalEditRow2({
     onCancel,
     onSave,
     handlePunchChange,
-  } = useEditRow2(day, workTime, onClose);
+  } = useEditRow(day, workTime, onClose);
 
   const dayOfWeek = getDayOfWeek(day.timestamp);
 

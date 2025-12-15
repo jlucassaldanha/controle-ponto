@@ -3,16 +3,16 @@
 import { getPunchIdTime } from "@/core/punch/punch.utils";
 import { TableCell, TableRow } from "@mui/material";
 import { PunchType } from "@prisma/client";
-import { TableBodyRowProps2 } from "../../types";
-import TableModalControler2 from "../../Modal/TableModalControler/TableModalControler2";
+import { TableBodyRowProps } from "../../types";
+import TableModalControler from "../../Modal/TableModalControler/TableModalControler";
 import { getDayOfWeek, minutesToTimeString } from "@/lib/dateUtils";
 
-export default function TableRowDesktop2({
+export default function TableRowDesktop({
   day,
   overUnder,
   color,
   workTime,
-}: TableBodyRowProps2 & { workTime: number }) {
+}: TableBodyRowProps & { workTime: number }) {
   const clockIn = getPunchIdTime(day.punches, PunchType.CLOCK_IN);
   const startLunch = getPunchIdTime(day.punches, PunchType.START_LUNCH);
   const endLunch = getPunchIdTime(day.punches, PunchType.END_LUNCH);
@@ -34,7 +34,7 @@ export default function TableRowDesktop2({
         {overUnder.timeStr}
       </TableCell>
       <TableCell align="center">
-        <TableModalControler2 day={day} workTime={workTime} />
+        <TableModalControler day={day} workTime={workTime} />
       </TableCell>
     </TableRow>
   );

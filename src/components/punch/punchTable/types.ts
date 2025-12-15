@@ -1,13 +1,13 @@
 import { getDailySchedulesTime } from "@/core/preferences/preferences.utils"
-import { groupPunchesByDay2, overtimeUndertime } from "@/core/punch/punch.reports"
+import { groupPunchesByDay, overtimeUndertime } from "@/core/punch/punch.reports"
 
-export type PunchTableProps2 = {
-	punchesPerDay: Awaited<ReturnType<typeof groupPunchesByDay2>>
+export type PunchTableProps = {
+	punchesPerDay: Awaited<ReturnType<typeof groupPunchesByDay>>
 	dailySchedulesTime: ReturnType<typeof getDailySchedulesTime>
 }
 
-export type TableBodyRowProps2 = {
-	day: Awaited<ReturnType<typeof groupPunchesByDay2>>[number]
+export type TableBodyRowProps = {
+	day: Awaited<ReturnType<typeof groupPunchesByDay>>[number]
 	overUnder: ReturnType<typeof overtimeUndertime>
 	color: string
 }

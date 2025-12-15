@@ -1,12 +1,12 @@
 import { upsertPunchesAction } from "@/actions/punch.action";
-import { groupPunchesByDay2, overtimeUndertime } from "@/core/punch/punch.reports";
+import { groupPunchesByDay, overtimeUndertime } from "@/core/punch/punch.reports";
 import { getPunchIdTime } from "@/core/punch/punch.utils";
 import { formatTime, getTimeMinutes, minutesToTimeString } from "@/lib/dateUtils";
 import { PunchType } from "@prisma/client";
 import { useEffect, useState } from "react";
 
-export function useEditRow2(
-	day: Awaited<ReturnType<typeof groupPunchesByDay2>>[number], 
+export function useEditRow(
+	day: Awaited<ReturnType<typeof groupPunchesByDay>>[number], 
 	workTime: number, 
 	onClose: () => void
 ) {

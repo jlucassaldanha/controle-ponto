@@ -12,18 +12,18 @@ import {
 } from "@mui/material";
 import TableHeadDesktop from "../../Desktop/TableHeadDesktop/TableHeadDesktop";
 import TableHeadMobile from "../../Mobile/TableHeadMobile";
-import { groupPunchesByDay2 } from "@/core/punch/punch.reports";
-import TableModalEditRowMobile2 from "../Mobile/TableModalEditRowMobile/TableModalEditRowMobile2";
-import TableModalEditRow2 from "../Desktop/TableModalEditRow/TableModalEditRow2";
+import { groupPunchesByDay } from "@/core/punch/punch.reports";
+import TableModalEditRowMobile from "../Mobile/TableModalEditRowMobile/TableModalEditRowMobile";
+import TableModalEditRow from "../Desktop/TableModalEditRow/TableModalEditRow";
 
 type ModalEditTableProps = {
   open: boolean;
   onClose: () => void;
-  day: Awaited<ReturnType<typeof groupPunchesByDay2>>[number];
+  day: Awaited<ReturnType<typeof groupPunchesByDay>>[number];
   workTime: number;
 };
 
-export default function ModalEditTable2({
+export default function ModalEditTable({
   open,
   onClose,
   day,
@@ -65,13 +65,13 @@ export default function ModalEditTable2({
           {isMobile && <TableHeadMobile />}
           <TableBody>
             {isMobile ? (
-              <TableModalEditRowMobile2
+              <TableModalEditRowMobile
                 day={day}
                 workTime={workTime}
                 onClose={onClose}
               />
             ) : (
-              <TableModalEditRow2
+              <TableModalEditRow
                 day={day}
                 workTime={workTime}
                 onClose={onClose}
