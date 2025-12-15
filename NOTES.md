@@ -27,9 +27,10 @@
 
 ## Tarefas
 1. criar restante dos testes (EM PROGRESSO)
+2. Limpar melhor o codigo (EM PROGRESSO)
 
 ### Adicionar
 1. Adicionar opção de visualização por dia, semana e mes
-2. Adicionar opcão de abono ou marcar como feriado na pagina de adição e pagina de edição
+2. Adicionar opcão de abono ou marcar como feriado na pagina de adição e pagina de edição (EM PROGRESSO)
 3. Adicionar adição de ponto com modal
 
