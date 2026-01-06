@@ -22,4 +22,21 @@ export async function getJustificationsReport(userId: string, initialDate: Date,
 			] 
 		})
 	)
+
+	const reportList: JustificationByDayType[] = []
+	const currentDate = new Date(initialDate)
+
+	while (currentDate <= finalDate) {
+		const currentDateString = formatDate(currentDate)
+		const justification = justificationsMap.get(currentDateString)
+		
+		reportList.push({
+			date: currentDate,
+			timeMinutes: justification?.timeMinutes || 0,
+			reason: justification?.reason || "No justification"
+		})
+		currentDate.setDate(currentDate.getDate() + 1)
+	}
+
+	return reportList
 }
