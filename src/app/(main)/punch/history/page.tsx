@@ -10,7 +10,7 @@ import {
 import OvertimeCard from "@/components/punch/OvertimeCard/OvertimeCard";
 import { getInitialBalance } from "@/core/user/user.services";
 import { Typography } from "@mui/material";
-import { getJustifications, getJustificationsByDateRange } from "@/core/justification/justification.services";
+import { getJustificationsReport } from "@/core/justification/justification.reports";
 
 export const dynamic = "force-dynamic";
 
@@ -35,18 +35,23 @@ export default async function PunchHistory() {
     dailySchedulesTime
   );
 
-  const justifications = await getJustifications(session.id)
-  console.log(justifications)
+  const justifications = await getJustificationsReport(session.id, initialDate, todayDate);
 
-  const totalOvertimeData = getTotalOvertime(
+  /*const totalOvertimeData = getTotalOvertime(
     punchesPerDay,
     dailySchedulesTime,
     initialBalance
   );
+  console.log(totalOvertimeData)*/
+
+  const totalOvertimeData = getTotalOvertime(
+    punchesPerDay,
+    dailySchedulesTime,
+    justifications,
+    initialBalance
+  );
 
   const reversedPunchesPerDay = [...punchesPerDay].toReversed();
-
-  
 
   return (
     <div className="flex flex-col items-center justify-center w-full gap-5">

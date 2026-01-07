@@ -4,6 +4,7 @@ import { formatDate } from "@/lib/dateUtils";
 import { dailySchedulesTimeType, GroupedPunchesType, PunchesPerDayType } from "./punch.types";
 import { getPunchTimestampMinutes, isUnderOver } from "./punch.utils";
 import { PunchType } from "@prisma/client";
+import { JustificationByDayType } from "../justification/justification.types";
 
 export async function groupPunchesByDay(userId: string) {
 	const allPunches = await getPunches(userId)
@@ -61,7 +62,7 @@ export function overtimeUndertime(workTime: number, workedTime: number) {
 	}	
 }
 
-export function getTotalOvertime(punches: PunchesPerDayType[], schedules: {dayOfWeek: number; workTime: number;}[], initialBalance: number) {
+/*export function getTotalOvertime(punches: PunchesPerDayType[], schedules: {dayOfWeek: number; workTime: number;}[], initialBalance: number) {
 	const punchesSum = punches.reduce((accumulator, day) => {
 		const daySchedule = schedules.find((schedule) => schedule.dayOfWeek === day.dayOfWeek)
 
@@ -71,6 +72,31 @@ export function getTotalOvertime(punches: PunchesPerDayType[], schedules: {dayOf
 		return accumulator + overUnder.time
 	}, 0)
 	const total = punchesSum + initialBalance
+	const timeStr = minutesToTimeString(Math.abs(total))
+
+	const underOver = isUnderOver(total)
+
+	return {
+		...underOver,
+		timeStr,
+	}
+}*/
+
+export function getTotalOvertime(punches: PunchesPerDayType[], schedules: {dayOfWeek: number; workTime: number;}[], justifications: JustificationByDayType[], initialBalance: number) {
+	const justificationsSum = justifications.reduce((accumulator, justification) => {
+		return accumulator + justification.timeMinutes
+	}, 0)
+
+	const punchesSum = punches.reduce((accumulator, day) => {
+		const daySchedule = schedules.find((schedule) => schedule.dayOfWeek === day.dayOfWeek)
+
+		const workTime = daySchedule ? daySchedule.workTime : 0
+		const overUnder = overtimeUndertime(workTime, day.workedTime)
+		
+		return accumulator + overUnder.time
+	}, 0)
+
+	const total = punchesSum + justificationsSum + initialBalance
 	const timeStr = minutesToTimeString(Math.abs(total))
 
 	const underOver = isUnderOver(total)

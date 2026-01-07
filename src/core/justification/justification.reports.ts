@@ -1,11 +1,7 @@
 import { formatDate } from "@/lib/dateUtils";
 import { getJustifications } from "./justification.services";
+import { JustificationByDayType } from "./justification.types";
 
-interface JustificationByDayType {
-	date: Date,
-	timeMinutes: number,
-	reason: string
-}
 
 export async function getJustificationsReport(userId: string, initialDate: Date, finalDate: Date) {
 	const justifications = await getJustifications(userId)
@@ -31,7 +27,7 @@ export async function getJustificationsReport(userId: string, initialDate: Date,
 		const justification = justificationsMap.get(currentDateString)
 		
 		reportList.push({
-			date: currentDate,
+			date: justification?.date || new Date(currentDate),
 			timeMinutes: justification?.timeMinutes || 0,
 			reason: justification?.reason || "No justification"
 		})
