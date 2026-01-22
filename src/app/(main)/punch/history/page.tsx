@@ -61,6 +61,7 @@ export default async function PunchHistory() {
       <OvertimeCard totalOvertime={totalOvertimeData} />
       <PunchTable
         punchesPerDay={reversedPunchesPerDay}
+        justifications={justifications}
         dailySchedulesTime={dailySchedulesTime}
       />
     </div>

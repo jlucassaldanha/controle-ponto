@@ -17,6 +17,7 @@ import TableRowDesktop from "./Desktop/TableRowDesktop/TableRowDesktop";
 
 export default function PunchTable({
   punchesPerDay,
+  justifications,
   dailySchedulesTime,
 }: PunchTableProps) {
   const theme = useTheme();
