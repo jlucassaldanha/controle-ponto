@@ -75,7 +75,7 @@ export default function TableModalEditRow({
         <ButtonGroup variant="outlined" aria-label="save-cancel">
           <IconButton
             aria-label="justification"
-            onClick={toggleJustification}
+            onClick={() => toggleJustification(day.date)}
             disabled={isLoadingJustification}
             color={hasJustification ? "success" : "default"}
           >

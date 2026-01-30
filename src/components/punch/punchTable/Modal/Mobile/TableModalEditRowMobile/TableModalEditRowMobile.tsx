@@ -99,7 +99,7 @@ export default function TableModalEditRowMobile({
         >
           <IconButton
             aria-label="justification"
-            onClick={toggleJustification}
+            onClick={() => toggleJustification(day.date)}
             disabled={isLoadingJustification}
             color={hasJustification ? "success" : "default"}
             sx={{ minWidth: "20px", padding: "2px" }}

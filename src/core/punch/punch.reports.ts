@@ -19,7 +19,7 @@ export async function groupPunchesByDay(userId: string) {
 		if (!accumulator[date]) {
 			accumulator[date] = {
 				dayOfWeek: punch.timestamp.getDay(),
-				timestamp: punch.timestamp,
+				timestamp: new Date(punch.timestamp.getFullYear(), punch.timestamp.getMonth(), punch.timestamp.getDate()),
 				date,
 				punches: []
 			}

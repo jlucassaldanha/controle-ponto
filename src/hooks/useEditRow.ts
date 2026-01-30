@@ -10,6 +10,7 @@ import {
   formatTime,
   getTimeMinutes,
   minutesToTimeString,
+  formatDate,
 } from "@/lib/dateUtils";
 import { PunchType } from "@prisma/client";
 import { useEffect, useState } from "react";
@@ -45,20 +46,18 @@ export function useEditRow(
     setEditedValues({});
   };
 
-  const dayJustification = justifications.find(
-    (j) => j.date.toDateString() === new Date(day.timestamp).toDateString(),
-  );
+  const dayJustification = justifications.find((justification) => {
+    const justDateStr = formatDate(justification.date);
+    return justDateStr === day.date;
+  });
 
-  const toggleJustification = async () => {
+  const toggleJustification = async (dateString: string) => {
     setIsLoading(true);
     try {
-      // Construir data no formato correto para evitar problemas de timezone
-      // day.date é no formato DD/MM/YYYY
-	  console.log("Toggling justification for date:", day.date);
-      const [dayNum, monthNum, yearNum] = day.date.split("/").map(Number);
-      const dateToSend = new Date(yearNum, monthNum - 1, dayNum);
-	  console.log("Constructed date:", dateToSend);
-      await fullDayJustificationAction(dateToSend, workTime);
+      // Converte "29/01/2026" para Date 2026-01-29
+      const [day, month, year] = dateString.split("/").map(Number);
+      const dateFromString = new Date(year, month - 1, day);
+      await fullDayJustificationAction(dateFromString, workTime);
     } catch (error) {
       console.log(error);
     } finally {

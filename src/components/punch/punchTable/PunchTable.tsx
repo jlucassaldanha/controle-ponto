@@ -14,7 +14,6 @@ import { overtimeUndertime } from "@/core/punch/punch.reports";
 import { PunchTableProps } from "./types";
 import TableBodyRowMobile from "./Mobile/TableRowMobile/TableRowMobile";
 import TableRowDesktop from "./Desktop/TableRowDesktop/TableRowDesktop";
-import { da } from "zod/locales";
 
 export default function PunchTable({
   punchesPerDay,
@@ -55,7 +54,8 @@ export default function PunchTable({
             const workTime = daySchedule ? daySchedule.workTime : 0;
             const overUnder = overtimeUndertime(workTime, day.workedTime);
 
-            const dayJustification = justifications.find((justification) => {
+            const dayJustification = justifications.find(
+              (justification) => {
               const justDay = justification.date
                 .getDate()
                 .toString()
@@ -68,7 +68,7 @@ export default function PunchTable({
               return justDateStr === day.date;
             });
 
-            console.log(day.date, dayJustification);
+            console.log("tablerow", day.date, dayJustification);
 
             let color = "";
             if (overUnder.undertime) {
