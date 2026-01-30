@@ -3,7 +3,7 @@
 import * as React from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import { groupPunchesByDay } from "@/core/punch/punch.reports";
-import { IconButton } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import ModalEditTable from "../ModalEditTable/ModalEditTable";
 import { JustificationByDayType } from "@/core/justification/justification.types";
 
@@ -25,9 +25,11 @@ export default function TableModalControler({
 
   return (
     <div>
-      <IconButton aria-label="add" size="small" onClick={handleOpen}>
-        <EditIcon fontSize="small" />
-      </IconButton>
+      <Tooltip title="Editar ponto">
+        <IconButton aria-label="add" size="small" onClick={handleOpen}>
+          <EditIcon fontSize="small" />
+        </IconButton>
+      </Tooltip>
       <ModalEditTable
         open={open}
         onClose={handleClose}
