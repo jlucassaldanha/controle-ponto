@@ -1,23 +1,27 @@
 "use client";
 
-import { ButtonGroup, IconButton, TableCell, TableRow } from "@mui/material";
+import { ButtonGroup, IconButton, TableCell, TableRow, Tooltip } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import CloseIcon from "@mui/icons-material/Close";
 import AddPunchCell from "../AddPunchCell/AddPunchCell";
 import { groupPunchesByDay } from "@/core/punch/punch.reports";
 import { useEditRow } from "@/hooks/useEditRow";
 import { getDayOfWeek } from "@/lib/dateUtils";
+import { JustificationByDayType } from "@/core/justification/justification.types";
+import FreeCancellationIcon from '@mui/icons-material/FreeCancellation';
 
 type TableModalEditRowProps = {
   day: Awaited<ReturnType<typeof groupPunchesByDay>>[number];
   workTime: number;
   onClose: () => void;
+  justifications: JustificationByDayType[];
 };
 
 export default function TableModalEditRow({
   day,
   workTime,
   onClose,
+  justifications,
 }: TableModalEditRowProps) {
   const {
     workedTime,
@@ -31,7 +35,10 @@ export default function TableModalEditRow({
     onCancel,
     onSave,
     handlePunchChange,
-  } = useEditRow(day, workTime, onClose);
+    hasJustification,
+    toggleJustification,
+    isLoadingJustification,
+  } = useEditRow(day, workTime, onClose, justifications);
 
   const dayOfWeek = getDayOfWeek(day.timestamp);
 
@@ -66,12 +73,25 @@ export default function TableModalEditRow({
       </TableCell>
       <TableCell align="center">
         <ButtonGroup variant="outlined" aria-label="save-cancel">
-          <IconButton aria-label="save" onClick={onSave}>
-            <SaveIcon fontSize="small" />
-          </IconButton>
-          <IconButton aria-label="cancel" color="error" onClick={onCancel}>
-            <CloseIcon fontSize="small" />
-          </IconButton>
+          <Tooltip title="Justificar">
+            <IconButton
+              aria-label="justification"
+              onClick={() => toggleJustification(day.date)}
+              disabled={isLoadingJustification || workedTime !== "00:00"}
+            >
+              <FreeCancellationIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Salvar">
+            <IconButton aria-label="save" onClick={onSave}>
+              <SaveIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Cancelar">
+            <IconButton aria-label="cancel" color="error" onClick={onCancel}>
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
         </ButtonGroup>
       </TableCell>
     </TableRow>

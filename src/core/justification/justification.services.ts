@@ -46,12 +46,30 @@ export async function getJustifications(userId: string) {
 	try {
 		const justifications = await prisma.justification.findMany({
 			where: { 
-				id: userId
+				userId
 			}
 		})
 
 		return justifications
 	} catch (error) {
 		throw new Error("Try to find justifications: " + error)
+	}
+}
+
+export async function getJustificationsByDateRange(userId: string, initialDate: Date, finalDate: Date,) {
+	try {
+		const justifications = await prisma.justification.findMany({
+			where: {
+				userId,
+				date: {
+					gte: initialDate,
+					lte: finalDate,
+				},
+			}
+		})
+
+		return justifications
+	} catch (error) {
+		throw new Error("Try to find justifications in day range: " + error)
 	}
 }

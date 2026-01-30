@@ -5,7 +5,7 @@ export default function OvertimeCard({totalOvertime}: OverTimeCardProps) {
 	return (		
 		<Card>
 			<CardHeader
-				title="Horas Extras/Faltantes"
+				title="Saldo total"
 			/>
 			<Divider />
 			<CardContent>

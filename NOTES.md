@@ -34,3 +34,10 @@
 2. Adicionar opcão de abono ou marcar como feriado na pagina de adição e pagina de edição (EM PROGRESSO)
 3. Adicionar adição de ponto com modal
 
+# Fazer o programa contar as horas em tempo real
+
+- Se tiver só um ponto batido (entrada), conta desde a entrada até a hora atual
+- Quando tiver dois pontos (entrada e saida) conta só o intervalo entres os pontos
+- Quanto tiver 3 pontos (entrada, saida e entrada) conta o intervalo entra entrada e saida e o tempo da ultima entrada até a hora atual
+
+# Implementar tempo de tolerancia

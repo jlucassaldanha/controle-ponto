@@ -1,0 +1,59 @@
+import { formatDate } from "@/lib/dateUtils";
+import { getJustifications } from "./justification.services";
+import { JustificationByDayType } from "./justification.types";
+
+// Compensa o offset de timezone ao ler datas @db.Date do Prisma
+function adjustDateFromDatabase(dbDate: Date): Date {
+  const adjusted = new Date(dbDate);
+  // Soma o offset da timezone local para compensar a conversão do Prisma
+  adjusted.setMinutes(adjusted.getMinutes() + adjusted.getTimezoneOffset());
+  return adjusted;
+}
+
+export async function getJustificationsReport(
+  userId: string,
+  initialDate: Date,
+  finalDate: Date,
+) {
+  const justifications = await getJustifications(userId);
+
+  const justificationsMap = new Map<string, JustificationByDayType>(
+    justifications.map((justification) => {
+      const adjustedDate = adjustDateFromDatabase(justification.date);
+      return [
+        formatDate(adjustedDate),
+        {
+          date: adjustedDate,
+          timeMinutes: justification.minutes,
+          reason: justification.reason,
+        },
+      ];
+    }),
+  );
+
+  const reportList: JustificationByDayType[] = [];
+  const currentDate = new Date(initialDate);
+
+  while (currentDate <= finalDate) {
+    const currentDateString = formatDate(currentDate);
+    const justification = justificationsMap.get(currentDateString);
+
+    // Cria uma cópia da data para evitar mutações
+    const dateForReport =
+      justification?.date ||
+      new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        currentDate.getDate(),
+      );
+
+    reportList.push({
+      date: dateForReport,
+      timeMinutes: justification?.timeMinutes || 0,
+      reason: justification?.reason || "No justification",
+    });
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  return reportList;
+}
