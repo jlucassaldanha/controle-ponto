@@ -77,7 +77,7 @@ export default function TableModalEditRow({
             <IconButton
               aria-label="justification"
               onClick={() => toggleJustification(day.date)}
-              disabled={isLoadingJustification}
+              disabled={isLoadingJustification || workedTime !== "00:00"}
             >
               <FreeCancellationIcon fontSize="small" />
             </IconButton>
