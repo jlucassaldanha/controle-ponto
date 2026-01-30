@@ -68,8 +68,6 @@ export default function PunchTable({
               return justDateStr === day.date;
             });
 
-            console.log("tablerow", day.date, dayJustification);
-
             let color = "";
             if (overUnder.undertime) {
               if (dayJustification && dayJustification.timeMinutes > 0) {

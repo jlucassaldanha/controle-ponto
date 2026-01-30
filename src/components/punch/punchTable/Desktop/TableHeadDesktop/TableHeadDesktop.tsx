@@ -11,7 +11,7 @@ export default function TableHeadDesktop({ isModal }: { isModal: boolean }) {
         <TableCell align="center">Saída almoço</TableCell>
         <TableCell align="center">Saída</TableCell>
         <TableCell align="center">Total</TableCell>
-        <TableCell align="center">Extras</TableCell>
+        <TableCell align="center">Saldo</TableCell>
         <TableCell align="center">{!isModal && "" /*<PunchModal />*/}</TableCell>
       </TableRow>
     </TableHead>

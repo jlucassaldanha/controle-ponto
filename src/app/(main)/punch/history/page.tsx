@@ -37,13 +37,6 @@ export default async function PunchHistory() {
 
   const justifications = await getJustificationsReport(session.id, initialDate, todayDate);
 
-  /*const totalOvertimeData = getTotalOvertime(
-    punchesPerDay,
-    dailySchedulesTime,
-    initialBalance
-  );
-  console.log(totalOvertimeData)*/
-
   const totalOvertimeData = getTotalOvertime(
     punchesPerDay,
     dailySchedulesTime,
@@ -52,8 +45,6 @@ export default async function PunchHistory() {
   );
 
   const reversedPunchesPerDay = [...punchesPerDay].toReversed();
-  const reversedJustifications = [...justifications].toReversed();
-  console.log( reversedJustifications)
 
   return (
     <div className="flex flex-col items-center justify-center w-full gap-5">
