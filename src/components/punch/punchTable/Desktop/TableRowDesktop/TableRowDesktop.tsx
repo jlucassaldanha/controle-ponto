@@ -22,7 +22,7 @@ export default function TableRowDesktop({
   const dayOfWeek = getDayOfWeek(day.timestamp);
   const workedTime = minutesToTimeString(day.workedTime);
 
-  const rowBgColor = color === "red" && workedTime === "00:00" ? "rgba(244, 67, 54, 0.1)" : "inherit";
+  const rowBgColor = color === "red" && workedTime === "00:00" ? "rgba(244, 67, 54, 0.1)" :  color === "green" && workedTime === "00:00" ? "rgba(76, 175, 80, 0.1)" : "inherit";
 
   return (
     <TableRow
