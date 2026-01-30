@@ -3,21 +3,25 @@
 import { ButtonGroup, IconButton, TableCell, TableRow } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import CloseIcon from "@mui/icons-material/Close";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { groupPunchesByDay } from "@/core/punch/punch.reports";
 import { useEditRow } from "@/hooks/useEditRow";
 import AddPunchCellMobile from "../AddPunchCellMobile/AddPunchCellMobile";
 import { getDayOfWeek } from "@/lib/dateUtils";
+import { JustificationByDayType } from "@/core/justification/justification.types";
 
 type TableModalEditRowProps = {
   day: Awaited<ReturnType<typeof groupPunchesByDay>>[number];
   workTime: number;
   onClose: () => void;
+  justifications: JustificationByDayType[];
 };
 
 export default function TableModalEditRowMobile({
   day,
   workTime,
   onClose,
+  justifications,
 }: TableModalEditRowProps) {
   const {
     workedTime,
@@ -31,7 +35,10 @@ export default function TableModalEditRowMobile({
     onCancel,
     onSave,
     handlePunchChange,
-  } = useEditRow(day, workTime, onClose);
+    hasJustification,
+    toggleJustification,
+    isLoadingJustification,
+  } = useEditRow(day, workTime, onClose, justifications);
 
   const compactCellStyle = {
     padding: "8px",
@@ -90,6 +97,15 @@ export default function TableModalEditRowMobile({
           size="small"
           aria-label="save-cancel"
         >
+          <IconButton
+            aria-label="justification"
+            onClick={toggleJustification}
+            disabled={isLoadingJustification}
+            color={hasJustification ? "success" : "default"}
+            sx={{ minWidth: "20px", padding: "2px" }}
+          >
+            <CheckCircleIcon fontSize="small" sx={{ fontSize: 15 }} />
+          </IconButton>
           <IconButton
             aria-label="save"
             onClick={onSave}

@@ -1,15 +1,19 @@
-import { JustificationByDayType } from "@/core/justification/justification.types"
-import { getDailySchedulesTime } from "@/core/preferences/preferences.utils"
-import { groupPunchesByDay, overtimeUndertime } from "@/core/punch/punch.reports"
+import { JustificationByDayType } from "@/core/justification/justification.types";
+import { getDailySchedulesTime } from "@/core/preferences/preferences.utils";
+import {
+  groupPunchesByDay,
+  overtimeUndertime,
+} from "@/core/punch/punch.reports";
 
 export type PunchTableProps = {
-	punchesPerDay: Awaited<ReturnType<typeof groupPunchesByDay>>
-	justifications: JustificationByDayType[]
-	dailySchedulesTime: ReturnType<typeof getDailySchedulesTime>
-}
+  punchesPerDay: Awaited<ReturnType<typeof groupPunchesByDay>>;
+  justifications: JustificationByDayType[];
+  dailySchedulesTime: ReturnType<typeof getDailySchedulesTime>;
+};
 
 export type TableBodyRowProps = {
-	day: Awaited<ReturnType<typeof groupPunchesByDay>>[number]
-	overUnder: ReturnType<typeof overtimeUndertime>
-	color: string
-}
+  day: Awaited<ReturnType<typeof groupPunchesByDay>>[number];
+  overUnder: ReturnType<typeof overtimeUndertime>;
+  color: string;
+  justifications?: JustificationByDayType[];
+};

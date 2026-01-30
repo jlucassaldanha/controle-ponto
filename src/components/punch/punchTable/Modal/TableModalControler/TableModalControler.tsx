@@ -5,15 +5,18 @@ import EditIcon from "@mui/icons-material/Edit";
 import { groupPunchesByDay } from "@/core/punch/punch.reports";
 import { IconButton } from "@mui/material";
 import ModalEditTable from "../ModalEditTable/ModalEditTable";
+import { JustificationByDayType } from "@/core/justification/justification.types";
 
 type TableModalControlerProps = {
   day: Awaited<ReturnType<typeof groupPunchesByDay>>[number];
   workTime: number;
+  justifications: JustificationByDayType[];
 };
 
 export default function TableModalControler({
   day,
   workTime,
+  justifications,
 }: TableModalControlerProps) {
   const [open, setOpen] = React.useState(false);
 
@@ -30,6 +33,7 @@ export default function TableModalControler({
         onClose={handleClose}
         day={day}
         workTime={workTime}
+        justifications={justifications}
       />
     </div>
   );

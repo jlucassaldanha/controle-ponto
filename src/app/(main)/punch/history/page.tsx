@@ -52,6 +52,7 @@ export default async function PunchHistory() {
   );
 
   const reversedPunchesPerDay = [...punchesPerDay].toReversed();
+  const reversedJustifications = [...justifications].toReversed();
 
   return (
     <div className="flex flex-col items-center justify-center w-full gap-5">
@@ -61,7 +62,7 @@ export default async function PunchHistory() {
       <OvertimeCard totalOvertime={totalOvertimeData} />
       <PunchTable
         punchesPerDay={reversedPunchesPerDay}
-        justifications={justifications}
+        justifications={reversedJustifications}
         dailySchedulesTime={dailySchedulesTime}
       />
     </div>

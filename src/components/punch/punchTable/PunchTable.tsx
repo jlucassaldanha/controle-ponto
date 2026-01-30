@@ -14,6 +14,7 @@ import { overtimeUndertime } from "@/core/punch/punch.reports";
 import { PunchTableProps } from "./types";
 import TableBodyRowMobile from "./Mobile/TableRowMobile/TableRowMobile";
 import TableRowDesktop from "./Desktop/TableRowDesktop/TableRowDesktop";
+import { da } from "zod/locales";
 
 export default function PunchTable({
   punchesPerDay,
@@ -48,17 +49,36 @@ export default function PunchTable({
         <TableBody>
           {punchesPerDay.map((day) => {
             const daySchedule = dailySchedulesTime.find(
-              (schedule) => schedule.dayOfWeek === day.dayOfWeek
+              (schedule) => schedule.dayOfWeek === day.dayOfWeek,
             );
 
             const workTime = daySchedule ? daySchedule.workTime : 0;
             const overUnder = overtimeUndertime(workTime, day.workedTime);
 
+            const dayJustification = justifications.find((justification) => {
+              const justDay = justification.date
+                .getDate()
+                .toString()
+                .padStart(2, "0");
+              const justMonth = (justification.date.getMonth() + 1)
+                .toString()
+                .padStart(2, "0");
+              const justYear = justification.date.getFullYear();
+              const justDateStr = `${justDay}/${justMonth}/${justYear}`;
+              return justDateStr === day.date;
+            });
+
+            console.log(day.date, dayJustification);
+
             let color = "";
-            if (overUnder.overtime && !overUnder.undertime) {
+            if (overUnder.undertime) {
+              if (dayJustification && dayJustification.timeMinutes > 0) {
+                color = "green";
+              } else {
+                color = "red";
+              }
+            } else if (overUnder.overtime) {
               color = "green";
-            } else if (!overUnder.overtime && overUnder.undertime) {
-              color = "red";
             }
 
             return isMobile && !isDesktop ? (
@@ -68,6 +88,7 @@ export default function PunchTable({
                 overUnder={overUnder}
                 color={color}
                 workTime={workTime}
+                justifications={justifications}
               />
             ) : (
               <TableRowDesktop
@@ -76,6 +97,7 @@ export default function PunchTable({
                 overUnder={overUnder}
                 color={color}
                 workTime={workTime}
+                justifications={justifications}
               />
             );
           })}
