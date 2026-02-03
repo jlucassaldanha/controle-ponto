@@ -1,3 +1,25 @@
+// Force o offset de Brasilia (UTC-3)
+// 3 horas * 60 min = 180 minutos
+const BR_OFFSET_MINUTES = 180; 
+
+export function correctOldData(timestamp: Date): Date {
+  // Se o timestamp original for UTC, subtraímos 3 horas para chegar no horário BR
+  // Mas como queremos criar um objeto Date que "mostre" o horário BR mesmo estando em UTC,
+  // precisamos manipular os milissegundos.
+  
+  // A lógica segura é sempre tratar como UTC e remover 3h fixas
+  return new Date(timestamp.getTime() - (BR_OFFSET_MINUTES * 60 * 1000));
+}
+
+// Corrija também o formatador para não depender do sistema
+export function formatDate(timestamp: Date) {
+    // Garante DD/MM/YYYY
+    const day = timestamp.getDate().toString().padStart(2, "0");
+    const month = (timestamp.getMonth() + 1).toString().padStart(2, "0");
+    const year = timestamp.getFullYear();
+    return `${day}/${month}/${year}`;
+}
+
 // Obtém o offset de timezone do usuário em minutos (ex: -180 para São Paulo = UTC-3)
 export function getTimezoneOffset(): number {
   return new Date().getTimezoneOffset();
@@ -17,13 +39,6 @@ export function convertUTCToLocal(utcDate: Date): Date {
   return new Date(utcDate.getTime() + offset * 60 * 1000);
 }
 
-// Corrige dados antigos que foram salvos em timezone local
-// Dados antigos estão no banco como se fossem UTC, mas na verdade são timezone local
-// Então quando JS interpreta como UTC, precisa compensar adicionando o offset
-export function correctOldData(timestamp: Date): Date {
-  const offset = getTimezoneOffset();
-  return new Date(timestamp.getTime() + offset * 60 * 1000);
-}
 
 export function getADayInterval(date: Date) {
   // Usa UTC para criar o intervalo do dia
@@ -38,15 +53,6 @@ export function getADayInterval(date: Date) {
     startOfDay,
     endOfDay,
   };
-}
-
-export function formatDate(timestamp: Date) {
-  // Espera receber uma data já no timezone local
-  const day = timestamp.getDate().toString().padStart(2, "0");
-  const month = (timestamp.getMonth() + 1).toString().padStart(2, "0");
-  const year = timestamp.getFullYear();
-
-  return `${day}/${month}/${year}`;
 }
 
 export function formatTime(timestamp: Date) {

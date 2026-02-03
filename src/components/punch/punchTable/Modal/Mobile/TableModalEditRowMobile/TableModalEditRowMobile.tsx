@@ -52,9 +52,10 @@ export default function TableModalEditRowMobile({
       <TableCell
         component="th"
         scope="row"
-        sx={{ ...compactCellStyle, whiteSpace: "nowrap" }}
+        sx={{ ...compactCellStyle, whiteSpace: "nowrap", display: "flex", flexDirection: "column" }}
       >
-        {dayOfWeek} <br /> {day.date.slice(0, 5)}
+        <span>{dayOfWeek}</span> 
+        <span>{/*day.date.slice(0, 5)*/ day.date}</span>
       </TableCell>
       <TableCell align="center" sx={compactCellStyle}>
         <div className="flex flex-col gap-1">

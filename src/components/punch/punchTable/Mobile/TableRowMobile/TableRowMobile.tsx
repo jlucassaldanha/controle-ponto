@@ -36,8 +36,9 @@ export default function TableBodyRowMobile({
         backgroundColor: rowBgColor,
       }}
     >
-      <TableCell component="th" scope="row">
-        {dayOfWeek} <br /> {day.date.slice(0, 5)}
+      <TableCell component="th" scope="row" sx={{ display: "flex", flexDirection: "column" }}>
+        <span>{dayOfWeek}</span> 
+        <span>{/*day.date.slice(0, 5)*/ day.date}</span>
       </TableCell>
       <TableCell align="center" padding="none" sx={{ padding: "8px" }}>
         <div className="flex flex-col gap-1">
