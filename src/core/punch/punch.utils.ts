@@ -3,83 +3,94 @@ import { formatTime } from "@/lib/dateUtils";
 import { GroupedPunchesType } from "./punch.types";
 
 const dayNumberToKeyMap: { [key: number]: string } = {
-  0: 'Dom', 
-  1: 'Seg', 
-  2: 'Ter', 
-  3: 'Qua',
-  4: 'Qui', 
-  5: 'Sex', 
-  6: 'Sáb',
-}
+  0: "Dom",
+  1: "Seg",
+  2: "Ter",
+  3: "Qua",
+  4: "Qui",
+  5: "Sex",
+  6: "Sáb",
+};
 
 export function formatPunchDateTime(punch: Punch) {
-	const day = punch.timestamp.getDate().toString().padStart(2, '0')
-	const month = (punch.timestamp.getMonth() + 1).toString().padStart(2, '0')
-	const year = punch.timestamp.getFullYear()
-	const date = `${day}/${month}/${year}`
+  // punch.timestamp vem do banco em UTC
+  // getDate(), getMonth(), getFullYear(), getHours(), getMinutes()
+  // já retornam no timezone local do navegador automaticamente
 
-	const hours = punch.timestamp.getHours().toString().padStart(2, '0')
-	const minutes = punch.timestamp.getMinutes().toString().padStart(2, '0')
-	const time = `${hours}:${minutes}`
+  const day = punch.timestamp.getDate().toString().padStart(2, "0");
+  const month = (punch.timestamp.getMonth() + 1).toString().padStart(2, "0");
+  const year = punch.timestamp.getFullYear();
+  const date = `${day}/${month}/${year}`;
 
-	const dayOfWeek = dayNumberToKeyMap[punch.timestamp.getDay()]
+  const hours = punch.timestamp.getHours().toString().padStart(2, "0");
+  const minutes = punch.timestamp.getMinutes().toString().padStart(2, "0");
+  const time = `${hours}:${minutes}`;
 
-	return { date, dayOfWeek, time, }
+  const dayOfWeek = dayNumberToKeyMap[punch.timestamp.getDay()];
+
+  return { date, dayOfWeek, time };
 }
 
-export function getPunchTimestampMinutes(punchesObj: GroupedPunchesType, type: PunchType) {
-	const punch = punchesObj.punches.find((punch) => punch.type === type)
-	
-	if (!punch) {
-		return 0
-	}
+export function getPunchTimestampMinutes(
+  punchesObj: GroupedPunchesType,
+  type: PunchType,
+) {
+  const punch = punchesObj.punches.find((punch) => punch.type === type);
 
-	const minutes = punch.timestamp.getMinutes()
-	const hours = punch.timestamp.getHours()
+  if (!punch) {
+    return 0;
+  }
 
-	return hours * 60 + minutes
+  // punch.timestamp vem em UTC do banco
+  // getMinutes() e getHours() já retornam no timezone local
+  const minutes = punch.timestamp.getMinutes();
+  const hours = punch.timestamp.getHours();
+
+  return hours * 60 + minutes;
 }
 
 export function getPunchTime(punches: Punch[], type: PunchType) {
-	const punch = punches.find((punch) => ( punch.type === type ))
-	if (punch) {
-		return formatTime(punch.timestamp)
-	}
+  const punch = punches.find((punch) => punch.type === type);
+  if (punch) {
+    // punch.timestamp vem em UTC do banco
+    // getHours() e getMinutes() já retornam no timezone local
+    return formatTime(punch.timestamp);
+  }
 }
 
 export function getPunchIdTime(punches: Punch[], type: PunchType) {
-	const punch = punches.find((punch) => ( punch.type === type ))
-	if (punch) {
-		return {
-			time: formatTime(punch.timestamp),
-			id: punch.id,
-		}
-	} else {
-		return {
-			time: "00:00",
-			id: ""
-		}
-	}
+  const punch = punches.find((punch) => punch.type === type);
+  if (punch) {
+    return {
+      time: formatTime(punch.timestamp),
+      id: punch.id,
+    };
+  } else {
+    return {
+      time: "00:00",
+      id: "",
+    };
+  }
 }
 
 export function isUnderOver(time: number) {
-	if (time < 0) { 
-		return {
-			overtime: false,
-			undertime: true,
-			time: time,
-		}
-	} else if (time > 0) {
-		return {
-			overtime: true,
-			undertime: false,
-			time: time,
-		}
-	} else {
-		return {
-			overtime: false,
-			undertime: false,
-			time: time,
-		}
-	}
+  if (time < 0) {
+    return {
+      overtime: false,
+      undertime: true,
+      time: time,
+    };
+  } else if (time > 0) {
+    return {
+      overtime: true,
+      undertime: false,
+      time: time,
+    };
+  } else {
+    return {
+      overtime: false,
+      undertime: false,
+      time: time,
+    };
+  }
 }

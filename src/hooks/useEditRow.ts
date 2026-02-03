@@ -56,8 +56,12 @@ export function useEditRow(
     try {
       // Converte "29/01/2026" para Date 2026-01-29
       const [day, month, year] = dateString.split("/").map(Number);
-      const dateFromString = new Date(year, month - 1, day);
-      await fullDayJustificationAction(dateFromString, workTime);
+      // new Date(year, month, day) cria meia-noite no timezone local
+      // O servidor espera uma data UTC, então calcula o offset e subtrai
+      const localDate = new Date(year, month - 1, day);
+      const offset = new Date().getTimezoneOffset();
+      const utcDate = new Date(localDate.getTime() - offset * 60 * 1000);
+      await fullDayJustificationAction(utcDate, workTime);
     } catch (error) {
       console.log(error);
     } finally {
@@ -80,11 +84,14 @@ export function useEditRow(
   };
 
   const handlePunchChange = (id: string, newTime: string) => {
+    // day.timestamp já é um Date UTC do banco
+    // setHours() modifica as horas no timezone local do navegador
     const newTimestamp = new Date(day.timestamp);
 
     newTimestamp.setHours(Number(newTime.slice(0, 2)));
     newTimestamp.setMinutes(Number(newTime.slice(3)));
 
+    // Não precisa converter, o Date já está correto
     setEditedValues((prev) => ({
       ...prev,
       [id]: newTimestamp,
