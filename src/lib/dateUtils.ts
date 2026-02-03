@@ -17,6 +17,14 @@ export function convertUTCToLocal(utcDate: Date): Date {
   return new Date(utcDate.getTime() + offset * 60 * 1000);
 }
 
+// Corrige dados antigos que foram salvos em timezone local
+// Dados antigos estão no banco como se fossem UTC, mas na verdade são timezone local
+// Então quando JS interpreta como UTC, precisa compensar adicionando o offset
+export function correctOldData(timestamp: Date): Date {
+  const offset = getTimezoneOffset();
+  return new Date(timestamp.getTime() + offset * 60 * 1000);
+}
+
 export function getADayInterval(date: Date) {
   // Usa UTC para criar o intervalo do dia
   const year = date.getUTCFullYear();
