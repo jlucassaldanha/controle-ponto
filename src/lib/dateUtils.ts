@@ -1,31 +1,32 @@
 // src/lib/dateUtils.ts
 
-// Define o offset do Brasil fixo (3 horas * 60 minutos)
-// Positivo (180) para usar na matemática de subtração/adição manual
-const BRAZIL_OFFSET_MINUTES = 180;
-
 // ==========================================
-// FUNÇÕES DE CORREÇÃO (Core do Bug)
+// FUNÇÕES DE CORREÇÃO
 // ==========================================
 
 export function correctOldData(timestamp: Date): Date {
   if (!timestamp) return new Date();
-  // Soma 3 horas manualmente para alinhar Prod (UTC) com Dev (Brasil)
-  return new Date(timestamp.getTime() + BRAZIL_OFFSET_MINUTES * 60 * 1000);
+  
+  // Mágica para alinhar Dev e Prod:
+  // Detecta o fuso horário atual do ambiente (180 min no Dev, 0 min na Prod)
+  // e SUBTRAI esse valor. Isso desfaz a conversão automática que o sistema fez.
+  // Dev: 10:35 - 3h = 07:35
+  // Prod: 07:35 - 0h = 07:35
+  const offset = new Date().getTimezoneOffset(); 
+  return new Date(timestamp.getTime() - offset * 60 * 1000);
 }
 
-// RESTAURADO: Converte Local para UTC usando o offset fixo
 export function convertLocalToUTC(localDate: Date): Date {
-  return new Date(localDate.getTime() - BRAZIL_OFFSET_MINUTES * 60 * 1000);
+  // Ajuste para salvar no banco (se necessário)
+  const offset = new Date().getTimezoneOffset();
+  return new Date(localDate.getTime() - offset * 60 * 1000);
 }
 
-// RESTAURADO: UTC para Local
 export function convertUTCToLocal(utcDate: Date): Date {
-  return new Date(utcDate.getTime() + BRAZIL_OFFSET_MINUTES * 60 * 1000);
+  const offset = new Date().getTimezoneOffset();
+  return new Date(utcDate.getTime() + offset * 60 * 1000);
 }
 
-// RESTAURADO: getADayInterval
-// Cria o intervalo de início e fim do dia em UTC para queries no banco
 export function getADayInterval(date: Date) {
   const year = date.getUTCFullYear();
   const month = date.getUTCMonth();
@@ -34,18 +35,14 @@ export function getADayInterval(date: Date) {
   const startOfDay = new Date(Date.UTC(year, month, day, 0, 0, 0, 0));
   const endOfDay = new Date(Date.UTC(year, month, day + 1, 0, 0, 0, 0));
 
-  return {
-    startOfDay,
-    endOfDay,
-  };
+  return { startOfDay, endOfDay };
 }
 
 // ==========================================
-// FORMATAÇÃO E UTILITÁRIOS
+// FORMATAÇÃO E UTILITÁRIOS (Tudo via UTC)
 // ==========================================
 
 export function formatDate(timestamp: Date) {
-  // Usamos UTC aqui porque a função correctOldData já ajustou o tempo absoluto
   const day = timestamp.getUTCDate().toString().padStart(2, "0");
   const month = (timestamp.getUTCMonth() + 1).toString().padStart(2, "0");
   const year = timestamp.getUTCFullYear();
@@ -69,6 +66,7 @@ const dayNumberToKeyMap: { [key: number]: string } = {
 };
 
 export function getDayOfWeek(timestamp: Date) {
+  // CRUCIAL: Usa getUTCDay para garantir que o dia da semana bata com a data corrigida
   return dayNumberToKeyMap[timestamp.getUTCDay()];
 }
 
@@ -89,7 +87,6 @@ export function getTimeMinutes(time: string) {
   return hours * 60 + minutes;
 }
 
-// Mantém compatibilidade caso algo importe o offset
 export function getTimezoneOffset(): number {
-  return BRAZIL_OFFSET_MINUTES;
+  return new Date().getTimezoneOffset();
 }
