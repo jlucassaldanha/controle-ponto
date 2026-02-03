@@ -44,8 +44,9 @@ export default function TableModalEditRow({
 
   return (
     <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-      <TableCell component="th" scope="row">
-        {dayOfWeek} <br /> {day.date.slice(0, 5)}
+      <TableCell component="th" scope="row" sx={{ display: "flex", flexDirection: "column" }}>
+        <span>{dayOfWeek}</span> 
+        <span>{/*day.date.slice(0, 5)*/ day.date}</span>
       </TableCell>
       <AddPunchCell
         dateOrTime="time"

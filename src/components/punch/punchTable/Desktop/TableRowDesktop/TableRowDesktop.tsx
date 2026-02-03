@@ -31,8 +31,9 @@ export default function TableRowDesktop({
         backgroundColor: rowBgColor,
       }}
     >
-      <TableCell component="th" scope="row">
-        {dayOfWeek} <br /> {day.date.slice(0, 5)}
+      <TableCell component="th" scope="row" sx={{ display: "flex", flexDirection: "column" }}>
+        <span>{dayOfWeek}</span> 
+        <span>{/*day.date.slice(0, 5)*/ day.date}</span>
       </TableCell>
       <TableCell align="center">{clockIn.time}</TableCell>
       <TableCell align="center">{startLunch.time}</TableCell>

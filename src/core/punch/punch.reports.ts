@@ -25,12 +25,13 @@ export async function groupPunchesByDay(userId: string) {
 
       if (!accumulator[date]) {
         accumulator[date] = {
-          dayOfWeek: correctedTimestamp.getDay(),
-          timestamp: new Date(
-            correctedTimestamp.getFullYear(),
-            correctedTimestamp.getMonth(),
-            correctedTimestamp.getDate(),
-          ),
+          dayOfWeek: correctedTimestamp.getUTCDay(),
+          timestamp: new Date(Date.UTC(
+            correctedTimestamp.getUTCFullYear(),
+            correctedTimestamp.getUTCMonth(),
+            correctedTimestamp.getUTCDate(),
+			12, 0, 0
+          )),
           date,
           punches: [],
         };
