@@ -1,5 +1,5 @@
 import { getPunches } from "./punch.services";
-import { minutesToTimeString } from "@/lib/dateUtils";
+import { minutesToTimeString, correctOldData } from "@/lib/dateUtils";
 import { formatDate } from "@/lib/dateUtils";
 import {
   dailySchedulesTimeType,
@@ -19,17 +19,17 @@ export async function groupPunchesByDay(userId: string) {
 
   const groupedPunches = allPunches.reduce(
     (accumulator, punch) => {
-      // punch.timestamp vem do banco em UTC
-      // getDate(), getDay(), getMonth() já retornam no timezone local do navegador
-      const date = formatDate(punch.timestamp);
+      // Dados antigos estão salvos em timezone local, precisa corrigir
+      const correctedTimestamp = correctOldData(punch.timestamp);
+      const date = formatDate(correctedTimestamp);
 
       if (!accumulator[date]) {
         accumulator[date] = {
-          dayOfWeek: punch.timestamp.getDay(),
+          dayOfWeek: correctedTimestamp.getDay(),
           timestamp: new Date(
-            punch.timestamp.getFullYear(),
-            punch.timestamp.getMonth(),
-            punch.timestamp.getDate(),
+            correctedTimestamp.getFullYear(),
+            correctedTimestamp.getMonth(),
+            correctedTimestamp.getDate(),
           ),
           date,
           punches: [],

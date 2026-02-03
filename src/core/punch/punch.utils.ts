@@ -1,5 +1,5 @@
 import { PunchType, type Punch } from "@prisma/client";
-import { formatTime } from "@/lib/dateUtils";
+import { formatTime, correctOldData } from "@/lib/dateUtils";
 import { GroupedPunchesType } from "./punch.types";
 
 const dayNumberToKeyMap: { [key: number]: string } = {
@@ -13,20 +13,20 @@ const dayNumberToKeyMap: { [key: number]: string } = {
 };
 
 export function formatPunchDateTime(punch: Punch) {
-  // punch.timestamp vem do banco em UTC
-  // getDate(), getMonth(), getFullYear(), getHours(), getMinutes()
-  // já retornam no timezone local do navegador automaticamente
+  // Dados antigos estão salvos em timezone local
+  // Precisa corrigir ao ler do banco
+  const correctedTimestamp = correctOldData(punch.timestamp);
 
-  const day = punch.timestamp.getDate().toString().padStart(2, "0");
-  const month = (punch.timestamp.getMonth() + 1).toString().padStart(2, "0");
-  const year = punch.timestamp.getFullYear();
+  const day = correctedTimestamp.getDate().toString().padStart(2, "0");
+  const month = (correctedTimestamp.getMonth() + 1).toString().padStart(2, "0");
+  const year = correctedTimestamp.getFullYear();
   const date = `${day}/${month}/${year}`;
 
-  const hours = punch.timestamp.getHours().toString().padStart(2, "0");
-  const minutes = punch.timestamp.getMinutes().toString().padStart(2, "0");
+  const hours = correctedTimestamp.getHours().toString().padStart(2, "0");
+  const minutes = correctedTimestamp.getMinutes().toString().padStart(2, "0");
   const time = `${hours}:${minutes}`;
 
-  const dayOfWeek = dayNumberToKeyMap[punch.timestamp.getDay()];
+  const dayOfWeek = dayNumberToKeyMap[correctedTimestamp.getDay()];
 
   return { date, dayOfWeek, time };
 }
@@ -41,10 +41,10 @@ export function getPunchTimestampMinutes(
     return 0;
   }
 
-  // punch.timestamp vem em UTC do banco
-  // getMinutes() e getHours() já retornam no timezone local
-  const minutes = punch.timestamp.getMinutes();
-  const hours = punch.timestamp.getHours();
+  // Dados antigos estão salvos em timezone local
+  const correctedTimestamp = correctOldData(punch.timestamp);
+  const minutes = correctedTimestamp.getMinutes();
+  const hours = correctedTimestamp.getHours();
 
   return hours * 60 + minutes;
 }
@@ -52,9 +52,9 @@ export function getPunchTimestampMinutes(
 export function getPunchTime(punches: Punch[], type: PunchType) {
   const punch = punches.find((punch) => punch.type === type);
   if (punch) {
-    // punch.timestamp vem em UTC do banco
-    // getHours() e getMinutes() já retornam no timezone local
-    return formatTime(punch.timestamp);
+    // Dados antigos estão salvos em timezone local
+    const correctedTimestamp = correctOldData(punch.timestamp);
+    return formatTime(correctedTimestamp);
   }
 }
 
