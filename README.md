@@ -11,6 +11,8 @@
 ## 📌 Sobre o projeto
 Um sistema de controle de ponto moderno e funcional, criado para simplificar o registro de horas de trabalho. Além de uma ferramenta de uso pessoal, este projeto serviu como um campo de estudo prático para aprofundar conhecimentos em **Next.js** e testes unitários com **Vitest**.
 
+**Atualmente a aplicação está passando por uma atualização, para correção de bugs com horarios e timezones.**
+
 **👉 Acesse a aplicação em produção aqui: [Controle de ponto](https://controleponto.vercel.app)**
 
 ## 🛠️ Tecnologias Utilizadas
