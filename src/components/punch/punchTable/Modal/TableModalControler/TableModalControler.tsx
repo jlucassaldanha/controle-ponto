@@ -12,7 +12,11 @@ import { JustificationByDayType } from "@/core/justification/justification.types
 type TableModalControlerProps = {
   day: Awaited<ReturnType<typeof groupPunchesByDay>>[number];
   workTime: number;
-  justification: JustificationByDayType
+  justification: {
+    have: boolean
+    need: boolean
+    justification?: JustificationByDayType
+  }
 };
 
 export default function TableModalControler({
@@ -24,8 +28,12 @@ export default function TableModalControler({
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  console.log(justification)
-  const handleJustificationChange = async () => await fullDayJustificationAction(justification.date, 1)
+
+  const justificationDate = justification.justification?.date || day.timestamp
+
+  console.log(justification.need, justificationDate)
+ 
+  const handleJustificationChange = async () => await fullDayJustificationAction(justificationDate)
 
   return (
     <div>
@@ -35,7 +43,7 @@ export default function TableModalControler({
         </IconButton>
       </Tooltip>
       <Tooltip title="Abono">
-        <IconButton aria-label="add" size="small" onClick={handleJustificationChange}>
+        <IconButton aria-label="add" size="small" onClick={handleJustificationChange} disabled={!justification.need} >
           <FreeCancellationIcon fontSize="small" />
         </IconButton>
       </Tooltip>

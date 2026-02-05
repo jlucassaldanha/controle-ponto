@@ -64,11 +64,7 @@ export default function PunchTable({
 
             const dayJustification = justifications.find(
               (justification) => formatDate(justification.date) === day.date
-            ) || { 
-              date: new Date(), 
-              timeMinutes: 0, 
-              reason: "none" 
-            }
+            )
             
             return isMobile && !isDesktop ? (
               <TableBodyRowMobile

@@ -14,7 +14,7 @@ export default function TableRowDesktop({
   color,
   workTime,
   justification
-}: TableBodyRowProps & { workTime: number, justification: JustificationByDayType }) {
+}: TableBodyRowProps & { workTime: number, justification?: JustificationByDayType }) {
   const clockIn = getPunchIdTime(day.punches, PunchType.CLOCK_IN);
   const startLunch = getPunchIdTime(day.punches, PunchType.START_LUNCH);
   const endLunch = getPunchIdTime(day.punches, PunchType.END_LUNCH);
@@ -23,10 +23,13 @@ export default function TableRowDesktop({
   const dayOfWeek = getDayOfWeek(day.timestamp);
   const workedTime = minutesToTimeString(day.workedTime);
 
-  const hasJustificationColor = workedTime === "00:00" ? justification.timeMinutes > 0 ? "green" : "red" : ""
+  const needJustification =  workedTime === "00:00" ? true : false
+  const haveJustification = justification ? true : false 
+  
+  const justificationColor = needJustification ? haveJustification ? "green" : "red" : ""
 
   return (
-    <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 }, background: hasJustificationColor }}>
+    <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 }, background: justificationColor }}>
       <TableCell component="th" scope="row">
         {dayOfWeek} <br /> {day.date.slice(0, 5)}
       </TableCell>
@@ -39,7 +42,7 @@ export default function TableRowDesktop({
         {overUnder.timeStr}
       </TableCell>
       <TableCell align="center">
-        <TableModalControler day={day} workTime={workTime} justification={justification} />
+        <TableModalControler day={day} workTime={workTime} justification={{ have: haveJustification, need: needJustification, justification}} />
       </TableCell>
     </TableRow>
   );

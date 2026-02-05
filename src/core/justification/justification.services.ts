@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma"
 
 export async function upsertJustification(userId: string, date: Date, time: number, reason: string) {
+	console.log(date)
 	try {
 		await prisma.justification.upsert({
 			where: {

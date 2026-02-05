@@ -2,7 +2,6 @@ import { formatDate } from "@/lib/dateUtils";
 import { getJustifications } from "./justification.services";
 import { JustificationByDayType } from "./justification.types";
 
-
 export async function getJustificationsReport(userId: string, initialDate: Date, finalDate: Date) {
 	const justifications = await getJustifications(userId)
 
@@ -35,4 +34,18 @@ export async function getJustificationsReport(userId: string, initialDate: Date,
 	}
 
 	return reportList
+}
+
+export async function getSimpleJustificationsReport(userId: string) {
+	const justifications = await getJustifications(userId)
+
+	const justificationsMap = justifications.map(justification => {
+		return {
+			date: justification.date,
+			timeMinutes: justification.minutes,
+			reason: justification.reason,
+		}
+	})
+	
+	return justificationsMap
 }
