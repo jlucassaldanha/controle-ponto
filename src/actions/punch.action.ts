@@ -34,6 +34,7 @@ export async function addPunchAction() {
 }
 
 export async function upsertPunchesAction(punchesObj: Record<string, Date>) {
+	console.log("upsertPunchesAction called with punchesObj:", punchesObj)
 	const session = await getCurrentUser()
 	
 	if (!session?.id) {

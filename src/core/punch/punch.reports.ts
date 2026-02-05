@@ -19,9 +19,7 @@ export async function groupPunchesByDay(userId: string) {
 
   const groupedPunches = allPunches.reduce(
     (accumulator, punch) => {
-      // Dados antigos estão salvos em timezone local, precisa corrigir
-      const correctedTimestamp = correctOldData(punch.timestamp);
-      const date = formatDate(correctedTimestamp);
+      const date = formatDate(punch.timestamp)
 
       if (!accumulator[date]) {
         accumulator[date] = {

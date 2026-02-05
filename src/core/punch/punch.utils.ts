@@ -13,20 +13,16 @@ const dayNumberToKeyMap: { [key: number]: string } = {
 };
 
 export function formatPunchDateTime(punch: Punch) {
-  // Dados antigos estão salvos em timezone local
-  // Precisa corrigir ao ler do banco
-  const correctedTimestamp = correctOldData(punch.timestamp);
-
-  const day = correctedTimestamp.getDate().toString().padStart(2, "0");
-  const month = (correctedTimestamp.getMonth() + 1).toString().padStart(2, "0");
-  const year = correctedTimestamp.getFullYear();
+  const day = punch.timestamp.getDate().toString().padStart(2, "0");
+  const month = (punch.timestamp.getMonth() + 1).toString().padStart(2, "0");
+  const year = punch.timestamp.getFullYear();
   const date = `${day}/${month}/${year}`;
 
-  const hours = correctedTimestamp.getHours().toString().padStart(2, "0");
-  const minutes = correctedTimestamp.getMinutes().toString().padStart(2, "0");
+  const hours = punch.timestamp.getHours().toString().padStart(2, "0");
+  const minutes = punch.timestamp.getMinutes().toString().padStart(2, "0");
   const time = `${hours}:${minutes}`;
 
-  const dayOfWeek = dayNumberToKeyMap[correctedTimestamp.getDay()];
+  const dayOfWeek = dayNumberToKeyMap[punch.timestamp.getDay()];
 
   return { date, dayOfWeek, time };
 }
@@ -41,10 +37,8 @@ export function getPunchTimestampMinutes(
     return 0;
   }
 
-  // Dados antigos estão salvos em timezone local
-  const correctedTimestamp = correctOldData(punch.timestamp);
-  const minutes = correctedTimestamp.getMinutes();
-  const hours = correctedTimestamp.getHours();
+  const minutes = punch.timestamp.getMinutes();
+  const hours = punch.timestamp.getHours();
 
   return hours * 60 + minutes;
 }
@@ -52,9 +46,7 @@ export function getPunchTimestampMinutes(
 export function getPunchTime(punches: Punch[], type: PunchType) {
   const punch = punches.find((punch) => punch.type === type);
   if (punch) {
-    // Dados antigos estão salvos em timezone local
-    const correctedTimestamp = correctOldData(punch.timestamp);
-    return formatTime(correctedTimestamp);
+    return formatTime(punch.timestamp);
   }
 }
 

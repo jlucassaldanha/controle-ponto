@@ -22,8 +22,7 @@ export const dateStringSchema = z
   })
   .transform((date) => {
     const [year, month, day] = date.split("-").map(Number);
-    // Apenas cria uma data como se fosse no timezone local do usuário
-    // NÃO converte aqui, pois será convertida no addPunchesSchema
+    
     return new Date(year, month - 1, day);
   });
 
@@ -53,10 +52,10 @@ export const addPunchesSchema = z
         addPunchesSchema.date.getTime() + punch.time * 60000,
       );
       // Converte de local para UTC uma única vez
-      const utcTimestamp = convertLocalToUTC(localTimestamp);
+      //const utcTimestamp = convertLocalToUTC(localTimestamp);
       return {
         type: punch.type,
-        timestamp: utcTimestamp,
+        timestamp: localTimestamp,
       };
     });
 

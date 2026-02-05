@@ -145,6 +145,8 @@ export async function getFirstPunch(userId: string) {
 }
 
 export async function upsertPunches(updates: {id: string, timestamp: Date}[], inserts: {type: PunchType, timestamp: Date, userId: string}[]) {
+
+	console.log("upsertPunches called with updates:", updates, "and inserts:", inserts)
 	const updatesOperations = updates.map((punch) => {
 		return prisma.punch.update({
 			where: {
