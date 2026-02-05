@@ -36,7 +36,7 @@ export default async function PunchHistory() {
   );
 
   const justifications = await getJustificationsReport(session.id, initialDate, todayDate);
-
+  console.log(justifications)
   /*const totalOvertimeData = getTotalOvertime(
     punchesPerDay,
     dailySchedulesTime,
@@ -62,6 +62,7 @@ export default async function PunchHistory() {
       <PunchTable
         punchesPerDay={reversedPunchesPerDay}
         dailySchedulesTime={dailySchedulesTime}
+        justifications={justifications}
       />
     </div>
   );

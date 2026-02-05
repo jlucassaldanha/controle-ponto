@@ -1,7 +1,7 @@
 "use server"
 
 import { auth } from "@/app/api/auth/[...nextauth]/route"
-import { createJustification, deleteJustification, findJustification } from "@/core/justification/justification.services"
+import { createJustification, deleteJustification, findJustification, findJustificationByDate, upsertJustification } from "@/core/justification/justification.services"
 import { revalidatePath } from "next/cache"
 
 export async function fullDayJustificationAction(date: Date, time: number) {
@@ -12,13 +12,13 @@ export async function fullDayJustificationAction(date: Date, time: number) {
 	}
 
 	try {
-		const existingJustification = await findJustification(session.user.id, date)
+		const existingJustification = await findJustificationByDate(session.user.id, date)
 		let message: string
 		if (existingJustification) {
-			await deleteJustification(existingJustification.id)
+			await upsertJustification(session.user.id, date, 0, "no justification")
 			message = "Abono apagado"
 		} else {
-			await createJustification(session.user.id, date, time)
+			await upsertJustification(session.user.id, date, 1, "dia inteiro")
 			message = "Abono criado"
 		}
 		

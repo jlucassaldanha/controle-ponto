@@ -6,13 +6,15 @@ import { PunchType } from "@prisma/client";
 import { TableBodyRowProps } from "../../types";
 import TableModalControler from "../../Modal/TableModalControler/TableModalControler";
 import { getDayOfWeek, minutesToTimeString } from "@/lib/dateUtils";
+import { JustificationByDayType } from "@/core/justification/justification.types";
 
 export default function TableRowDesktop({
   day,
   overUnder,
   color,
   workTime,
-}: TableBodyRowProps & { workTime: number }) {
+  justification
+}: TableBodyRowProps & { workTime: number, justification: JustificationByDayType }) {
   const clockIn = getPunchIdTime(day.punches, PunchType.CLOCK_IN);
   const startLunch = getPunchIdTime(day.punches, PunchType.START_LUNCH);
   const endLunch = getPunchIdTime(day.punches, PunchType.END_LUNCH);
@@ -20,8 +22,11 @@ export default function TableRowDesktop({
 
   const dayOfWeek = getDayOfWeek(day.timestamp);
   const workedTime = minutesToTimeString(day.workedTime);
+
+  const hasJustificationColor = workedTime === "00:00" ? justification.timeMinutes > 0 ? "green" : "red" : ""
+
   return (
-    <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+    <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 }, background: hasJustificationColor }}>
       <TableCell component="th" scope="row">
         {dayOfWeek} <br /> {day.date.slice(0, 5)}
       </TableCell>
@@ -34,7 +39,7 @@ export default function TableRowDesktop({
         {overUnder.timeStr}
       </TableCell>
       <TableCell align="center">
-        <TableModalControler day={day} workTime={workTime} />
+        <TableModalControler day={day} workTime={workTime} justification={justification} />
       </TableCell>
     </TableRow>
   );
