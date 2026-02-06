@@ -73,6 +73,7 @@ export default function PunchTable({
                 overUnder={overUnder}
                 color={color}
                 workTime={workTime}
+                justification={dayJustification}
               />
             ) : (
               <TableRowDesktop

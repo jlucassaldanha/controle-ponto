@@ -29,11 +29,9 @@ export default function TableModalControler({
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const justificationDate = justification.justification?.date || day.timestamp
-
-  console.log(justification.need, justificationDate)
+  const justificationDate = justification.justification?.date.toISOString().split('T')[0] || day.timestamp.toISOString().split('T')[0];
  
-  const handleJustificationChange = async () => await fullDayJustificationAction(justificationDate)
+  const handleJustificationChange = async () => await fullDayJustificationAction(justificationDate, workTime)
 
   return (
     <div>

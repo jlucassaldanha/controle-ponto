@@ -1,6 +1,6 @@
 "use client";
 
-import { ButtonGroup, IconButton, TableCell, TableRow } from "@mui/material";
+import { ButtonGroup, IconButton, TableCell, TableRow, Tooltip } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import CloseIcon from "@mui/icons-material/Close";
 import { groupPunchesByDay } from "@/core/punch/punch.reports";
@@ -90,21 +90,25 @@ export default function TableModalEditRowMobile({
           size="small"
           aria-label="save-cancel"
         >
-          <IconButton
-            aria-label="save"
-            onClick={onSave}
-            sx={{ minWidth: "20px", padding: "2px" }}
-          >
-            <SaveIcon fontSize="small" sx={{ fontSize: 15 }} />
-          </IconButton>
-          <IconButton
-            aria-label="cancel"
-            color="error"
-            onClick={onCancel}
-            sx={{ minWidth: "20px", padding: "2px" }}
-          >
-            <CloseIcon fontSize="small" sx={{ fontSize: 15 }} />
-          </IconButton>
+          <Tooltip title="Salvar" >
+            <IconButton
+              aria-label="save"
+              onClick={onSave}
+              sx={{ minWidth: "20px", padding: "2px" }}
+            >
+              <SaveIcon fontSize="small" sx={{ fontSize: 15 }} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Calcelar">
+              <IconButton
+              aria-label="cancel"
+              color="error"
+              onClick={onCancel}
+              sx={{ minWidth: "20px", padding: "2px" }}
+            >
+              <CloseIcon fontSize="small" sx={{ fontSize: 15 }} />
+            </IconButton>
+          </Tooltip>
         </ButtonGroup>
       </TableCell>
     </TableRow>

@@ -26,7 +26,13 @@ export default function TableRowDesktop({
   const needJustification =  workedTime === "00:00" ? true : false
   const haveJustification = justification ? true : false 
   
-  const justificationColor = needJustification ? haveJustification ? "green" : "red" : ""
+  const justificationColor = needJustification ? haveJustification ? "#ccf0cc" : "#f0cccc" : ""
+
+  const justificationData = { 
+    have: haveJustification, 
+    need: needJustification, 
+    justification
+  }
 
   return (
     <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 }, background: justificationColor }}>
@@ -42,7 +48,7 @@ export default function TableRowDesktop({
         {overUnder.timeStr}
       </TableCell>
       <TableCell align="center">
-        <TableModalControler day={day} workTime={workTime} justification={{ have: haveJustification, need: needJustification, justification}} />
+        <TableModalControler day={day} workTime={workTime} justification={justificationData} />
       </TableCell>
     </TableRow>
   );
