@@ -9,7 +9,7 @@ export default function TableHeadMobile() {
 				<TableCell align="center" padding="none">Saída</TableCell>
 				<TableCell align="center" padding="none">Total</TableCell>
 				<TableCell align="center" padding="none">Saldo</TableCell>
-				<TableCell align="center" padding="none"></TableCell>
+				<TableCell align="center" padding="none">Ação</TableCell>
 			</TableRow>
 		</TableHead>
 	)
