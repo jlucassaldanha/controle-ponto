@@ -41,16 +41,16 @@ Um sistema de controle de ponto moderno e funcional, criado para simplificar o r
 ## 🖼️ Preview
 
 ### Tela de Inicial
-![Tela de Inicio](./imagem_home.png)
+![Tela de Inicio](./docs/imagem_home.png)
 
 ### Tela de Login
-![Tela de Login do Projeto](./imagem_login.png)
+![Tela de Login do Projeto](./docs/imagem_login.png)
 
 ### Resigtros de Pontos
-![Tela de registros de ponto](./imagem_ponto.png)
+![Tela de registros de ponto](./docs/imagem_ponto.png)
 
 ### Versão Mobile
-![Aplicação rodando em um celular](./imagem_mobile.png)
+![Aplicação rodando em um celular](./docs/imagem_mobile.png)
 
 ## 🔧 Como rodar localmente
 
