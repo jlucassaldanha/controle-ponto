@@ -1,5 +1,4 @@
 import { TableCell, TableHead, TableRow } from "@mui/material";
-//import PunchModal from "../PunchModal/PunchModal";
 
 export default function TableHeadDesktop({ isModal }: { isModal: boolean }) {
   return (
@@ -12,7 +11,7 @@ export default function TableHeadDesktop({ isModal }: { isModal: boolean }) {
         <TableCell align="center">Saída</TableCell>
         <TableCell align="center">Total</TableCell>
         <TableCell align="center">Saldo</TableCell>
-        <TableCell align="center">{!isModal && "" /*<PunchModal />*/}Ação</TableCell>
+        <TableCell align="center">{!isModal && ""}Ação</TableCell>
       </TableRow>
     </TableHead>
   );
