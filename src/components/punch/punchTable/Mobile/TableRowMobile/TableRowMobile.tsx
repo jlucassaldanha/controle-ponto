@@ -26,7 +26,7 @@ export default function TableBodyRowMobile({
   const needJustification =  workedTime === "00:00" ? true : false
   const haveJustification = justification ? true : false 
   
-  const justificationColor = needJustification ? haveJustification ? "#ccf0cc" : "#f0cccc" : ""
+  const justificationColor = needJustification ? haveJustification ? "rgba(0, 255, 0, 0.15)" : "rgba(255, 0, 0, 0.15)" : ""
 
   const justificationData = { 
     have: haveJustification, 
