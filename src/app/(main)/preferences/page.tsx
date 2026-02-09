@@ -19,7 +19,7 @@ export default async function Preferences() {
 	
 	return (
 		<div className="flex flex-col items-center justify-center w-full gap-2 m-5">
-			<div className='w-full p-6'>
+			<div className='w-full p-6 '>
 				<InitialBalanceTimeCard initialBalance={initialBalance.balanceString} isNegative={initialBalance.isNegative}/>
 			</div>
 			<PreferencesForm initialSchedules={initialSchedulesForForm} />			

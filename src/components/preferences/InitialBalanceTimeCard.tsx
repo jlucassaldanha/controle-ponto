@@ -24,13 +24,13 @@ export default function InitialBalanceTimeCard({ initialBalance, isNegative }: {
 	}
 
 	return (
-		<div className="flex flex-col gap-3 justify-center items-center">
+		<div className="flex flex-col gap-3 justify-center items-center px-8">
 			{state.message && (
 				<Alert severity={state.success ? "success" : "error"}>
 					{state.message}
 				</Alert>
 			)}
-			<Card variant="outlined">
+			<Card variant="outlined" sx={{width: "100%"}}>
 				<CardHeader 
 					title="Saldo inicial"
 				/>
@@ -50,6 +50,7 @@ export default function InitialBalanceTimeCard({ initialBalance, isNegative }: {
 							label="Tempo"
 							type='time'
 							name={"time"}
+							size="small"
 							value={timeValue} 
 							slotProps={{ inputLabel: { shrink: true } }}
 							onChange={(e) => handleTimeChange(e.target.value)}
