@@ -30,12 +30,13 @@ Um sistema de controle de ponto moderno e funcional, criado para simplificar o r
 - ✅ **Jornada de trabalho:** Definição da jornada de trabalho para cálculos precisos.
 - ✅ **Saldo anterior:** Definição de saldo de horas anterior ao uso da aplicação para cálculos atualizados.
 - ✅ **Responsividade:** Interface adaptada para uso em desktop e mobile.
+- ✅ **Abono:** Possibilidade de abonar dias não sem registro de ponto.
+- ✅ **Edição:** Edição de ponto inline na tabela de visualização.
 
 ## 🚀 Funcionalidades Planejadas
 - ⚙️ Filtros avançados para visualização (diário, semanal, mensal).
-- ⚙️ Melhorias na semântica do projeto.
-- ⚙️ Possibilidade de abonar dias não trabalhados.
-- ⚙️ Edição e adição de ponto inline.
+- ⚙️ Mostragem de saldo em tempo real.
+- ⚙️ Adição de ponto inline.
 
 ## 🖼️ Preview
 
