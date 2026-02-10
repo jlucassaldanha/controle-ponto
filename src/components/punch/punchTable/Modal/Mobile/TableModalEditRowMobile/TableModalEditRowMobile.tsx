@@ -27,6 +27,7 @@ export default function TableModalEditRowMobile({
     clockOut,
     startLunch,
     endLunch,
+    loadingSave,
     getDisplayTime,
     onCancel,
     onSave,
@@ -95,6 +96,8 @@ export default function TableModalEditRowMobile({
               aria-label="save"
               onClick={onSave}
               sx={{ minWidth: "20px", padding: "2px" }}
+              disabled={loadingSave}
+              loading={loadingSave}
             >
               <SaveIcon fontSize="small" sx={{ fontSize: 15 }} />
             </IconButton>

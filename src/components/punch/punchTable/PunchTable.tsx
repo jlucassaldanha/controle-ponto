@@ -12,9 +12,8 @@ import TableHeadDesktop from "./Desktop/TableHeadDesktop/TableHeadDesktop";
 import TableHeadMobile from "./Mobile/TableHeadMobile";
 import { overtimeUndertime } from "@/core/punch/punch.reports";
 import { PunchTableProps } from "./types";
-import TableBodyRowMobile from "./Mobile/TableRowMobile/TableRowMobile";
-import TableRowDesktop from "./Desktop/TableRowDesktop/TableRowDesktop";
 import { formatDate } from "@/lib/dateUtils";
+import TableRowFather from "./TableRowFather/TableRowFather";
 
 export default function PunchTable({
   punchesPerDay,
@@ -66,8 +65,9 @@ export default function PunchTable({
               (justification) => formatDate(justification.date) === day.date
             )
             
-            return isMobile && !isDesktop ? (
-              <TableBodyRowMobile
+            return (
+              <TableRowFather
+                isMobile={isMobile && !isDesktop}
                 key={day.date}
                 day={day}
                 overUnder={overUnder}
@@ -75,17 +75,7 @@ export default function PunchTable({
                 workTime={workTime}
                 justification={dayJustification}
               />
-            ) : (
-              <TableRowDesktop
-                key={day.date}
-                day={day}
-                overUnder={overUnder}
-                color={color}
-                workTime={workTime}
-                justification={dayJustification}
-              />
-            );
-          })}
+            )})}
         </TableBody>
       </Table>
     </TableContainer>

@@ -14,6 +14,7 @@ export function useEditRow(
 	const [workedTime, setWorkedTime] = useState("")
 	const [overUnder, setOverUnder] = useState("")
 	const [color, setColor] = useState("")
+	const [loadingSave, setLoadingSave] = useState(false)
 	
 	const getPunchData = (type: PunchType) => {
 		const punchData = getPunchIdTime(day.punches, type);
@@ -35,6 +36,7 @@ export function useEditRow(
 	};
 
 	const onSave = async () => {
+		setLoadingSave(true)
 		try {
 			const result = await upsertPunchesAction(editedValues);
 			if (result.success) {
@@ -46,6 +48,7 @@ export function useEditRow(
 		} catch (error) {
 			console.log(error);
 		}
+		setLoadingSave(false)
 	};
 
 	const handlePunchChange = (id: string, newTime: string) => {
@@ -108,6 +111,7 @@ export function useEditRow(
 		clockOut,
 		startLunch,
 		endLunch,
+		loadingSave,
 		getDisplayTime,
 		onCancel,
 		onSave,

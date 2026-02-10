@@ -10,6 +10,7 @@ export default function JourneyCard({ rule, variant, handleTimeChange }: Journey
 					variant="outlined"
 					label="Entrada"
 					type='time'
+					size="small"
 					name={`entryTime-${rule.id}`} 
 					value={rule[variant.entryField]} 
 					onChange={(e) => handleTimeChange(rule.id, variant.entryField, e.target.value)}
@@ -18,6 +19,7 @@ export default function JourneyCard({ rule, variant, handleTimeChange }: Journey
 					variant="outlined"
 					label="Saída"
 					type='time'
+					size="small"
 					name={`exitTime-${rule.id}`} 
 					value={rule[variant.exitField]} 
 					onChange={(e) => handleTimeChange(rule.id, variant.exitField, e.target.value)}
