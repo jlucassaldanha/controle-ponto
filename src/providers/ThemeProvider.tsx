@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useMemo, ReactNode } from 'react';
+import { createContext, useContext, useState, useMemo, ReactNode, useEffect } from 'react';
 import { ThemeProvider as MUIThemeProvider, CssBaseline, PaletteMode, createTheme } from '@mui/material';
 
 interface ThemeContextType {
@@ -20,11 +20,24 @@ export function useThemeMode() {
 
 export function CustomThemeProvider({ children }: { children: ReactNode }) {
   const [mode, setMode] = useState<PaletteMode>('light');
+  const [mounted, setMounted] = useState(false);
+ 
+  useEffect(() => {
+    const savedMode = localStorage.getItem('themeMode') as PaletteMode;
+    if (savedMode) {
+      setMode(savedMode);
+    }
+    setMounted(true);
+  }, []);
 
   const colorMode = useMemo(
     () => ({
       toggleTheme: () => {
-        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'))
+        setMode((prevMode) => {
+          const newMode = prevMode === 'light' ? 'dark' : 'light';
+          localStorage.setItem('themeMode', newMode); 
+          return newMode;
+        })
       },
       mode,
     }), [mode]
@@ -42,8 +55,25 @@ export function CustomThemeProvider({ children }: { children: ReactNode }) {
           background: { default: '#1e1e1e', paper: '#1e1e1e' },
         })
       },
+      components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          body: {
+            transition: 'background-color 0.3s ease, color 0.3s ease',
+          },
+        },
+      },
+    },
     }), [mode]
   );
+
+  if (!mounted) {
+    return (
+      <div style={{ visibility: 'hidden' }}>
+        {children}
+      </div>
+    );
+  }
   
   return (
     <ThemeContext.Provider value={colorMode}>
