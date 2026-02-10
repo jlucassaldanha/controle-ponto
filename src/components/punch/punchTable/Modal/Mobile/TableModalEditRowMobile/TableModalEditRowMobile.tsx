@@ -111,7 +111,7 @@ export default function TableModalEditRowMobile({
               <SaveIcon fontSize="small" sx={{ fontSize: 15 }} />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Calcelar">
+          <Tooltip title="Cancelar">
               <IconButton
               aria-label="cancel"
               color="error"
