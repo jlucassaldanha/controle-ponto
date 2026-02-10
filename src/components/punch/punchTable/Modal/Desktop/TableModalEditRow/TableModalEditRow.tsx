@@ -27,6 +27,7 @@ export default function TableModalEditRow({
     clockOut,
     startLunch,
     endLunch,
+    loadingSave,
     getDisplayTime,
     onCancel,
     onSave,
@@ -67,7 +68,7 @@ export default function TableModalEditRow({
       <TableCell align="center">
         <ButtonGroup variant="outlined" aria-label="save-cancel">
           <Tooltip title="Salvar">
-            <IconButton aria-label="save" onClick={onSave}>
+            <IconButton aria-label="save" onClick={onSave} disabled={loadingSave} loading={loadingSave}>
               <SaveIcon fontSize="small" />
             </IconButton>
           </Tooltip>
