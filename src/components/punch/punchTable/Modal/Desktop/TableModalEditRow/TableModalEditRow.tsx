@@ -36,8 +36,17 @@ export default function TableModalEditRow({
 
   const dayOfWeek = getDayOfWeek(day.timestamp);
 
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter' && !loadingSave) {
+      onSave();
+    }
+  };
+
   return (
-    <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+    <TableRow 
+      onKeyDown={handleKeyDown}
+      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+    >
       <TableCell component="th" scope="row">
         {dayOfWeek} <br /> {day.date.slice(0, 5)}
       </TableCell>
@@ -68,17 +77,23 @@ export default function TableModalEditRow({
       <TableCell align="center">
         <ButtonGroup variant="outlined" aria-label="save-cancel">
           <Tooltip title="Salvar">
-            <IconButton aria-label="save" onClick={onSave} disabled={loadingSave} loading={loadingSave}>
+            <IconButton 
+              type="submit" 
+              aria-label="save" 
+              onClick={onSave}
+              disabled={loadingSave} 
+              loading={loadingSave}
+              >
               <SaveIcon fontSize="small" />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Calcelar">
+          <Tooltip title="Cancelar">
             <IconButton aria-label="cancel" color="error" onClick={onCancel}>
               <CloseIcon fontSize="small" />
             </IconButton>
           </Tooltip>
         </ButtonGroup>
-      </TableCell>
+      </TableCell>   
     </TableRow>
   );
 }
