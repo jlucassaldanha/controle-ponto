@@ -41,12 +41,12 @@ export default function TableRowMobile({
       <TableCell align="center" padding="none" sx={{ padding: "8px" }}>
         <div className="flex flex-col gap-1">
           <Typography align="center">{clockIn}</Typography>
-          <Typography align="center">{clockOut}</Typography>
+          <Typography align="center">{startLunch}</Typography>
         </div>
       </TableCell>
       <TableCell align="center" padding="none" sx={{ padding: "8px" }}>
         <div className="flex flex-col gap-1">
-          <Typography align="center">{startLunch}</Typography>
+          <Typography align="center">{clockOut}</Typography>
           <Typography align="center">{endLunch}</Typography>
         </div>
       </TableCell>

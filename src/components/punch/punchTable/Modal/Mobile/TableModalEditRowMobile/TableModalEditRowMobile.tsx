@@ -41,8 +41,17 @@ export default function TableModalEditRowMobile({
 
   const dayOfWeek = getDayOfWeek(day.timestamp);
 
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter' && !loadingSave) {
+      onSave();
+    }
+  };
+
   return (
-    <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+    <TableRow 
+      onKeyDown={handleKeyDown}
+      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+    >
       <TableCell
         component="th"
         scope="row"
