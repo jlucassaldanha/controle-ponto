@@ -3,7 +3,9 @@
 import {
   Table,
   TableBody,
+  TableCell,
   TableContainer,
+  TableFooter,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
@@ -14,6 +16,7 @@ import { overtimeUndertime } from "@/core/punch/punch.reports";
 import { PunchTableProps } from "./types";
 import { formatDate } from "@/lib/dateUtils";
 import TableRowFather from "./TableRowFather/TableRowFather";
+import CreatePunchRow from "../CreatePunchRow/CreatePunchRow";
 
 export default function PunchTable({
   punchesPerDay,
@@ -77,6 +80,18 @@ export default function PunchTable({
               />
             )})}
         </TableBody>
+        <TableFooter 
+          sx={{ 
+            position: 'sticky', 
+            bottom: 0, 
+            left: 0, 
+            zIndex: 2, 
+            backgroundColor: 'background.paper',
+            fontWeight: 'bold' 
+          }}
+          >
+          <CreatePunchRow />
+        </TableFooter>
       </Table>
     </TableContainer>
   );
