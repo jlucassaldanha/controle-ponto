@@ -115,8 +115,6 @@ export default function PunchTable({
           }}
         >
           <TableModalCreatePunchControler
-            day={blankDay}
-            workTime={0}
             controlButton={<CreatePunchRow onClick={handleOpen} />}
             onClose={handleClose}
             open={open}
