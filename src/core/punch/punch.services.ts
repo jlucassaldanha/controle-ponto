@@ -9,7 +9,6 @@ export async function getLatestPunch(userId: string) {
 		orderBy: {
 			timestamp: 'desc',
 		},
-		// Opcional: você pode filtrar por usuário, por exemplo
 		where: {
 			userId
 		}

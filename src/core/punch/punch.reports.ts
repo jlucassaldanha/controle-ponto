@@ -90,8 +90,6 @@ export function getTotalOvertime(punches: PunchesPerDayType[], schedules: {dayOf
 export async function getWorkdayBalanceReport(userId: string, initialDate: Date, finalDate: Date, dailySchedulesTime: dailySchedulesTimeType[]) {
 	const punchesPerDay = await groupPunchesByDay(userId)
 	const latestPunch = await getLatestPunch(userId)
-
-	console.log(latestPunch)
 	
 	const punchesPerDayMap = new Map<string, PunchesPerDayType>(
 		punchesPerDay.map(day => [day.date, day])
