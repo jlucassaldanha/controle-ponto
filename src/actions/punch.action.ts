@@ -7,6 +7,7 @@ import { revalidatePath } from "next/cache"
 import z from "zod"
 import { addPunchesActionForm } from "./actions.types"
 import { PunchType } from "@prisma/client"
+import { PunchFieldType } from "@/components/punch/types"
 
 export async function addPunchAction() {
 	const session = await getCurrentUser()
@@ -134,4 +135,17 @@ export async function addPunchesAction(previousState: addPunchesActionForm, form
 		}
 		return { success: false, message: "Falha ao registrar pontos."}
 	}
+}
+
+export async function addPunchesDirectAction(data: { date: string, punches: PunchFieldType[] }) {
+    const formData = new FormData();
+    formData.append('date', data.date);
+    formData.append('punches', JSON.stringify(data.punches));
+    
+    // Chama a action original passando um estado inicial vazio
+	const response = await addPunchesAction({ success: false, message: "" }, formData);
+
+	revalidatePath("/punch/history");
+	revalidatePath("/punch");
+    return response
 }

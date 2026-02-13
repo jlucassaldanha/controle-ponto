@@ -2,7 +2,7 @@
 
 import { TableCell, TableRow, Typography } from "@mui/material";
 import { TableBodyRowProps } from "../../types";
-import TableModalControler from "../../Modal/TableModalControler/TableModalControler";
+import TableModalControler from "../../Modal/edit/TableModalControler/TableModalControler";
 import { JustificationByDayType } from "@/core/justification/justification.types";
 
 export default function TableRowMobile({
@@ -16,25 +16,29 @@ export default function TableRowMobile({
   clockIn,
   clockOut,
   startLunch,
-  endLunch
-}: TableBodyRowProps & { 
-  workTime: number, 
+  endLunch,
+}: TableBodyRowProps & {
+  workTime: number;
   justificationData: {
     have: boolean;
     need: boolean;
-    justification?: JustificationByDayType | undefined
-    justificationColor: string,
-  }, 
-  dayOfWeek: string,  
-  workedTime: string,
-  clockIn: string,
-  clockOut: string,
-  startLunch: string,
-  endLunch: string,
+    justification?: JustificationByDayType | undefined;
+    justificationColor: string;
+  };
+  dayOfWeek: string;
+  workedTime: string;
+  clockIn: string;
+  clockOut: string;
+  startLunch: string;
+  endLunch: string;
 }) {
-
   return (
-    <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 }, background: justificationData.justificationColor }}>
+    <TableRow
+      sx={{
+        "&:last-child td, &:last-child th": { border: 0 },
+        background: justificationData.justificationColor,
+      }}
+    >
       <TableCell component="th" scope="row">
         {dayOfWeek} <br /> {day.date.slice(0, 5)}
       </TableCell>
@@ -57,7 +61,11 @@ export default function TableRowMobile({
         {overUnder.timeStr}
       </TableCell>
       <TableCell align="center" padding="none">
-        <TableModalControler day={day} workTime={workTime} justification={justificationData}/>
+        <TableModalControler
+          day={day}
+          workTime={workTime}
+          justification={justificationData}
+        />
       </TableCell>
     </TableRow>
   );

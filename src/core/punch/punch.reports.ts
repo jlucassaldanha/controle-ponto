@@ -1,4 +1,4 @@
-import { getPunches } from "./punch.services";
+import { getLatestPunch, getPunches } from "./punch.services";
 import { minutesToTimeString } from "@/lib/dateUtils"
 import { formatDate } from "@/lib/dateUtils";
 import { dailySchedulesTimeType, GroupedPunchesType, PunchesPerDayType } from "./punch.types";
@@ -89,6 +89,7 @@ export function getTotalOvertime(punches: PunchesPerDayType[], schedules: {dayOf
 
 export async function getWorkdayBalanceReport(userId: string, initialDate: Date, finalDate: Date, dailySchedulesTime: dailySchedulesTimeType[]) {
 	const punchesPerDay = await groupPunchesByDay(userId)
+	const latestPunch = await getLatestPunch(userId)
 	
 	const punchesPerDayMap = new Map<string, PunchesPerDayType>(
 		punchesPerDay.map(day => [day.date, day])
@@ -98,8 +99,10 @@ export async function getWorkdayBalanceReport(userId: string, initialDate: Date,
 	)
 
 	const currentDate = new Date(initialDate)
+	
+	const finalSearchDate = latestPunch ? new Date(latestPunch.timestamp) : finalDate
 	const finalReportList = []
-	while (currentDate <= finalDate) {
+	while (currentDate <= finalSearchDate) {
 		const currentDateString = formatDate(currentDate)
 		const currentDay = currentDate.getDay()
 		const currentPunch = punchesPerDayMap.get(currentDateString)
