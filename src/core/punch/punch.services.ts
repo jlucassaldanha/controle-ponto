@@ -3,6 +3,19 @@ import { getADayInterval } from "@/lib/dateUtils";
 import { PunchType } from "@prisma/client";
 import { AddPunchDataType } from "./punch.types";
 
+
+export async function getLatestPunch(userId: string) {
+	return await prisma.punch.findFirst({
+		orderBy: {
+			timestamp: 'desc',
+		},
+		// Opcional: você pode filtrar por usuário, por exemplo
+		where: {
+			userId
+		}
+	});
+} 
+
 export async function addPunch(userId: string) {
 	const todayDate = new Date()
 
