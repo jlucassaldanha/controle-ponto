@@ -3,7 +3,6 @@
 import {
   Table,
   TableBody,
-  TableCell,
   TableContainer,
   TableFooter,
   useMediaQuery,
@@ -17,16 +16,40 @@ import { PunchTableProps } from "./types";
 import { formatDate } from "@/lib/dateUtils";
 import TableRowFather from "./TableRowFather/TableRowFather";
 import CreatePunchRow from "../CreatePunchRow/CreatePunchRow";
+import TableModalControler from "./Modal/edit/TableModalControler/TableModalControler";
+import TableModalCreatePunchControler from "./Modal/create/TableModalCreatePunchControler/TableModalCreatePunchControler";
+import { PunchType } from "@prisma/client";
+import { useState } from "react";
 
 export default function PunchTable({
   punchesPerDay,
   dailySchedulesTime,
-  justifications
+  justifications,
 }: PunchTableProps) {
   const theme = useTheme();
 
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const blankDay = {
+    workedTime: 0,
+    date: "string",
+    timestamp: new Date(),
+    dayOfWeek: 0,
+    punches: [
+      {
+        id: "x",
+        type: PunchType.CLOCK_IN,
+        userId: "x",
+        timestamp: new Date(),
+      },
+    ],
+  };
+
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <TableContainer
@@ -51,7 +74,7 @@ export default function PunchTable({
         <TableBody>
           {punchesPerDay.map((day) => {
             const daySchedule = dailySchedulesTime.find(
-              (schedule) => schedule.dayOfWeek === day.dayOfWeek
+              (schedule) => schedule.dayOfWeek === day.dayOfWeek,
             );
 
             const workTime = daySchedule ? daySchedule.workTime : 0;
@@ -65,9 +88,9 @@ export default function PunchTable({
             }
 
             const dayJustification = justifications.find(
-              (justification) => formatDate(justification.date) === day.date
-            )
-            
+              (justification) => formatDate(justification.date) === day.date,
+            );
+
             return (
               <TableRowFather
                 isMobile={isMobile && !isDesktop}
@@ -78,19 +101,26 @@ export default function PunchTable({
                 workTime={workTime}
                 justification={dayJustification}
               />
-            )})}
+            );
+          })}
         </TableBody>
-        <TableFooter 
-          sx={{ 
-            position: 'sticky', 
-            bottom: 0, 
-            left: 0, 
-            zIndex: 2, 
-            backgroundColor: 'background.paper',
-            fontWeight: 'bold' 
+        <TableFooter
+          sx={{
+            position: "sticky",
+            bottom: 0,
+            left: 0,
+            zIndex: 2,
+            backgroundColor: "background.paper",
+            fontWeight: "bold",
           }}
-          >
-          <CreatePunchRow />
+        >
+          <TableModalCreatePunchControler
+            day={blankDay}
+            workTime={0}
+            controlButton={<CreatePunchRow onClick={handleOpen} />}
+            onClose={handleClose}
+            open={open}
+          />
         </TableFooter>
       </Table>
     </TableContainer>
