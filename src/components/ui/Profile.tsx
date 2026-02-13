@@ -55,20 +55,20 @@ export default function Profile({ username }: ProfileProps) {
 						Dashboard
 					</ListItemText>
 				</MenuItem>
-				<MenuItem onClick={() => handleRedirect('/punch/add')}>
+				{/*<MenuItem onClick={() => handleRedirect('/punch/add')}>
 					<ListItemIcon>
 						<AddAlarmIcon />
 					</ListItemIcon>
 					<ListItemText>
 						Adicionar pontos
 					</ListItemText>
-				</MenuItem>
+				</MenuItem>*/}
 				<MenuItem onClick={() => handleRedirect('/punch/history')}>
 					<ListItemIcon>
 						<CalendarViewMonthIcon />
 					</ListItemIcon>
 					<ListItemText>
-						Visualizar pontos
+						Registro de pontos
 					</ListItemText>
 				</MenuItem>
 				<Divider />
