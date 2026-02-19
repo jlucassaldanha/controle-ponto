@@ -13,6 +13,7 @@ export async function fullDayJustificationAction(dateString: string, time: numbe
 
 	const [year, month, day] = dateString.split('-').map(Number);
     const date = new Date(year, month - 1, day, 0, 0, 0);
+	console.log(date, time)
 
 	try {
 		const existingJustification = await findJustificationByDate(session.user.id, date)

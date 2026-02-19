@@ -3,7 +3,7 @@
 import * as React from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import { groupPunchesByDay } from "@/core/punch/punch.reports";
-import { IconButton, Tooltip } from "@mui/material";
+import { Alert, IconButton, Snackbar, SnackbarCloseReason, Tooltip } from "@mui/material";
 import ModalEditTable from "../ModalEditTable/ModalEditTable";
 import FreeCancellationIcon from "@mui/icons-material/FreeCancellation";
 import { fullDayJustificationAction } from "@/actions/justification.actions";
@@ -26,6 +26,16 @@ export default function TableModalControler({
 }: TableModalControlerProps) {
   const [open, setOpen] = React.useState(false);
   const [loadingJustification, setLoadingJustification] = React.useState(false);
+  const [justificationResponse, setJustificationResponse] = React.useState({ success: false, message: "" })
+  const [openSnack, setOpenSnack] = React.useState(false)
+
+  const handleCloseSnack = (event: React.SyntheticEvent | Event, reason?: SnackbarCloseReason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setOpenSnack(false)
+  }
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -36,7 +46,9 @@ export default function TableModalControler({
 
   const handleJustificationChange = async () => {
     setLoadingJustification(true);
-    await fullDayJustificationAction(justificationDate, workTime);
+    const response = await fullDayJustificationAction(justificationDate, workTime);
+    setJustificationResponse(response)
+    setOpenSnack(true)
     setLoadingJustification(false);
   };
 
@@ -64,6 +76,19 @@ export default function TableModalControler({
         day={day}
         workTime={workTime}
       />
+      <Snackbar 
+        open={openSnack}
+        autoHideDuration={3000}
+        onClose={handleCloseSnack}
+      >
+        <Alert
+          onClose={handleCloseSnack}
+          severity={justificationResponse.success ? justificationResponse.message === "Abono criado" ? "success" : "warning" : "error"}
+          variant="filled"
+        >
+          {justificationResponse.message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

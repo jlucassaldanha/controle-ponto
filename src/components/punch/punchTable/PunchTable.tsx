@@ -16,9 +16,7 @@ import { PunchTableProps } from "./types";
 import { formatDate } from "@/lib/dateUtils";
 import TableRowFather from "./TableRowFather/TableRowFather";
 import CreatePunchRow from "../CreatePunchRow/CreatePunchRow";
-import TableModalControler from "./Modal/edit/TableModalControler/TableModalControler";
 import TableModalCreatePunchControler from "./Modal/create/TableModalCreatePunchControler/TableModalCreatePunchControler";
-import { PunchType } from "@prisma/client";
 import { useState } from "react";
 
 export default function PunchTable({
@@ -30,21 +28,6 @@ export default function PunchTable({
 
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
-  const blankDay = {
-    workedTime: 0,
-    date: "string",
-    timestamp: new Date(),
-    dayOfWeek: 0,
-    punches: [
-      {
-        id: "x",
-        type: PunchType.CLOCK_IN,
-        userId: "x",
-        timestamp: new Date(),
-      },
-    ],
-  };
 
   const [open, setOpen] = useState(false);
 
