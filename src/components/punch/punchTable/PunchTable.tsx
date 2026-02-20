@@ -18,6 +18,7 @@ import TableRowFather from "./TableRowFather/TableRowFather";
 import CreatePunchRow from "../CreatePunchRow/CreatePunchRow";
 import TableModalCreatePunchControler from "./Modal/create/TableModalCreatePunchControler/TableModalCreatePunchControler";
 import { useState } from "react";
+import { JustificationByDayType } from "@/core/justification/justification.types";
 
 export default function PunchTable({
   punchesPerDay,
@@ -70,9 +71,9 @@ export default function PunchTable({
               color = "red";
             }
 
-            const dayJustification = justifications.find(
+            const dayJustification: JustificationByDayType = justifications.find(
               (justification) => formatDate(justification.date) === day.date,
-            );
+            ) || {date: day.timestamp, reason: "none", timeMinutes: 0}
 
             return (
               <TableRowFather

@@ -41,12 +41,14 @@ export default function TableModalControler({
   const handleClose = () => setOpen(false);
 
   const justificationDate =
-    justification.justification?.date.toISOString().split("T")[0] ||
+    justification.justification?.date.toISOString().split("T")[0] || //"2026-02-23"
     day.timestamp.toISOString().split("T")[0];
 
   const handleJustificationChange = async () => {
     setLoadingJustification(true);
     const response = await fullDayJustificationAction(justificationDate, workTime);
+    console.log("justification:",justification.justification?.date.toISOString().split("T")[0])
+    console.log("day:", day.timestamp.toISOString().split("T")[0])
     setJustificationResponse(response)
     setOpenSnack(true)
     setLoadingJustification(false);
@@ -87,6 +89,7 @@ export default function TableModalControler({
           variant="filled"
         >
           {justificationResponse.message}
+          {justificationDate}
         </Alert>
       </Snackbar>
     </div>
