@@ -41,7 +41,7 @@ export async function getSimpleJustificationsReport(userId: string) {
 
 	const justificationsMap = justifications.map(justification => {
 		return {
-			date: justification.date,
+			date: justification.date,//new Date(justification.date.getTime() - (3 * 60 * 60 * 1000)),
 			timeMinutes: justification.minutes,
 			reason: justification.reason,
 		}

@@ -3,7 +3,7 @@
 import { ButtonGroup, IconButton, TableCell, TableRow, Tooltip } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import CloseIcon from "@mui/icons-material/Close";
-import AddPunchCellMobile from "../AddPunchCellMobile/AddPunchCellMobile";
+import AddPunchCellMobile from "../../../../Mobile/AddPunchCellMobile/AddPunchCellMobile";
 import { useEffect, useState } from "react";
 import { PunchType } from "@prisma/client";
 import { PunchFieldType } from "@/components/punch/types";
@@ -127,10 +127,10 @@ export default function TableModalCreateRowMobile({
         </div>
       </TableCell>
       <TableCell align="center" sx={compactCellStyle}>
-        --:--
+        -:-
       </TableCell>
       <TableCell align="center" sx={{ ...compactCellStyle }}>
-        --:--
+        -:-
       </TableCell>
       <TableCell align="center" sx={{ padding: "8px" }}>
         <ButtonGroup

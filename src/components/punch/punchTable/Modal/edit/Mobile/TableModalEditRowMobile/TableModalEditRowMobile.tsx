@@ -5,7 +5,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import CloseIcon from "@mui/icons-material/Close";
 import { groupPunchesByDay } from "@/core/punch/punch.reports";
 import { useEditRow } from "@/hooks/useEditRow";
-import AddPunchCellMobile from "../AddPunchCellMobile/AddPunchCellMobile";
+import AddPunchCellMobile from "../../../../Mobile/AddPunchCellMobile/AddPunchCellMobile";
 import { getDayOfWeek } from "@/lib/dateUtils";
 
 type TableModalEditRowProps = {
@@ -61,30 +61,38 @@ export default function TableModalEditRowMobile({
       </TableCell>
       <TableCell align="center" sx={compactCellStyle}>
         <div className="flex flex-col gap-1">
-          <AddPunchCellMobile
-            dateOrTime="time"
-            currentValue={getDisplayTime(clockIn.id) || clockIn.time}
-            onChange={(val) => handlePunchChange(clockIn.id, val)}
-          />
-          <AddPunchCellMobile
-            dateOrTime="time"
-            currentValue={getDisplayTime(startLunch.id) || startLunch.time}
-            onChange={(val) => handlePunchChange(startLunch.id, val)}
-          />
+          <Tooltip title="Entrada">
+            <AddPunchCellMobile
+              dateOrTime="time"
+              currentValue={getDisplayTime(clockIn.id) || clockIn.time}
+              onChange={(val) => handlePunchChange(clockIn.id, val)}
+            />
+          </Tooltip>
+          <Tooltip title="Entrada almoço">
+            <AddPunchCellMobile
+              dateOrTime="time"
+              currentValue={getDisplayTime(startLunch.id) || startLunch.time}
+              onChange={(val) => handlePunchChange(startLunch.id, val)}
+            />
+          </Tooltip>
         </div>
       </TableCell>
       <TableCell align="center" sx={compactCellStyle}>
         <div className="flex flex-col gap-1">
-          <AddPunchCellMobile
-            dateOrTime="time"
-            currentValue={getDisplayTime(endLunch.id) || endLunch.time}
-            onChange={(val) => handlePunchChange(endLunch.id, val)}
-          />
-          <AddPunchCellMobile
-            dateOrTime="time"
-            currentValue={getDisplayTime(clockOut.id) || clockOut.time}
-            onChange={(val) => handlePunchChange(clockOut.id, val)}
-          />
+          <Tooltip title="Saída">
+            <AddPunchCellMobile
+              dateOrTime="time"
+              currentValue={getDisplayTime(clockOut.id) || clockOut.time}
+              onChange={(val) => handlePunchChange(clockOut.id, val)}
+            />
+          </Tooltip> 
+          <Tooltip title="Saída almoço">
+            <AddPunchCellMobile
+              dateOrTime="time"
+              currentValue={getDisplayTime(endLunch.id) || endLunch.time}
+              onChange={(val) => handlePunchChange(endLunch.id, val)}
+            />
+          </Tooltip>
         </div>
       </TableCell>
       <TableCell align="center" sx={compactCellStyle}>
