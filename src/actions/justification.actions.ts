@@ -14,6 +14,9 @@ export async function fullDayJustificationAction(dateString: string, time: numbe
 	const [year, month, day] = dateString.split('-').map(Number);
     const date = new Date(year, month - 1, day, 0, 0, 0);
 
+	//const date = new Date(new Date(year, month - 1, day, 0, 0, 0).getTime() - (3 * 60 * 60 * 1000));
+	
+
 	console.log(dateString, date)
 
 	try {
