@@ -9,7 +9,7 @@
 [![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)](https://github.com/jlucassaldanha/controle-ponto)
 
 ## 📌 Sobre o projeto
-Um sistema de controle de ponto moderno e funcional, criado para simplificar o registro de horas de trabalho. Além de uma ferramenta de uso pessoal, este projeto serviu como um campo de estudo prático para aprofundar conhecimentos em **Next.js** e testes unitários com **Vitest**.
+Um sistema de controle de ponto moderno e funcional, criado para simplificar o registro de horas de trabalho.
 
 **👉 Acesse a aplicação em produção aqui: [Controle de ponto](https://controleponto.vercel.app)**
 
@@ -32,11 +32,10 @@ Um sistema de controle de ponto moderno e funcional, criado para simplificar o r
 - ✅ **Responsividade:** Interface adaptada para uso em desktop e mobile.
 - ✅ **Abono:** Possibilidade de abonar dias não sem registro de ponto.
 - ✅ **Edição:** Edição de ponto inline na tabela de visualização.
+- ✅ **Adição:** Adição de ponto inline.
 
 ## 🚀 Funcionalidades Planejadas
-- ⚙️ Filtros avançados para visualização (diário, semanal, mensal).
-- ⚙️ Mostragem de saldo em tempo real.
-- ⚙️ Adição de ponto inline.
+- ⚙️ Filtros avançados para visualização (diário, semanal, mensal)
 
 ## 🖼️ Preview
 
