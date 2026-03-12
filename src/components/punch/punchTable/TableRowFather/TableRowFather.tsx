@@ -24,7 +24,7 @@ export default function TableRowFather({
   const dayOfWeek = getDayOfWeek(day.timestamp);
   const workedTime = minutesToTimeString(day.workedTime);
 
-  const needJustification =  workedTime === "00:00" ? true : false
+  const needJustification =  day.workedTime < workTime ? true : false
   const haveJustification = justification ? justification.timeMinutes > 0 ? true : false : false
   
   const justificationColor = needJustification ? haveJustification ? "rgba(0, 255, 0, 0.15)" : "rgba(255, 0, 0, 0.15)" : ""
