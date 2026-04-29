@@ -5,11 +5,14 @@ import Modal from "@mui/material/Modal";
 import {
   Box,
   ButtonGroup,
+  Checkbox,
+  FormControlLabel,
   IconButton,
   Paper,
   Table,
   TableBody,
   TableContainer,
+  TextField,
   Tooltip,
   useMediaQuery,
   useTheme,
@@ -52,6 +55,12 @@ export default function ModalEditTable({
       onSave,
       handlePunchChange,
     } = useEditRow(day, workTime, onClose);
+
+    const [isChecked, setIsChecked] = React.useState(false)
+
+    const handleClick = () => {
+      setIsChecked(prev => !prev)
+    }
 
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -123,25 +132,35 @@ export default function ModalEditTable({
             </TableBody>
           </Table>
         </TableContainer>
-        <Box sx={{display: "flex", justifyContent: "center", gap: 10}}>
-          <ButtonGroup variant="outlined" aria-label="save-cancel">
-            <Tooltip title="Salvar">
-              <IconButton 
-                type="submit" 
-                aria-label="save" 
-                onClick={onSave}
-                disabled={loadingSave} 
-                loading={loadingSave}
-                >
-                <SaveIcon fontSize="small" />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Cancelar">
-              <IconButton aria-label="cancel" color="error" onClick={onCancel}>
-                <CloseIcon fontSize="small" />
-              </IconButton>
-            </Tooltip>
-          </ButtonGroup>
+        <Box sx={{display: "flex", flexDirection: "column", justifyContent: "center", gap: 2, padding: 2}}>
+          <FormControlLabel onClick={handleClick} control={<Checkbox size="small" checked={isChecked} />} label="Abonar" />
+          <TextField
+            label="Justificativa"
+            disabled={!isChecked}
+            size="small"
+            multiline
+            maxRows={4}
+          />
+          <Box sx={{display: "flex", justifyContent: "center", gap: 10}}>
+            <ButtonGroup variant="outlined" aria-label="save-cancel">
+              <Tooltip title="Salvar">
+                <IconButton 
+                  type="submit" 
+                  aria-label="save" 
+                  onClick={onSave}
+                  disabled={loadingSave} 
+                  loading={loadingSave}
+                  >
+                  <SaveIcon fontSize="small" />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Cancelar">
+                <IconButton aria-label="cancel" color="error" onClick={onCancel}>
+                  <CloseIcon fontSize="small" />
+                </IconButton>
+              </Tooltip>
+            </ButtonGroup>
+          </Box>
         </Box>
       </Box>
     </Modal>
