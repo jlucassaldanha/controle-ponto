@@ -1,39 +1,58 @@
 "use client";
 
-import { ButtonGroup, IconButton, TableCell, TableRow, Tooltip } from "@mui/material";
-import SaveIcon from "@mui/icons-material/Save";
-import CloseIcon from "@mui/icons-material/Close";
+import { TableCell, TableRow, Tooltip } from "@mui/material";
 import { groupPunchesByDay } from "@/core/punch/punch.reports";
-import { useEditRow } from "@/hooks/useEditRow";
 import AddPunchCellMobile from "../../../../Mobile/AddPunchCellMobile/AddPunchCellMobile";
 import { getDayOfWeek } from "@/lib/dateUtils";
+import { $Enums } from "@prisma/client";
 
 type TableModalEditRowProps = {
   day: Awaited<ReturnType<typeof groupPunchesByDay>>[number];
   workTime: number;
   onClose: () => void;
+  workedTime: string;
+  overUnder: string;
+  color: string;
+  clockIn: {
+    id: string;
+    time: string;
+    type: $Enums.PunchType;
+  };
+  clockOut: {
+    id: string;
+    time: string;
+    type: $Enums.PunchType;
+  };
+  startLunch: {
+    id: string;
+    time: string;
+    type: $Enums.PunchType;
+  };
+  endLunch: {
+    id: string;
+    time: string;
+    type: $Enums.PunchType;
+  };
+  loadingSave: boolean;
+  getDisplayTime: (id: string) => string | undefined;
+  onSave: () => Promise<void>;
+  handlePunchChange: (id: string, newTime: string) => void;
 };
 
 export default function TableModalEditRowMobile({
   day,
-  workTime,
-  onClose,
+  workedTime,
+  overUnder,
+  color,
+  clockIn,
+  clockOut,
+  startLunch,
+  endLunch,
+  loadingSave,
+  getDisplayTime,
+  onSave,
+  handlePunchChange,
 }: TableModalEditRowProps) {
-  const {
-    workedTime,
-    overUnder,
-    color,
-    clockIn,
-    clockOut,
-    startLunch,
-    endLunch,
-    loadingSave,
-    getDisplayTime,
-    onCancel,
-    onSave,
-    handlePunchChange,
-  } = useEditRow(day, workTime, onClose);
-
   const compactCellStyle = {
     padding: "8px",
     fontSize: "0.75rem",
@@ -100,36 +119,6 @@ export default function TableModalEditRowMobile({
       </TableCell>
       <TableCell align="center" sx={{ ...compactCellStyle, color: color }}>
         {overUnder}
-      </TableCell>
-      <TableCell align="center" sx={{ padding: "8px" }}>
-        <ButtonGroup
-          variant="text"
-          orientation="vertical"
-          size="small"
-          aria-label="save-cancel"
-        >
-          <Tooltip title="Salvar" >
-            <IconButton
-              aria-label="save"
-              onClick={onSave}
-              sx={{ minWidth: "20px", padding: "2px" }}
-              disabled={loadingSave}
-              loading={loadingSave}
-            >
-              <SaveIcon fontSize="small" sx={{ fontSize: 15 }} />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Cancelar">
-              <IconButton
-              aria-label="cancel"
-              color="error"
-              onClick={onCancel}
-              sx={{ minWidth: "20px", padding: "2px" }}
-            >
-              <CloseIcon fontSize="small" sx={{ fontSize: 15 }} />
-            </IconButton>
-          </Tooltip>
-        </ButtonGroup>
       </TableCell>
     </TableRow>
   );
