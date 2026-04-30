@@ -17,7 +17,7 @@ export async function upsertJustification(userId: string, date: Date, time: numb
 				userId,
 				date,
 				minutes: time,
-				reason: "Dia inteiro"
+				reason: reason
 			}
 		})
 	} catch (error) {
@@ -25,14 +25,14 @@ export async function upsertJustification(userId: string, date: Date, time: numb
 	}
 }
 
-export async function createJustification(userId: string, date: Date, time: number) {
+export async function createJustification(userId: string, date: Date, time: number, reason: string) {
 	try {
 		await prisma.justification.create({
 			data: {
 				userId,
 				date,
 				minutes: time,
-				reason: "Dia inteiro"
+				reason: reason
 			}
 		})
 	} catch (error) {

@@ -75,6 +75,8 @@ export default function PunchTable({
               (justification) => formatDate(justification.date) === day.date,
             ) || {date: day.timestamp, reason: "none", timeMinutes: 0}
 
+            console.log(dayJustification)
+            
             return (
               <TableRowFather
                 isMobile={isMobile && !isDesktop}

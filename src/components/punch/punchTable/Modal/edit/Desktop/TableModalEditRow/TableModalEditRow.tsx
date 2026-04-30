@@ -7,33 +7,55 @@ import AddPunchCell from "../AddPunchCell/AddPunchCell";
 import { groupPunchesByDay } from "@/core/punch/punch.reports";
 import { useEditRow } from "@/hooks/useEditRow";
 import { getDayOfWeek } from "@/lib/dateUtils";
+import { $Enums } from "@prisma/client";
 
 type TableModalEditRowProps = {
   day: Awaited<ReturnType<typeof groupPunchesByDay>>[number];
   workTime: number;
   onClose: () => void;
+  workedTime: string;
+  overUnder: string;
+  color: string;
+  clockIn: {
+    id: string;
+    time: string;
+    type: $Enums.PunchType;
+  };
+  clockOut: {
+    id: string;
+    time: string;
+    type: $Enums.PunchType;
+  };
+  startLunch: {
+    id: string;
+    time: string;
+    type: $Enums.PunchType;
+  };
+  endLunch: {
+    id: string;
+    time: string;
+    type: $Enums.PunchType;
+  };
+  loadingSave: boolean;
+  getDisplayTime: (id: string) => string | undefined;
+  onSave: () => Promise<void>;
+  handlePunchChange: (id: string, newTime: string) => void;
 };
 
 export default function TableModalEditRow({
   day,
-  workTime,
-  onClose,
+  workedTime,
+  overUnder,
+  color,
+  clockIn,
+  clockOut,
+  startLunch,
+  endLunch,
+  loadingSave,
+  getDisplayTime,
+  onSave,
+  handlePunchChange,
 }: TableModalEditRowProps) {
-  const {
-    workedTime,
-    overUnder,
-    color,
-    clockIn,
-    clockOut,
-    startLunch,
-    endLunch,
-    loadingSave,
-    getDisplayTime,
-    onCancel,
-    onSave,
-    handlePunchChange,
-  } = useEditRow(day, workTime, onClose);
-
   const dayOfWeek = getDayOfWeek(day.timestamp);
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
@@ -74,26 +96,6 @@ export default function TableModalEditRow({
       <TableCell align="center" sx={{ color: color }}>
         {overUnder}
       </TableCell>
-      <TableCell align="center">
-        <ButtonGroup variant="outlined" aria-label="save-cancel">
-          <Tooltip title="Salvar">
-            <IconButton 
-              type="submit" 
-              aria-label="save" 
-              onClick={onSave}
-              disabled={loadingSave} 
-              loading={loadingSave}
-              >
-              <SaveIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Cancelar">
-            <IconButton aria-label="cancel" color="error" onClick={onCancel}>
-              <CloseIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-        </ButtonGroup>
-      </TableCell>   
     </TableRow>
   );
 }
