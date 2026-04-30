@@ -4,7 +4,7 @@ import { auth } from "@/app/api/auth/[...nextauth]/route"
 import { deleteJustification, findJustificationByDate, upsertJustification } from "@/core/justification/justification.services"
 import { revalidatePath } from "next/cache"
 
-export async function fullDayJustificationAction(dateString: string, time: number) {
+export async function fullDayJustificationAction(dateString: string, time: number, message: string) {
 	const session = await auth()
 	
 	if (!session?.user?.id) {
@@ -17,13 +17,10 @@ export async function fullDayJustificationAction(dateString: string, time: numbe
 	try {
 		const existingJustification = await findJustificationByDate(session.user.id, date)
 		
-		let message: string
 		if (existingJustification) {
 			await deleteJustification(existingJustification.id)
-			message = "Abono apagado"
 		} else {
-			await upsertJustification(session.user.id, date, time, "dia inteiro")
-			message = "Abono criado"
+			await upsertJustification(session.user.id, date, time, message)
 		}
 		
 		revalidatePath("/punch/history")

@@ -13,41 +13,71 @@ import {
 import SaveIcon from "@mui/icons-material/Save";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { groupPunchesByDay } from "@/core/punch/punch.reports";
-import { useEditRow } from "@/hooks/useEditRow";
+import { JustificationByDayType } from "@/core/justification/justification.types";
 
-type ModalEditTableProps = {
+type ModalJustificationProps = {
   open: boolean;
   onClose: () => void;
-  day: Awaited<ReturnType<typeof groupPunchesByDay>>[number];
-  workTime: number;
+  onJustify: (message: string) => Promise<{ success: boolean; message: string; }>;
+  justification: {
+	  have: boolean;
+	  need: boolean;
+	  justification?: JustificationByDayType;
+	};
 };
 
-export default function ModalEditTable({
+export default function ModalJustification({
   open,
   onClose,
-  day,
-  workTime,
-}: ModalEditTableProps) {
+  onJustify,
+  justification
+}: ModalJustificationProps) {
   const theme = useTheme();
+	
+	const [message, setMessage] = React.useState<string>(justification.justification?.reason || "");
+	const [loadingSave, setLoadingSave] = React.useState(false)
+	const [loadingDelete, setLoadingDelete] = React.useState(false)
 
-  const {
-	  workedTime,
-	  overUnder,
-	  color,
-	  clockIn,
-	  clockOut,
-	  startLunch,
-	  endLunch,
-	  loadingSave,
-	  getDisplayTime,
-	  onCancel,
-	  onSave,
-	  handlePunchChange,
-	} = useEditRow(day, workTime, onClose);
-	const onDelete = () => {
-    return null;
-  };
+	const onDelete = async () => {
+		setLoadingDelete(true)
+		try {
+			const result = await onJustify(message);
+			if (result.success) {
+			onClose();
+			setMessage("");
+			} else {
+			console.log("Error", result.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+		setLoadingDelete(false)
+	};
+
+	const onCancel = () => {
+		onClose();
+		setMessage("");
+	};
+	
+	const onSave = async () => {
+		setLoadingSave(true)
+		try {
+			const result = await onJustify(message);
+			if (result.success) {
+			onClose();
+			setMessage("");
+			} else {
+			console.log("Error", result.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+		setLoadingSave(false)
+	};
+
+	const handleMessageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setMessage(event.target.value)
+	} 
 
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -73,7 +103,7 @@ export default function ModalEditTable({
 		  borderRadius: 2,
         }}
       >
-        <TextField sx={{ padding: 2 }} multiline rows={4} />
+        <TextField sx={{ padding: 2 }} multiline rows={4} onChange={handleMessageChange} value={message}/>
         <Box
           sx={{
             display: "flex",
@@ -89,7 +119,12 @@ export default function ModalEditTable({
             </IconButton>
           </Tooltip>
           <Tooltip title="Deletar">
-            <IconButton aria-label="delete" onClick={onDelete}>
+            <IconButton 
+				aria-label="delete" 
+				onClick={onDelete}
+		  		disabled={loadingDelete || (justification.need && !justification.have)}
+              	loading={loadingDelete}
+			>
               <DeleteIcon fontSize="small" />
             </IconButton>
           </Tooltip>
